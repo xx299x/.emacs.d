@@ -58,6 +58,7 @@ This function should only modify configuration layer settings."
      ;; pandoc
      ranger
      pdf
+     deft
      ;; version-control
      ;; (shell :variables
      ;;        shell-default-height 30
@@ -925,7 +926,29 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
   (with-eval-after-load 'ox
     (require 'ox-hugo))
   ;; (require 'ox-hugo-auto-export)
+  ;;deft
 
+  (setq deft-extensions '("txt" "tex" "org" "md"))
+  (setq deft-directory "~/Dropbox/org/Notes")
+  (setq deft-recursive t)
+  (setq deft-file-naming-rules '((noslash . "_")))
+  (setq deft-text-mode 'org-mode)
+  (setq deft-use-filter-string-for-filename t)
+  (setq deft-org-mode-title-prefix t)
+  (setq deft-use-filename-as-title t)
+  (setq deft-strip-summary-regexp
+        (concat "\\("
+                "[\n\t]" ;; blank
+                "\\|^#\\+[[:upper:]_]+:.*$" ;; org-mode metadata
+                "\\|^#\\+[[:alnum:]_]+:.*$" ;; org-mode metadata
+                "\\)"))
+  (global-set-key [f8] 'deft)
+  ;; (setq deft-strip-title-regexp "")
+  (defun ironman-deft-search-for(filter)
+    (interactive "MFilter: ")
+    (spacemacs/deft)
+    (deft-filter filter t)
+    )
 
 
   ;;------------end----------------;;
