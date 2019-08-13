@@ -47,7 +47,7 @@ This function should only modify configuration layer settings."
      git
      helm
      ivy
-     ;; markdown
+     markdown
      multiple-cursors
      ;; org
      ;; spell-checking
@@ -588,7 +588,7 @@ before packages are loaded."
    ;;;;;;;;;;;;;;
    ;;;  Org   ;;;
    ;;;;;;;;;;;;;;
-
+  (add-to-list 'auto-mode-alist '("\\.txt\\'" . org-mode))
   (evil-leader/set-key "te" 'evil-org-mode)
   (with-eval-after-load 'org
     (require 'org-tempo)
@@ -803,7 +803,7 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
                    ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
     (add-to-list 'org-latex-classes
-                 '("org-article"
+                 '("article"
                    "\\documentclass{article}
 \\usepackage[slantfont, boldfont]{xeCJK}
 \\usepackage{titlesec}
