@@ -159,7 +159,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil then Spacelpa repository is the primary source to install
    ;; a locked version of packages. If nil then Spacemacs will install the
    ;; latest version of packages from MELPA. (default nil)
-   dotspacemacs-use-spacelpa nil
+   dotspacemacs-use-spacelpa t
 
    ;; If non-nil then verify the signature for downloaded Spacelpa archives.
    ;; (default nil)
@@ -411,7 +411,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil, start an Emacs server if one is not already running.
    ;; (default nil)
-   dotspacemacs-enable-server nil
+   dotspacemacs-enable-server t
 
    ;; Set the emacs server socket location.
    ;; If nil, uses whatever the Emacs default is, otherwise a directory path
@@ -422,7 +422,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil, advise quit functions to keep server open when quitting.
    ;; (default nil)
-   dotspacemacs-persistent-server nil
+   dotspacemacs-persistent-server t
 
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `rg', `ag', `pt', `ack' and `grep'.
@@ -505,13 +505,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
                              ))
   )
 
-(defun dotspacemacs/user-load ()
-  "Library to load while dumping.
-This function is called only while dumping Spacemacs configuration. You can
-`require' or `load' the libraries of your choice that will be included in the
-dump."
-  )
-
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
@@ -519,18 +512,18 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
-   ;;;;;;;;;;;;;;
-   ;;;  Theme ;;;
-   ;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;
+;;;  Theme ;;;
+;;;;;;;;;;;;;;
 
   ;; 调试好久的颜色，效果超赞！todo keywords 增加背景色
   ;; (setf org-todo-keyword-faces '(("TODO" . (:foreground "white" :background "#95A5A6"   :weight bold))
   ;;                                ("HAND" . (:foreground "white" :background "#2E8B57"  :weight bold))
   ;;                                ("DONE" . (:foreground "white" :background "#3498DB" :weight bold))))
 
-   ;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;
   ;; 显示相关 ;;
-   ;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;
 
   ;; 在状态栏显示时间
 
@@ -546,15 +539,15 @@ before packages are loaded."
   ;;------------end----------------;;
 
 
-   ;;;;;;;;;;;;;;
-   ;;; Python ;;;
-   ;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;
+;;; Python ;;;
+;;;;;;;;;;;;;;
 
   (set-language-environment 'utf-8)
   ;; (set-language-environment 'Chinese-GB18030)
   (add-hook 'python-mode-hook
             (lambda ()
-              (set (make-local-variable 'company-backends) '(company-dabbrev company-diag))));fixed complement
+              (set (make-local-variable 'company-backends) '(company-dabbrev company-diag)))) ;fixed complement
   ;; (add-to-list 'load-path "C:/Users/Elliott/.spacemacs.d/anaconda-mode")
   ;; (setenv "WORKON_HOME" "C:/tools/Anaconda3/Lib/site-packages/conda_env")
 
@@ -574,9 +567,9 @@ before packages are loaded."
 
 
 
-   ;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;
   ;;Additional;;
-   ;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;
 
   (evil-leader/set-key "oy" 'youdao-dictionary-search-at-point+)
   (evil-leader/set-key "od" 'find-by-pinyin-dired)
@@ -585,19 +578,35 @@ before packages are loaded."
 
 
 
-   ;;;;;;;;;;;;;;
-   ;;;  Org   ;;;
-   ;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;
+;;;  Org   ;;;
+;;;;;;;;;;;;;;
+  ;; hooks
+  ;; (defun my-js-mode-hook ()
+  ;;   (setq js2-basic-offset 2)
+  ;;   (setq js-indent-level 2)
+  ;;   (setq js2-include-node-externs t)
+  ;;   (setq js2-strict-missing-semi-warning nil))
+
+  ;; (add-hook 'js2-mode-hook 'my-js-mode-hook)
+  ;; (setq-default org-download-image-dir "~/Dropbox/org/pictures")
+  ;; (require 'org-download)
+
+  ;; Drag-and-drop to `dired`
+  (add-hook 'dired-mode-hook 'org-download-enable)
+
+  (setq org-image-actual-width nil)
   (add-to-list 'auto-mode-alist '("\\.txt\\'" . org-mode))
   (evil-leader/set-key "te" 'evil-org-mode)
   (with-eval-after-load 'org
-    (require 'org-tempo)
+    ;; 使模板生效
+    ;; (require 'org-tempo)
     ;; (setq org-ellipsis " ▼")
     ;; (setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
     (setq org-enable-github-support t)
     (setq org-enable-reveal-js-support t)
 
-    ;;; custom org emhasis color
+;;; custom org emhasis color
     ;; (require 'org)
     ;; (require 'cl)   ; for delete*
     ;; (setq org-emphasis-alist
@@ -676,9 +685,9 @@ before packages are loaded."
 
 
 
-   ;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;
     ;; Org-Latex;;
-   ;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;
 
     (setq org-preview-latex-default-process 'dvisvgm)
     (setq org-preview-latex-process-alist
@@ -907,8 +916,8 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
     (add-hook 'LaTeX-mode-hook
               (lambda ()
                 (setq TeX-auto-untabify t     ; remove all tabs before saving
-                      TeX-engine 'xelatex       ; use xelatex default
-                      TeX-show-compilation t)  ; display compilation windows
+                      TeX-engine 'xelatex     ; use xelatex default
+                      TeX-show-compilation t) ; display compilation windows
                 (TeX-global-PDF-mode t)       ; PDF mode enable, not plain
                 (setq TeX-save-query nil)
                 (imenu-add-menubar-index)
@@ -920,9 +929,9 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
 
 
 
-   ;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;
   ;;  Ox-Org  ;;
-   ;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;
   (with-eval-after-load 'ox
     (require 'ox-hugo))
   ;; (require 'ox-hugo-auto-export)
@@ -935,12 +944,13 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
   (setq deft-text-mode 'org-mode)
   (setq deft-use-filter-string-for-filename t)
   (setq deft-org-mode-title-prefix t)
-  (setq deft-use-filename-as-title t)
+  (setq deft-use-filename-as-title nil)
   (setq deft-strip-summary-regexp
         (concat "\\("
-                "[\n\t]" ;; blank
+                "[\n\t]"                    ;; blank
                 "\\|^#\\+[[:upper:]_]+:.*$" ;; org-mode metadata
                 "\\|^#\\+[[:alnum:]_]+:.*$" ;; org-mode metadata
+                "\\|^#\s#\\+.*$" ;; org-mode metadata
                 "\\)"))
   (global-set-key [f8] 'deft)
   ;; (setq deft-strip-title-regexp "")
@@ -950,17 +960,16 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
     (deft-filter filter t)
     )
 
-
   ;;------------end----------------;;
 
 
 
-   ;;;;;;;;;;;;;;
-   ;;;  Other ;;;
-   ;;;;;;;;;;;;;;
-  (setq pdf-info-epdfinfo-program '"C:/Users/xx299/.spacemacs.d/pdf-tools-20190413.2018/epdfinfo.exe")
+;;;;;;;;;;;;;;
+;;;  other ;;;
+;;;;;;;;;;;;;;
+  (setq pdf-info-epdfinfo-program '"c:/users/xx299/.spacemacs.d/pdf-tools-20190413.2018/epdfinfo.exe")
 
-  (setq treemacs-filewatch-mode t);
+  (setq treemacs-filewatch-mode t)      ;
   (setq treemacs-file-event-delay 1000)
   (setq treemacs-use-collapsed-directories 3)
 
@@ -968,6 +977,25 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
 
 
 
+;;;;;;;;;;;;;;
+;;;  other ;;;
+;;;;;;;;;;;;;;
+  (add-to-list `yas-snippet-dirs
+               "~/.spacemacs.d/snippets" ;; personal snippets
+               ;; "/path/to/some/collection/"           ;; foo-mode and bar-mode snippet collection
+               ;; "/path/to/yasnippet/yasmate/snippets" ;; the yasmate collection
+               )
+
+  (yas-global-mode 1) ;; or M-x yas-reload-all if you've started YASnippet already.
+
+  ;;------------end----------------;;
+
+  )
+(defun dotspacemacs/user-load ()
+  "Library to load while dumping.
+This function is called only while dumping Spacemacs configuration. You can
+`require' or `load' the libraries of your choice that will be included in the
+dump."
   )
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
