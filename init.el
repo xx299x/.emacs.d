@@ -33,7 +33,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(rust
+   '(windows-scripts
+     rust
      html
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -71,7 +72,17 @@ This function should only modify configuration layer settings."
               ;; chinese-enable-avy-pinyin nil
               )
      (org :variables
+          org-projectile-file "TODOs.org"
+          org-want-todo-bindings t
+          ;
           org-enable-org-journal-support t
+          org-journal-dir "~/Dropbox/org/journal/"
+          org-journal-file-format "%Y-%m-%d"
+          org-journal-date-prefix "#+TITLE: "
+          org-journal-date-format "%A, %B %d %Y"
+          org-journal-time-prefix "* "
+          org-journal-time-format ""
+          ;
           org-enable-hugo-support t
           org-enable-sticky-header t
           org-enable-epub-support t
@@ -92,6 +103,7 @@ This function should only modify configuration layer settings."
                                       cnfonts
                                       ox-hugo
                                       easy-hugo 
+                                      anki-editor
                                       )
 
    ;; A list of packages that cannot be updated.
@@ -210,8 +222,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-new-empty-buffer-major-mode 'text-mode
 
    ;; Default major mode of the scratch buffer (default `text-mode')
-   dotspacemacs-scratch-mode 'text-mode
-
+   dotspacemacs-scratch-mode 'org-mode
    ;; Initial message in the scratch buffer, such as "Welcome to Spacemacs!"
    ;; (default nil)
    dotspacemacs-initial-scratch-message nil
@@ -219,8 +230,10 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light)
+   dotspacemacs-themes '(
+                         spacemacs-light
+                         spacemacs-dark
+                         )
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -303,7 +316,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil, the paste transient-state is enabled. While enabled, after you
    ;; paste something, pressing `C-j' and `C-k' several times cycles through the
    ;; elements in the `kill-ring'. (default nil)
-   dotspacemacs-enable-paste-transient-state nil
+   dotspacemacs-enable-paste-transient-state t
 
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
@@ -483,7 +496,7 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-  ;; 设置垃圾回收，在Windows下，emacs25版本会频繁出发垃圾回收，所以需要设置
+  ;; 设置垃圾回收，在 Windows 下，emacs25 版本会频繁出发垃圾回收，所以需要设置
   (when (eq system-type 'windows-nt)
     (setq gc-cons-threshold (* 512 1024 1024))
     (setq gc-cons-percentage 0.5)
@@ -491,18 +504,18 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     ;; 显示垃圾回收信息，这个可以作为调试用
     ;; (setq garbage-collection-messages t)
     )
-  ;; (setq configuration-layer-elpa-archives
-  ;;     '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
-  ;;       ("org-cn"   . "http://elpa.emacs-china.org/org/")
-  ;;       ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
+  (setq configuration-layer-elpa-archives
+      '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
+        ("org-cn"   . "http://elpa.emacs-china.org/org/")
+        ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
 
   ;; ;; Don’t compact font caches during GC.
   (setq inhibit-compacting-font-caches t) 
   ;; proxy
-  (setq url-proxy-services '(("no_proxy" . "127.0.0.1")
-                             ("http" . "127.0.0.1:8010")
-                             ("https" . "127.0.0.1:8010")
-                             ))
+  ;; (setq url-proxy-services '(("no_proxy" . "127.0.0.1")
+  ;;                            ("http" . "127.0.0.1:8010")
+  ;;                            ("https" . "127.0.0.1:8010")
+  ;;                            ))
   )
 
 (defun dotspacemacs/user-config ()
@@ -530,12 +543,26 @@ before packages are loaded."
   (setq focus-dimness 20)
   (display-time-mode 1)
   ;;字体问题
-  (dolist (charset '(kana han cjk-misc bopomofo))
-    (set-fontset-font (frame-parameter nil 'font) charset
-                      (font-spec :family "微软雅黑" :size 25)))
-  (when (configuration-layer/layer-usedp 'chinese)
-    (when (and (spacemacs/system-is-mac) window-system)
-      (spacemacs//set-monospaced-font "Source Code Pro" "Hiragino Sans GB" 14 16)))
+  (cnfonts-enable) 
+  (cnfonts-set-spacemacs-fallback-fonts)
+
+  ;; 更改spacemacs自带的字体快捷键
+  (defun spacemacs/zoom-frm-in ()
+    "zoom in frame, but keep the same pixel size"
+    (interactive)
+    (cnfonts-increase-fontsize))
+
+  (defun spacemacs/zoom-frm-out ()
+    "zoom out frame, but keep the same pixel size"
+    (interactive)
+    (cnfonts-decrease-fontsize))
+
+  (defun spacemacs/zoom-frm-unzoom ()
+    "Unzoom current frame, keeping the same pixel size"
+    (interactive)
+    (cnfonts-switch-profile))
+
+
   ;;------------end----------------;;
 
 
@@ -593,6 +620,7 @@ before packages are loaded."
   ;; (require 'org-download)
 
   ;; Drag-and-drop to `dired`
+  (setq org-want-todo-bindings t)
   (add-hook 'dired-mode-hook 'org-download-enable)
 
   (setq org-image-actual-width nil)
@@ -637,7 +665,7 @@ before packages are loaded."
                  '("tt" "Temp" entry
                    (file+headline "~/Dropbox/org/GTD/task.org" "Tasks")
                    "* TODO %^{Temp}\n%u\n%a\n" :clock-in t :clock-resume t))
-    ;; 判断一个任务是否与当前任务有关，有关得则放入temp，无关的放入Project
+    ;; 判断一个任务是否与当前任务有关，有关得则放入 temp，无关的放入 Project
     (add-to-list 'org-capture-templates
                  '("tp" "Project" entry
                    (file+headline "~/Dropbox/org/GTD/task.org" "Project")
@@ -666,6 +694,8 @@ before packages are loaded."
     (add-to-list 'org-capture-templates
                  '("j" "Journal" entry (file+datetree "~/Dropbox/org/GTD/Journal.org")
                    "* %U - %^{heading}\n  %?"))
+
+
     ;;----------------------------;;
     (add-to-list 'org-capture-templates '("p" "Project"))
     (add-to-list 'org-capture-templates
@@ -922,8 +952,15 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
                 (setq TeX-save-query nil)
                 (imenu-add-menubar-index)
                 (define-key LaTeX-mode-map (kbd "TAB") 'TeX-complete-symbol)))
-
     )
+
+  (with-eval-after-load 'org-agenda
+    (require 'org-projectile)
+    (mapcar '(lambda (file)
+               (when (file-exists-p file)
+                 (push file org-agenda-files)))
+            (org-projectile-todo-files)))
+
   ;;------------end----------------;;
 
 
@@ -950,7 +987,7 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
                 "[\n\t]"                    ;; blank
                 "\\|^#\\+[[:upper:]_]+:.*$" ;; org-mode metadata
                 "\\|^#\\+[[:alnum:]_]+:.*$" ;; org-mode metadata
-                "\\|^#\s#\\+.*$" ;; org-mode metadata
+                "\\|^#\s#\\+?.*$" ;; org-mode metadata
                 "\\)"))
   (global-set-key [f8] 'deft)
   ;; (setq deft-strip-title-regexp "")
@@ -973,7 +1010,26 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
   (setq treemacs-file-event-delay 1000)
   (setq treemacs-use-collapsed-directories 3)
 
+  ;; (let ((fcitx-path "C:\\software\\bat\\bcn"))
+  ;;   (setenv "PATH" (concat fcitx-path ";" (getenv "PATH")))
+  ;;   (add-to-list 'exec-path fcitx-path))
+
+  ;; Make sure the following comes before `(fcitx-aggressive-setup)'
+  ;; (setq fcitx-active-evil-states '(insert emacs hybrid)) ; if you use hybrid mode
+  ;; (fcitx-aggressive-setup)
+  ;; (fcitx-prefix-keys-add "M-m") ; M-m is common in Spacemacs
+  ;; (setq fcitx-prefix-keys-polling-time 1)
+     ;; (fcitx-prefix-keys-turn-on)
+  ;; (setq fcitx-use-dbus t) ; uncomment if you're using Linux
+
+  ;; (setq adaptive-fill-first-line-regexp "^\\* *$")
+  ;; (setq adaptive-fill-first-line-regexp "")
+
+;; Anki a problem
+  (setq request-curl "C:\\tools\\msys2\\usr\\bin\\curl.exe")
+
   ;;------------end----------------;;
+
 
 
 
@@ -987,6 +1043,10 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
                )
 
   (yas-global-mode 1) ;; or M-x yas-reload-all if you've started YASnippet already.
+
+
+
+
 
   ;;------------end----------------;;
 
@@ -1004,19 +1064,18 @@ dump."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-
 (custom-set-variables
-                       ;; custom-set-variables was added by Custom.
-                       ;; If you edit it by hand, you could mess it up, so be careful.
-                       ;; Your init file should contain only one such instance.
-                       ;; If there is more than one, they won't work right.
-                       '(package-selected-packages
-                         (quote
-                          (rust-mode wgrep smex ivy-xref ivy-purpose ivy-hydra counsel-projectile counsel-css counsel swiper ivy pdf-tools tablist ox-gfm org-re-reveal youdao-dictionary yapfify ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs ranger rainbow-delimiters pytest pyim pyenv-mode py-isort popwin pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pangu-spacing pandoc-mode ox-pandoc ox-hugo ox-epub overseer orgit org-sticky-header org-projectile org-present org-pomodoro org-mime org-journal org-download org-cliplink org-bullets org-brain open-junk-file nameless move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum live-py-mode link-hint indent-guide importmagic hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md font-lock+ focus flycheck-package flx-ido find-by-pinyin-dired fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish devdocs define-word cython-mode column-enforce-mode cnfonts clean-aindent-mode chinese-conv centered-cursor-mode blacken auto-highlight-symbol auto-compile auctex-latexmk anaconda-mode aggressive-indent ace-pinyin ace-link ace-jump-helm-line))))
-          (custom-set-faces
-           ;; custom-set-faces was added by Custom.
-           ;; If you edit it by hand, you could mess it up, so be careful.
-           ;; Your init file should contain only one such instance.
-           ;; If there is more than one, they won't work right.
-           )
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (powershell helm-gtags helm helm-core ggtags counsel-gtags rust-mode wgrep smex ivy-xref ivy-purpose ivy-hydra counsel-projectile counsel-css counsel swiper ivy pdf-tools tablist ox-gfm org-re-reveal youdao-dictionary yapfify ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs ranger rainbow-delimiters pytest pyim pyenv-mode py-isort popwin pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pangu-spacing pandoc-mode ox-pandoc ox-hugo ox-epub overseer orgit org-sticky-header org-projectile org-present org-pomodoro org-mime org-journal org-download org-cliplink org-bullets org-brain open-junk-file nameless move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum live-py-mode link-hint indent-guide importmagic hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md font-lock+ focus flycheck-package flx-ido find-by-pinyin-dired fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish devdocs define-word cython-mode column-enforce-mode cnfonts clean-aindent-mode chinese-conv centered-cursor-mode blacken auto-highlight-symbol auto-compile auctex-latexmk anaconda-mode aggressive-indent ace-pinyin ace-link ace-jump-helm-line))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 )
