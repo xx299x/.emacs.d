@@ -60,6 +60,7 @@ This function should only modify configuration layer settings."
      ranger
      pdf
      deft
+     emojify-mode
      ;; version-control
      ;; (shell :variables
      ;;        shell-default-height 30
@@ -74,15 +75,16 @@ This function should only modify configuration layer settings."
      (org :variables
           org-projectile-file "TODOs.org"
           org-want-todo-bindings t
-          ;
-          org-enable-org-journal-support t
-          org-journal-dir "~/Dropbox/org/journal/"
-          org-journal-file-format "%Y-%m-%d"
-          org-journal-date-prefix "#+TITLE: "
-          org-journal-date-format "%A, %B %d %Y"
-          org-journal-time-prefix "* "
-          org-journal-time-format ""
-          ;
+
+          ;;                               ;journal
+          ;; org-enable-org-journal-support t
+          ;; org-journal-dir "~/Dropbox/org/journal/"
+          ;; org-journal-file-format "%Y-%m-%d"
+          ;; org-journal-date-prefix "#+TITLE: "
+          ;; org-journal-date-format "%A, %B %d %Y"
+          ;; org-journal-time-prefix "* "
+          ;; org-journal-time-format ""
+                                        ;
           org-enable-hugo-support t
           org-enable-sticky-header t
           org-enable-epub-support t
@@ -102,7 +104,7 @@ This function should only modify configuration layer settings."
                                       focus
                                       cnfonts
                                       ox-hugo
-                                      easy-hugo 
+                                      ;; easy-hugo 
                                       anki-editor
                                       )
 
@@ -420,21 +422,6 @@ It should only modify the values of Spacemacs settings."
    ;; Select a scope to highlight delimiters. Possible values are `any',
    ;; `current', `all' or `nil'. Default is `all' (highlight any scope and
    ;; emphasis the current one). (default 'all)
-   dotspacemacs-highlight-delimiters 'all
-
-   ;; If non-nil, start an Emacs server if one is not already running.
-   ;; (default nil)
-   dotspacemacs-enable-server t
-
-   ;; Set the emacs server socket location.
-   ;; If nil, uses whatever the Emacs default is, otherwise a directory path
-   ;; like \"~/.emacs.d/server\". It has no effect if
-   ;; `dotspacemacs-enable-server' is nil.
-   ;; (default nil)
-   dotspacemacs-server-socket-dir nil
-
-   ;; If non-nil, advise quit functions to keep server open when quitting.
-   ;; (default nil)
    dotspacemacs-persistent-server t
 
    ;; List of search tool executable names. Spacemacs uses the first installed
@@ -595,11 +582,13 @@ before packages are loaded."
 
 
 ;;;;;;;;;;;;;;
-  ;;Additional;;
+  ;;Additional keyboard;;
 ;;;;;;;;;;;;;;
 
   (evil-leader/set-key "oy" 'youdao-dictionary-search-at-point+)
   (evil-leader/set-key "od" 'find-by-pinyin-dired)
+  (evil-leader/set-key "ote" 'evil-org-mode)
+  (evil-leader/set-key "otf" 'focus-mode)
   ;;------------end----------------;;
 
 
@@ -609,23 +598,26 @@ before packages are loaded."
 ;;;  Org   ;;;
 ;;;;;;;;;;;;;;
   ;; hooks
-  ;; (defun my-js-mode-hook ()
+  ;; (defun my-org-mode-hook ()
   ;;   (setq js2-basic-offset 2)
   ;;   (setq js-indent-level 2)
   ;;   (setq js2-include-node-externs t)
   ;;   (setq js2-strict-missing-semi-warning nil))
 
   ;; (add-hook 'js2-mode-hook 'my-js-mode-hook)
-  ;; (setq-default org-download-image-dir "~/Dropbox/org/pictures")
-  ;; (require 'org-download)
-
+  (setq-default org-download-image-dir "~/Dropbox/org/pictures")
+  (require 'org-download)
   ;; Drag-and-drop to `dired`
-  (setq org-want-todo-bindings t)
-  (add-hook 'dired-mode-hook 'org-download-enable)
+  ;; (add-hook 'org-mode-hook 'emojify-mode)
+  (add-hook 'org-mode-hook 'aggressive-indent-mode)
+  (add-hook 'org-mode-hook 'auto-fill-mode)
+  (add-hook 'org-mode-hook 'smartparens-mode)
 
-  (setq org-image-actual-width nil)
+  (add-hook 'dired-mode-hook 'org-download-enable)
+  ;; https://github.com/KingBing/blog-src/blob/e259933e9bc5f246fde50645f024731a16bb6bbc/blog/%E5%9C%A8%20org-mode%20%E4%B8%AD%E9%A1%AF%E7%A4%BA%E5%9C%96%E7%89%87.org
+  (setq org-image-actual-width '(300))       ; Fallback to width 300
+
   (add-to-list 'auto-mode-alist '("\\.txt\\'" . org-mode))
-  (evil-leader/set-key "te" 'evil-org-mode)
   (with-eval-after-load 'org
     ;; 使模板生效
     ;; (require 'org-tempo)
@@ -694,6 +686,18 @@ before packages are loaded."
     (add-to-list 'org-capture-templates
                  '("j" "Journal" entry (file+datetree "~/Dropbox/org/GTD/Journal.org")
                    "* %U - %^{heading}\n  %?"))
+
+    ;; 这里是一个journal的功能, 与上面的日志冲突. 不能呈树状展示,导致消息不集中. 这样浏览起来会及其麻烦,故不使用
+    ;; (defun org-journal-find-location ()
+    ;;   ;; Open today's journal, but specify a non-nil prefix argument in order to
+    ;;   ;; inhibit inserting the heading; org-capture will insert the heading.
+    ;;   (org-journal-new-entry t)
+    ;;   ;; Position point on the journal's top-level heading so that org-capture
+    ;;   ;; will add the new entry as a child entry.
+    ;;   (goto-char (point-min)))
+
+    ;; (setq org-capture-templates '(("j" "Journal entry" entry (function org-journal-find-location)
+    ;;                                "* %(format-time-string org-journal-time-format)%^{Title}\n%i%?")))
 
 
     ;;----------------------------;;
@@ -1019,13 +1023,13 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
   ;; (fcitx-aggressive-setup)
   ;; (fcitx-prefix-keys-add "M-m") ; M-m is common in Spacemacs
   ;; (setq fcitx-prefix-keys-polling-time 1)
-     ;; (fcitx-prefix-keys-turn-on)
+  ;; (fcitx-prefix-keys-turn-on)
   ;; (setq fcitx-use-dbus t) ; uncomment if you're using Linux
 
   ;; (setq adaptive-fill-first-line-regexp "^\\* *$")
   ;; (setq adaptive-fill-first-line-regexp "")
 
-;; Anki a problem
+  ;; Anki a problem
   (setq request-curl "C:\\tools\\msys2\\usr\\bin\\curl.exe")
 
   ;;------------end----------------;;
