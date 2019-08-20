@@ -6,7 +6,7 @@
   "Layer configuration:
 This function should only modify configuration layer settings."
   (setq-default
-   ;; Base distribution to use. This is a layer contained in the directory
+   ;; base distribution to use. this is a layer contained in the directory
    ;; `+distribution'. For now available distributions are `spacemacs-base'
    ;; or `spacemacs'. (default 'spacemacs)
    dotspacemacs-distribution 'spacemacs
@@ -33,7 +33,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(windows-scripts
+   '(autohotkey
+     windows-scripts
      rust
      html
      ;; ----------------------------------------------------------------
@@ -87,7 +88,7 @@ This function should only modify configuration layer settings."
                                         ;
           org-enable-hugo-support t
           org-enable-sticky-header t
-          org-enable-epub-support t
+          ;; org-enable-epub-support t
           )
      (spacemacs-layouts :variables
                         layouts-enable-autosave t
@@ -589,7 +590,53 @@ before packages are loaded."
   (evil-leader/set-key "od" 'find-by-pinyin-dired)
   (evil-leader/set-key "ote" 'evil-org-mode)
   (evil-leader/set-key "otf" 'focus-mode)
+  (evil-leader/set-key "ott" 'spaceline-toggle-org-clock)
+  ;; (define-key evil-insert-state-map (kbd "C-]") 'forward-char)
   ;;------------end----------------;;
+
+
+
+
+;;;;;;;;;;;;;;
+;;;  ahk   ;;;
+;;;;;;;;;;;;;;
+  (defun my-ahk-switch-english() ; ; buffer-local variables这类东西你就应该（基本上也只能）写在hook里
+    ;; (add-to-list  'company-backends  'company-c-headers)
+    ;; (setq flycheck-gcc-language-standard " c++11 ")
+    ;; (setq flycheck-clang-language-standard " c++11 ") ; ; ocal key-binding的相关设定一起放在hook中是很常见的作法
+    ;; (define-key c++-mode-map (kbd "Cc h") 'ff-find-other-file) ; ;这里放一些希望随着C++ mode自动启动的minor-mode
+    ;; (flycheck-mode 1)
+    ;; (rainbow-delimiters-mode-enable)
+    ;;(write-region "1" nil "C:\\software\\autohotkey\\Capslock+\\userAHK\\evil.txt")
+
+    ;; (w32-shell-execute "runas" "C:\\software\\autohotkey\\Capslock+\\userAHK\\emacs\\iem_get_status.ahk")
+    (w32-shell-execute "runas" "C:\\software\\autohotkey\\Capslock+\\userAHK\\emacs\\iem_to_english.ahk")
+    )
+
+  (defun get-string-from-file (my-file)
+    "Return filePath's file content."
+    (with-temp-buffer
+      (insert-file-contents my-file)
+      (buffer-string)))
+
+  (defun my-ahk-switch-chinese() ; ; buffer-local variables这类东西你就应该（基本上也只能）写在hook里
+    ;; (add-to-list  'company-backends  'company-c-headers)
+    ;; (setq flycheck-gcc-language-standard " c++11 ")
+    ;; (setq flycheck-clang-language-standard " c++11 ") ; ; ocal key-binding的相关设定一起放在hook中是很常见的作法
+    ;; (define-key c++-mode-map (kbd "Cc h") 'ff-find-other-file) ; ;这里放一些希望随着C++ mode自动启动的minor-mode
+    ;; (flycheck-mode 1)
+    ;; (rainbow-delimiters-mode-enable)
+    ;;(write-region "1" nil "C:\\software\\autohotkey\\Capslock+\\userAHK\\evil.txt")
+    ;; (w32-shell-execute "runas" "C:\\software\\autohotkey\\Capslock+\\userAHK\\emacs\\iem_get_status.ahk")
+    (setq iem-status (get-string-from-file "C:\\software\\autohotkey\\Capslock+\\userAHK\\emacs\\evil.txt"))
+    
+
+    (if (= (string-to-number iem-status) 1)
+        (w32-shell-execute "runas" "C:\\software\\autohotkey\\Capslock+\\userAHK\\emacs\\iem_to_chinese.ahk") nil)
+    )
+
+  (add-hook 'evil-normal-state-entry-hook 'my-ahk-switch-english)
+  (add-hook 'evil-insert-state-entry-hook 'my-ahk-switch-chinese)
 
 
 
@@ -625,6 +672,26 @@ before packages are loaded."
     ;; (setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
     (setq org-enable-github-support t)
     (setq org-enable-reveal-js-support t)
+
+    ; 一段关于设置frame标题的代码,在标题显示clock时钟
+    ;; (defun sanityinc/show-org-clock-in-header-line ()
+    ;;   (setq-default header-line-format '((" " org-mode-line-string " "))))
+
+    ;; (defun sanityinc/hide-org-clock-from-header-line ()
+    ;;   (setq-default header-line-format nil))
+
+    ;; (add-hook 'org-clock-in-hook 'sanityinc/show-org-clock-in-header-line)
+    ;; (add-hook 'org-clock-out-hook 'sanityinc/hide-org-clock-from-header-line)
+    ;; (add-hook 'org-clock-cancel-hook 'sanityinc/hide-org-clock-from-header-line)
+
+    ;; (after-load 'org-clock
+    ;;             (define-key org-clock-mode-line-map [header-line mouse-2] 'org-clock-goto)
+    ;;             (define-key org-clock-mode-line-map [header-line mouse-1] 'org-clock-menu))
+
+    ;; (when (and *is-a-mac* (file-directory-p "/Applications/org-clock-statusbar.app"))
+    ;;   (add-hook 'org-clock-in-hook
+    ;;             (lambda () (call-process "/usr/bin/osascript" nil 0 nil "-e"
+    ;;                                      (concat "tell application \"org-clock-statusbar\" to clock in \"" org-clock-current-task "\""))))
 
 ;;; custom org emhasis color
     ;; (require 'org)
