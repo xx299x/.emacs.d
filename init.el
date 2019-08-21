@@ -609,8 +609,8 @@ before packages are loaded."
     ;; (rainbow-delimiters-mode-enable)
     ;;(write-region "1" nil "C:\\software\\autohotkey\\Capslock+\\userAHK\\evil.txt")
 
-    ;; (w32-shell-execute "runas" "C:\\software\\autohotkey\\Capslock+\\userAHK\\emacs\\iem_get_status.ahk")
-    (w32-shell-execute "runas" "C:\\software\\autohotkey\\Capslock+\\userAHK\\emacs\\iem_to_english.ahk")
+    (w32-shell-execute "runas" "C:\\software\\autohotkey\\Capslock+\\userAHK\\emacs\\iem_get_status.ahk")
+    ;; (shell-command "C:\\software\\autohotkey\\Capslock+\\userAHK\\emacs\\iem_to_english.ahk")
     )
 
   (defun get-string-from-file (my-file)
@@ -633,12 +633,31 @@ before packages are loaded."
 
     (if (= (string-to-number iem-status) 1)
         (w32-shell-execute "runas" "C:\\software\\autohotkey\\Capslock+\\userAHK\\emacs\\iem_to_chinese.ahk") nil)
+        ;; (shell-command "C:\\software\\autohotkey\\Capslock+\\userAHK\\emacs\\iem_to_chinese.ahk")
     )
 
-  (add-hook 'evil-normal-state-entry-hook 'my-ahk-switch-english)
-  (add-hook 'evil-insert-state-entry-hook 'my-ahk-switch-chinese)
+  (defun my-iem-on()
+    "nothing"
+    (interactive)
+    (add-hook 'evil-normal-state-entry-hook 'my-ahk-switch-english)
+    (add-hook 'evil-insert-state-entry-hook 'my-ahk-switch-chinese)
+    )
 
+  (defun my-iem-off()
+    "nothing"
+    (interactive)
+    (remove-hook 'evil-normal-state-entry-hook 'my-ahk-switch-english)
+    (remove-hook 'evil-insert-state-entry-hook 'my-ahk-switch-chinese)
+    )
 
+  (my-iem-on)
+  ;; agenda 下调用比较缓慢,这里暂时关闭了
+  (add-hook 'org-agenda-mode-hook 'my-iem-off)
+  (add-hook 'org-agenda-finalize-hook 'my-iem-on)
+  ;; (remove-hook 'org-agenda-finalize-hook 'my-iem-off)
+
+  (evil-leader/set-key "oti" 'my-iem-on)
+  (evil-leader/set-key "otI" 'my-iem-off)
 
 
 ;;;;;;;;;;;;;;
@@ -704,6 +723,8 @@ before packages are loaded."
     ;;       (cons '("*" '(:emphasis t :foreground "blue"))
     ;;             (delete* "*" org-emphasis-alist :key 'car :test 'equal)))
 
+    ;; (org-refile-targets (quote (("newgtd.org" :maxlevel . 1)
+    ;;                              ("someday.org" :level . 2))))
 
 
     (setq-default org-default-notes-file "~/Dropbox/org/GTD/task.org")
@@ -752,8 +773,41 @@ before packages are loaded."
     ;; 日志
     (add-to-list 'org-capture-templates
                  '("j" "Journal" entry (file+datetree "~/Dropbox/org/GTD/Journal.org")
-                   "* %U - %^{heading}\n  %?"))
+                   "* %U - %^{heading}\n  %?" :clock-in t :clock-resume t))
+    ;; GTD 记录 https://orgmode.org/manual/Template-expansion.html
+    (add-to-list 'org-capture-templates
+                 '("g" "GTD" entry (file+datetree "c:/Users/xx299/Dropbox/org/GTD/GTD_problem.org")
+                   "* TODO %U - %^{heading} %^G\n  %a\n\n   %?" :clock-in t :clock-resume t))
 
+;;; ORG-MODE:  * My Task
+;;;              SCHEDULED: <%%(diary-last-day-of-month date)>
+;;; DIARY:  %%(diary-last-day-of-month date) Last Day of the Month
+;;; See also:  (setq org-agenda-include-diary t)
+;;; (diary-last-day-of-month '(2 28 2017))
+    (defun diary-last-day-of-month (date)
+      "Return `t` if DATE is the last day of the month."
+      (let* ((day (calendar-extract-day date))
+             (month (calendar-extract-month date))
+             (year (calendar-extract-year date))
+             (last-day-of-month
+              (calendar-last-day-of-month month year)))
+        (= day last-day-of-month)))
+
+    (setq org-agenda-custom-commands
+          '(
+            ("w" . "Task filter")
+            ("wa" "A" tags-todo "+PRIORITY=\"A\"")
+            ("wb" "B" tags-todo "-Weekly-Monthly-Daily+PRIORITY=\"B\"")
+            ;; ("wb" "B" tags-todo "+PRIORITY=\"B\"")
+            ("wc" "C" tags-todo "+PRIORITY=\"C\"")
+            ("b" "Blog" tags-todo "BLOG")
+            ("p" . "Project")
+            ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"work\"")
+            ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"xx299x\"")
+            ("W" "Weekly Review"
+             ((stuck "") ;; review stuck projects as designated by org-stuck-projects
+              (tags-todo "PROJECT") ;; review all projects (assuming you use todo keywords to designate projects)
+              ))))
     ;; 这里是一个journal的功能, 与上面的日志冲突. 不能呈树状展示,导致消息不集中. 这样浏览起来会及其麻烦,故不使用
     ;; (defun org-journal-find-location ()
     ;;   ;; Open today's journal, but specify a non-nil prefix argument in order to
@@ -1080,6 +1134,8 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
   (setq treemacs-filewatch-mode t)      ;
   (setq treemacs-file-event-delay 1000)
   (setq treemacs-use-collapsed-directories 3)
+  ;; block the ".#" file generate https://www.gnu.org/software/emacs/manual/html_node/emacs/Interlocking.html#Interlocking
+  (setq create-lockfiles nil)
 
   ;; (let ((fcitx-path "C:\\software\\bat\\bcn"))
   ;;   (setenv "PATH" (concat fcitx-path ";" (getenv "PATH")))
@@ -1099,6 +1155,7 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
   ;; Anki a problem
   (setq request-curl "C:\\tools\\msys2\\usr\\bin\\curl.exe")
 
+  (setq request-log-level 'debug)
   ;;------------end----------------;;
 
 
