@@ -48,7 +48,7 @@ This function should only modify configuration layer settings."
      ;; lsp
      git
      helm
-     ivy
+     ;; ivy
      markdown
      multiple-cursors
      ;; org
@@ -66,6 +66,7 @@ This function should only modify configuration layer settings."
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
+     themes-megapack
      (python :variables
              python-test-runner 'pytest)
      (chinese :variables
@@ -75,6 +76,7 @@ This function should only modify configuration layer settings."
               )
      (org :variables
           org-projectile-file "TODOs.org"
+          org-support-shift-select t
           org-want-todo-bindings t
 
           ;;                               ;journal
@@ -492,18 +494,18 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     ;; 显示垃圾回收信息，这个可以作为调试用
     ;; (setq garbage-collection-messages t)
     )
-  (setq configuration-layer-elpa-archives
-      '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
-        ("org-cn"   . "http://elpa.emacs-china.org/org/")
-        ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
+  ;; (setq configuration-layer-elpa-archives
+  ;;     '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
+  ;;       ("org-cn"   . "http://elpa.emacs-china.org/org/")
+  ;;       ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
 
   ;; ;; Don’t compact font caches during GC.
   (setq inhibit-compacting-font-caches t) 
   ;; proxy
-  ;; (setq url-proxy-services '(("no_proxy" . "127.0.0.1")
-  ;;                            ("http" . "127.0.0.1:8010")
-  ;;                            ("https" . "127.0.0.1:8010")
-  ;;                            ))
+  (setq url-proxy-services '(("no_proxy" . "127.0.0.1")
+                             ("http" . "127.0.0.1:8010")
+                             ("https" . "127.0.0.1:8010")
+                             ))
   )
 
 (defun dotspacemacs/user-config ()
@@ -649,7 +651,7 @@ before packages are loaded."
     (remove-hook 'evil-normal-state-entry-hook 'my-ahk-switch-english)
     (remove-hook 'evil-insert-state-entry-hook 'my-ahk-switch-chinese)
     )
-
+  (my-ahk-switch-english)
   (my-iem-on)
   ;; agenda 下调用比较缓慢,这里暂时关闭了
   (add-hook 'org-agenda-mode-hook 'my-iem-off)
@@ -669,7 +671,6 @@ before packages are loaded."
   ;;   (setq js-indent-level 2)
   ;;   (setq js2-include-node-externs t)
   ;;   (setq js2-strict-missing-semi-warning nil))
-
   ;; (add-hook 'js2-mode-hook 'my-js-mode-hook)
   (setq-default org-download-image-dir "~/Dropbox/org/pictures")
   (require 'org-download)
