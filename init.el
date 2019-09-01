@@ -61,12 +61,12 @@ This function should only modify configuration layer settings."
      ranger
      pdf
      deft
-     emojify-mode
+     emoji
+     ;; themes-megapack
      ;; version-control
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
-     themes-megapack
      (python :variables
              python-test-runner 'pytest)
      (chinese :variables
@@ -93,8 +93,9 @@ This function should only modify configuration layer settings."
           ;; org-enable-epub-support t
           )
      (spacemacs-layouts :variables
-                        layouts-enable-autosave t
-                        layouts-autosave-delay 300)
+                        layouts-enable-autosave nil
+                        ;; layouts-autosave-delay 300
+                        )
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -109,6 +110,7 @@ This function should only modify configuration layer settings."
                                       ox-hugo
                                       ;; easy-hugo 
                                       anki-editor
+                                      ;; jieba
                                       )
 
    ;; A list of packages that cannot be updated.
@@ -298,7 +300,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil then the last auto saved layouts are resumed automatically upon
    ;; start. (default nil)
-   dotspacemacs-auto-resume-layouts t
+   dotspacemacs-auto-resume-layouts nil
 
    ;; If non-nil, auto-generate layout name when creating new layouts. Only has
    ;; effect when using the "jump to layout by number" commands. (default nil)
@@ -449,7 +451,7 @@ It should only modify the values of Spacemacs settings."
    ;; %z - mnemonics of buffer, terminal, and keyboard coding systems
    ;; %Z - like %z, but including the end-of-line format
    ;; (default "%I@%S")
-   dotspacemacs-frame-title-format "%a -- Spacemacs"
+   dotspacemacs-frame-title-format "%a -- Your problem is that you think too much and do too little."
 
    ;; Format specification for setting the icon title format
    ;; (default nil - same as frame-title-format)
@@ -651,11 +653,13 @@ before packages are loaded."
     (remove-hook 'evil-normal-state-entry-hook 'my-ahk-switch-english)
     (remove-hook 'evil-insert-state-entry-hook 'my-ahk-switch-chinese)
     )
-  (my-ahk-switch-english)
-  (my-iem-on)
+  ;; (my-ahk-switch-english)
+  ;; (my-iem-on)
+
   ;; agenda 下调用比较缓慢,这里暂时关闭了
-  (add-hook 'org-agenda-mode-hook 'my-iem-off)
-  (add-hook 'org-agenda-finalize-hook 'my-iem-on)
+
+  ;; (add-hook 'org-agenda-mode-hook 'my-iem-off)
+  ;; (add-hook 'org-agenda-finalize-hook 'my-iem-on)
   ;; (remove-hook 'org-agenda-finalize-hook 'my-iem-off)
 
   (evil-leader/set-key "oti" 'my-iem-on)
@@ -665,7 +669,11 @@ before packages are loaded."
 ;;;;;;;;;;;;;;
 ;;;  Org   ;;;
 ;;;;;;;;;;;;;;
+  ;; (require 'jieba)
+  ;; (jieba-mode)
+
   ;; hooks
+
   ;; (defun my-org-mode-hook ()
   ;;   (setq js2-basic-offset 2)
   ;;   (setq js-indent-level 2)
@@ -675,7 +683,7 @@ before packages are loaded."
   (setq-default org-download-image-dir "~/Dropbox/org/pictures")
   (require 'org-download)
   ;; Drag-and-drop to `dired`
-  ;; (add-hook 'org-mode-hook 'emojify-mode)
+  (add-hook 'org-mode-hook 'emojify-mode)
   (add-hook 'org-mode-hook 'aggressive-indent-mode)
   (add-hook 'org-mode-hook 'auto-fill-mode)
   (add-hook 'org-mode-hook 'smartparens-mode)
@@ -687,7 +695,7 @@ before packages are loaded."
   (add-to-list 'auto-mode-alist '("\\.txt\\'" . org-mode))
   (with-eval-after-load 'org
     ;; 使模板生效
-    ;; (require 'org-tempo)
+    (require 'org-tempo)
     ;; (setq org-ellipsis " ▼")
     ;; (setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
     (setq org-enable-github-support t)
@@ -836,7 +844,7 @@ before packages are loaded."
           (append (file-expand-wildcards "~/Dropbox/org/GTD")
                   ))
     (setq org-todo-keywords
-          '((sequence "TODO(t!)" "NEXT(n)" "WAITTING(w)" "SOMEDAY(s)" "|" "DONE(d@/!)" "ABORT(a@/!)")
+          '((sequence "TODO(t!)" "NEXT(n!)" "WAITTING(w)" "SOMEDAY(s)" "|" "DONE(d@/!)" "ABORT(a@/!)")
             ))
 
 
@@ -880,8 +888,6 @@ before packages are loaded."
 
     (add-to-list 'org-latex-packages-alist
                  '("" "xcolor" t))
-    (add-to-list 'org-latex-packages-alist
-                 '("" "listings" t))
     (add-to-list 'org-latex-packages-alist
                  '("" "fontspec" t))
     (add-to-list 'org-latex-packages-alist
@@ -1198,9 +1204,118 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default bold shadow italic underline bold bold-italic bold])
+ '(ansi-term-color-vector
+   [unspecified "#14191f" "#d15120" "#81af34" "#deae3e" "#7e9fc9" "#a878b5" "#7e9fc9" "#dcdddd"])
+ '(company-quickhelp-color-background "#4F4F4F")
+ '(company-quickhelp-color-foreground "#DCDCCC")
+ '(custom-enabled-themes (quote (spacemacs-dark)))
+ '(custom-safe-themes
+   (quote
+    ("a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" "ab04c00a7e48ad784b52f34aa6bfa1e80d0c3fcacc50e1189af3651013eb0d58" "2540689fd0bc5d74c4682764ff6c94057ba8061a98be5dd21116bf7bf301acfb" "ab2cbf30ab758c5e936b527377d543ce4927001742f79519b62c45ba9dd9f55e" "66f32da4e185defe7127e0dc8b779af99c00b60c751b0662276acaea985e2721" "e11880d349e5b3f3d47e5bd6f7d9ff773ab6301e124ec7dbbbfbba5fb8482390" "9c27124b3a653d43b3ffa088cd092c34f3f82296cf0d5d4f719c0c0817e1afa6" "89536596ee5bdc5ef9ea3d3d5b515ea616285fa9274c836263024f1993f6b3dd" "801a567c87755fe65d0484cb2bded31a4c5bb24fd1fe0ed11e6c02254017acb2" "341b2570a9bbfc1817074e3fad96a7eff06a75d8e2362c76a2c348d0e0877f31" "8a97050c9dd0af1cd8c3290b061f4b6032ccf2044ddc4d3c2c39e516239b2463" "72085337718a3a9b4a7d8857079aa1144ea42d07a4a7696f86627e46ac52f50b" "8dce5b23232d0a490f16d62112d3abff6babeef86ae3853241a85856f9b0a6e7" "450f3382907de50be905ae8a242ecede05ea9b858a8ed3cc8d1fbdf2d57090af" "4138944fbed88c047c9973f68908b36b4153646a045648a22083bd622d1e636d" "1dd7b369ab51f00e91b6a990634017916e7bdeb64002b4dda0d7a618785725ac" "621595cbf6c622556432e881945dda779528e48bb57107b65d428e61a8bb7955" "cd7ffd461946d2a644af8013d529870ea0761dccec33ac5c51a7aaeadec861c2" "a7051d761a713aaf5b893c90eaba27463c791cd75d7257d3a8e66b0c8c346e77" default)))
+ '(diary-entry-marker (quote font-lock-variable-name-face))
+ '(emms-mode-line-icon-image-cache
+   (quote
+    (image :type xpm :ascent center :data "/* XPM */
+static char *note[] = {
+/* width height num_colors chars_per_pixel */
+\"    10   11        2            1\",
+/* colors */
+\". c #1fb3b3\",
+\"# c None s None\",
+/* pixels */
+\"###...####\",
+\"###.#...##\",
+\"###.###...\",
+\"###.#####.\",
+\"###.#####.\",
+\"#...#####.\",
+\"....#####.\",
+\"#..######.\",
+\"#######...\",
+\"######....\",
+\"#######..#\" };")))
+ '(evil-want-Y-yank-to-eol nil)
+ '(fci-rule-character-color "#192028")
+ '(fci-rule-color "#56697A")
+ '(gnus-logo-colors (quote ("#2fdbde" "#c0c0c0")) t)
+ '(gnus-mode-line-image-cache
+   (quote
+    (image :type xpm :ascent center :data "/* XPM */
+static char *gnus-pointer[] = {
+/* width height num_colors chars_per_pixel */
+\"    18    13        2            1\",
+/* colors */
+\". c #1fb3b3\",
+\"# c None s None\",
+/* pixels */
+\"##################\",
+\"######..##..######\",
+\"#####........#####\",
+\"#.##.##..##...####\",
+\"#...####.###...##.\",
+\"#..###.######.....\",
+\"#####.########...#\",
+\"###########.######\",
+\"####.###.#..######\",
+\"######..###.######\",
+\"###....####.######\",
+\"###..######.######\",
+\"###########.######\" };")) t)
+ '(hl-todo-keyword-faces
+   (quote
+    (("TODO" . "#dc752f")
+     ("NEXT" . "#dc752f")
+     ("THEM" . "#2d9574")
+     ("PROG" . "#3a81c3")
+     ("OKAY" . "#3a81c3")
+     ("DONT" . "#f2241f")
+     ("FAIL" . "#f2241f")
+     ("DONE" . "#42ae2c")
+     ("NOTE" . "#b1951d")
+     ("KLUDGE" . "#b1951d")
+     ("HACK" . "#b1951d")
+     ("TEMP" . "#b1951d")
+     ("FIXME" . "#dc752f")
+     ("XXX+" . "#dc752f")
+     ("\\?\\?\\?+" . "#dc752f"))))
+ '(jdee-db-active-breakpoint-face-colors (cons "#10151C" "#5EC4FF"))
+ '(jdee-db-requested-breakpoint-face-colors (cons "#10151C" "#8BD49C"))
+ '(jdee-db-spec-breakpoint-face-colors (cons "#10151C" "#384551"))
+ '(nrepl-message-colors
+   (quote
+    ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
+ '(objed-cursor-color "#D95468")
+ '(org-agenda-files
+   (quote
+    ("~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/Notes/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/English.org" "c:/Users/xx299/Dropbox/org/GTD/GTD_problem.org" "c:/Users/xx299/Dropbox/org/GTD/Journal.org" "c:/Users/xx299/Dropbox/org/GTD/Plan.org" "c:/Users/xx299/Dropbox/org/GTD/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/calendar.org" "c:/Users/xx299/Dropbox/org/GTD/finished.org" "c:/Users/xx299/Dropbox/org/GTD/ideas.org" "c:/Users/xx299/Dropbox/org/GTD/item.org" "c:/Users/xx299/Dropbox/org/GTD/learn_way.org" "c:/Users/xx299/Dropbox/org/GTD/notes.org" "c:/Users/xx299/Dropbox/org/GTD/project.org" "c:/Users/xx299/Dropbox/org/GTD/task.org")))
  '(package-selected-packages
    (quote
-    (powershell helm-gtags helm helm-core ggtags counsel-gtags rust-mode wgrep smex ivy-xref ivy-purpose ivy-hydra counsel-projectile counsel-css counsel swiper ivy pdf-tools tablist ox-gfm org-re-reveal youdao-dictionary yapfify ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs ranger rainbow-delimiters pytest pyim pyenv-mode py-isort popwin pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pangu-spacing pandoc-mode ox-pandoc ox-hugo ox-epub overseer orgit org-sticky-header org-projectile org-present org-pomodoro org-mime org-journal org-download org-cliplink org-bullets org-brain open-junk-file nameless move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum live-py-mode link-hint indent-guide importmagic hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md font-lock+ focus flycheck-package flx-ido find-by-pinyin-dired fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish devdocs define-word cython-mode column-enforce-mode cnfonts clean-aindent-mode chinese-conv centered-cursor-mode blacken auto-highlight-symbol auto-compile auctex-latexmk anaconda-mode aggressive-indent ace-pinyin ace-link ace-jump-helm-line))))
+    (emojify emoji-cheat-sheet-plus company-emoji powershell helm-gtags helm helm-core ggtags counsel-gtags rust-mode wgrep smex ivy-xref ivy-purpose ivy-hydra counsel-projectile counsel-css counsel swiper ivy pdf-tools tablist ox-gfm org-re-reveal youdao-dictionary yapfify ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs ranger rainbow-delimiters pytest pyim pyenv-mode py-isort popwin pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pangu-spacing pandoc-mode ox-pandoc ox-hugo ox-epub overseer orgit org-sticky-header org-projectile org-present org-pomodoro org-mime org-journal org-download org-cliplink org-bullets org-brain open-junk-file nameless move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum live-py-mode link-hint indent-guide importmagic hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md font-lock+ focus flycheck-package flx-ido find-by-pinyin-dired fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish devdocs define-word cython-mode column-enforce-mode cnfonts clean-aindent-mode chinese-conv centered-cursor-mode blacken auto-highlight-symbol auto-compile auctex-latexmk anaconda-mode aggressive-indent ace-pinyin ace-link ace-jump-helm-line)))
+ '(pdf-view-midnight-colors (quote ("#655370" . "#fbf8ef")))
+ '(vc-annotate-background "#1D252C")
+ '(vc-annotate-color-map
+   (list
+    (cons 20 "#8BD49C")
+    (cons 40 "#abcd93")
+    (cons 60 "#cbc68b")
+    (cons 80 "#EBBF83")
+    (cons 100 "#e5ae6f")
+    (cons 120 "#df9e5b")
+    (cons 140 "#D98E48")
+    (cons 160 "#dc885f")
+    (cons 180 "#df8376")
+    (cons 200 "#E27E8D")
+    (cons 220 "#df7080")
+    (cons 240 "#dc6274")
+    (cons 260 "#D95468")
+    (cons 280 "#b05062")
+    (cons 300 "#884c5c")
+    (cons 320 "#604856")
+    (cons 340 "#56697A")
+    (cons 360 "#56697A")))
+ '(vc-annotate-very-old-color nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
