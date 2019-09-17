@@ -1,0 +1,60 @@
+;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8-emacs -*- 
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("project"
+ (filename . "~/Dropbox/org/GTD/project.org")
+ (front-context-string . "   CLOCK: [2019-")
+ (rear-context-string . "云》\n   :LOGBOOK:\n")
+ (position . 63))
+("init-search"
+ (filename . "~/.emacs.d/init.el")
+ (front-context-string . ";;; init.el --- ")
+ (rear-context-string)
+ (position . 1))
+("calendar"
+ (filename . "~/Dropbox/org/GTD/calendar.org")
+ (front-context-string . " \n** TODO GTD Ad")
+ (rear-context-string . "8-23 Fri +1w>\n  ")
+ (position . 210))
+("English project"
+ (filename . "~/Dropbox/org/GTD/English.org")
+ (front-context-string . "* Cycle\n  \n** TO")
+ (rear-context-string . "gs: English(e)\n\n")
+ (position . 59))
+("agenda filter"
+ (filename . "~/.spacemacs.d/init.el")
+ (front-context-string . "\"Blog\" tags-todo")
+ (rear-context-string . "           (\"b\" ")
+ (position . 34096))
+("GTD_problem"
+ (filename . "~/Dropbox/org/GTD/GTD_problem.org")
+ (front-context-string . "     :LOGBOOK:\n ")
+ (rear-context-string . ":44] - ffffafaf\n")
+ (position . 479))
+("task gtd"
+ (filename . "~/Dropbox/org/GTD/task.org")
+ (front-context-string)
+ (rear-context-string . "2019-08-21 Wed]\n")
+ (position . 5723))
+("ideas matter people temp"
+ (filename . "~/Dropbox/org/GTD/ideas.org")
+ (front-context-string)
+ (rear-context-string . "一觉就好了,一觉不行,就睡两觉\n")
+ (position . 5225))
+("init-layter"
+ (filename . "~/.spacemacs.d/init.el")
+ (front-context-string . "     treemacs\n  ")
+ (rear-context-string . "syntax-checking\n")
+ (position . 2240))
+("org-refile-last-stored"
+ (filename . "~/Dropbox/org/GTD/task.org")
+ (front-context-string . "** DONE 复习快捷键\n  ")
+ (rear-context-string . "ort estimates]]\n")
+ (position . 4926))
+("org-capture-last-stored"
+ (filename . "~/Dropbox/org/GTD/task.org")
+ (front-context-string . "** TODO [#A] 特色早")
+ (rear-context-string . "2019-09-14 Sat]\n")
+ (position . 11529))
+)

@@ -1,0 +1,1 @@
+("~/.spacemacs.d/" "~/.emacs.d/" "~/Dropbox/org/GTD/" "~/Dropbox/Application_project/Automatic_working/Xiaoshang/" "~/Dropbox/org/Notes/" "~/my_site/" "c:/software/autohotkey/Capslock+/" "~/Dropbox/Application_project/Web_spider/qunar/" "d:/Temp/windows10/Application_project/Web_spider/qunar/")

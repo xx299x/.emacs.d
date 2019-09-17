@@ -33,7 +33,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(autohotkey
+   '(javascript
+     autohotkey
      windows-scripts
      rust
      html
@@ -62,6 +63,7 @@ This function should only modify configuration layer settings."
      pdf
      deft
      emoji
+     bibtex 
      ;; themes-megapack
      ;; version-control
      ;; (shell :variables
@@ -72,6 +74,7 @@ This function should only modify configuration layer settings."
      (chinese :variables
               ;; chinese-enable-fcitx t
               chinese-enable-youdao-dict t
+              
               ;; chinese-enable-avy-pinyin nil
               )
      (org :variables
@@ -118,6 +121,7 @@ This function should only modify configuration layer settings."
 
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages '(
+                                    pangu-spacing
                                     )
 
    ;; Defines the behaviour of Spacemacs when installing packages.
@@ -527,7 +531,7 @@ before packages are loaded."
   ;;                                ("DONE" . (:foreground "white" :background "#3498DB" :weight bold))))
 
 ;;;;;;;;;;;;;;
-  ;; 显示相关 ;;
+;; 显示相关 ;;
 ;;;;;;;;;;;;;;
 
   ;; 在状态栏显示时间
@@ -537,19 +541,20 @@ before packages are loaded."
   ;;字体问题
   (cnfonts-enable) 
   (cnfonts-set-spacemacs-fallback-fonts)
+  (setq cnfonts-profiles-directory "~/.spacemacs.d/cnfonts/")
 
   ;; 更改spacemacs自带的字体快捷键
-  (defun spacemacs/zoom-frm-in ()
+  (defun spacemacs/scale-up-font ()
     "zoom in frame, but keep the same pixel size"
     (interactive)
     (cnfonts-increase-fontsize))
 
-  (defun spacemacs/zoom-frm-out ()
+  (defun spacemacs/scale-down-font ()
     "zoom out frame, but keep the same pixel size"
     (interactive)
     (cnfonts-decrease-fontsize))
 
-  (defun spacemacs/zoom-frm-unzoom ()
+  (defun spacemacs/reset-font-size ()
     "Unzoom current frame, keeping the same pixel size"
     (interactive)
     (cnfonts-switch-profile))
@@ -569,7 +574,6 @@ before packages are loaded."
               (set (make-local-variable 'company-backends) '(company-dabbrev company-diag)))) ;fixed complement
   ;; (add-to-list 'load-path "C:/Users/Elliott/.spacemacs.d/anaconda-mode")
   ;; (setenv "WORKON_HOME" "C:/tools/Anaconda3/Lib/site-packages/conda_env")
-
   ;; (setq python-shell-interpreter "ipython"
   ;;       python-shell-interpreter-args "--simple-prompt -i")
 
@@ -633,7 +637,6 @@ before packages are loaded."
     ;;(write-region "1" nil "C:\\software\\autohotkey\\Capslock+\\userAHK\\evil.txt")
     ;; (w32-shell-execute "runas" "C:\\software\\autohotkey\\Capslock+\\userAHK\\emacs\\iem_get_status.ahk")
     (setq iem-status (get-string-from-file "C:\\software\\autohotkey\\Capslock+\\userAHK\\emacs\\evil.txt"))
-    
 
     (if (= (string-to-number iem-status) 1)
         (w32-shell-execute "runas" "C:\\software\\autohotkey\\Capslock+\\userAHK\\emacs\\iem_to_chinese.ahk") nil)
@@ -644,16 +647,16 @@ before packages are loaded."
     "nothing"
     (interactive)
     (add-hook 'evil-normal-state-entry-hook 'my-ahk-switch-english)
-    (add-hook 'evil-insert-state-entry-hook 'my-ahk-switch-chinese)
+    (add-hook 'evil-normal-state-exit-hook 'my-ahk-switch-chinese)
     )
 
   (defun my-iem-off()
     "nothing"
     (interactive)
     (remove-hook 'evil-normal-state-entry-hook 'my-ahk-switch-english)
-    (remove-hook 'evil-insert-state-entry-hook 'my-ahk-switch-chinese)
+    (remove-hook 'evil-normal-state-exit-hook 'my-ahk-switch-chinese)
     )
-  ;; (my-ahk-switch-english)
+  (my-ahk-switch-english)
   ;; (my-iem-on)
 
   ;; agenda 下调用比较缓慢,这里暂时关闭了
@@ -685,10 +688,15 @@ before packages are loaded."
   ;; Drag-and-drop to `dired`
   (add-hook 'org-mode-hook 'emojify-mode)
   (add-hook 'org-mode-hook 'aggressive-indent-mode)
-  (add-hook 'org-mode-hook 'auto-fill-mode)
-  (add-hook 'org-mode-hook 'smartparens-mode)
-
   (add-hook 'dired-mode-hook 'org-download-enable)
+  ;; (add-hook 'org-mode-hook 'auto-fill-mode)
+  ;; (add-hook 'org-mode-hook 'smartparens-mode)
+
+  ;; auto added whitespace
+  ;; SPC h SPC search pangu-spacing
+
+
+
   ;; https://github.com/KingBing/blog-src/blob/e259933e9bc5f246fde50645f024731a16bb6bbc/blog/%E5%9C%A8%20org-mode%20%E4%B8%AD%E9%A1%AF%E7%A4%BA%E5%9C%96%E7%89%87.org
   (setq org-image-actual-width '(300))       ; Fallback to width 300
 
@@ -749,16 +757,16 @@ before packages are loaded."
     (add-to-list 'org-capture-templates
                  '("tr" "Book Reading Task" entry
                    (file+olp "~/Dropbox/org/GTD/task.org" "Reading" "Book")
-                   "* TODO %^{book name}\n%u\n%a\n" :clock-in t :clock-resume t))
+                   "* TODO %^{book name} %^G\n  %u\n%a\n" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
                  '("tt" "Temp" entry
                    (file+headline "~/Dropbox/org/GTD/task.org" "Tasks")
-                   "* TODO %^{Temp}\n%u\n%a\n" :clock-in t :clock-resume t))
+                   "* TODO %^{Temp} %^G\n  %u\n%a\n" :clock-in t :clock-resume t))
     ;; 判断一个任务是否与当前任务有关，有关得则放入 temp，无关的放入 Project
     (add-to-list 'org-capture-templates
                  '("tp" "Project" entry
                    (file+headline "~/Dropbox/org/GTD/task.org" "Project")
-                   "* TODO %^{Project}\n%u\n" :clock-in t :clock-resume t))
+                   "* TODO %^{Project} %^G\n  %u\n" :clock-in t :clock-resume t))
     ;; 有的时候，会有临时的小任务，比如说，将要出门，需要准备一些东西，
     ;; 这个迷你项目得作用就来了，想到一条写一条
     (add-to-list 'org-capture-templates
@@ -770,15 +778,15 @@ before packages are loaded."
     (add-to-list 'org-capture-templates
                  '("it" "Temp Idea" entry
                    (file+headline "~/Dropbox/org/GTD/ideas.org" "Temp")
-                   "* %^{core_idea}\n%u\n" :clock-in t :clock-resume t))
+                   "* %^{core_idea}\n  %u\n" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
                  '("ip" "About people" entry
                    (file+headline "~/Dropbox/org/GTD/ideas.org" "People")
-                   "* %^{core_idea}\n%u\n" :clock-in t :clock-resume t))
+                   "* %^{core_idea}\n  %u\n" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
                  '("im" "About matter" entry
                    (file+headline "~/Dropbox/org/GTD/ideas.org" "Matter")
-                   "* %^{core_idea}\n%u\n" :clock-in t :clock-resume t))
+                   "* %^{core_idea}\n  %u\n" :clock-in t :clock-resume t))
     ;; 日志
     (add-to-list 'org-capture-templates
                  '("j" "Journal" entry (file+datetree "~/Dropbox/org/GTD/Journal.org")
@@ -787,6 +795,21 @@ before packages are loaded."
     (add-to-list 'org-capture-templates
                  '("g" "GTD" entry (file+datetree "c:/Users/xx299/Dropbox/org/GTD/GTD_problem.org")
                    "* TODO %U - %^{heading} %^G\n  %a\n\n   %?" :clock-in t :clock-resume t))
+
+    ;;----------------------------;;
+    (add-to-list 'org-capture-templates '("p" "Project"))
+    (add-to-list 'org-capture-templates
+                 '("pe" "English_System" item
+                   (file+headline "~/Dropbox/org/GTD/task.org" "English_system")
+                   "%^{content}"))
+    (add-to-list 'org-capture-templates
+                 '("pp" "TARGET" entry
+                   (file+headline "~/Dropbox/org/GTD/project.org" "My goal")
+                   "* TODO %^{Speak your mind}\n  %u\n" :clock-in t :clock-resume t))
+
+
+
+    ;;----------------------------;;
 
 ;;; ORG-MODE:  * My Task
 ;;;              SCHEDULED: <%%(diary-last-day-of-month date)>
@@ -813,6 +836,7 @@ before packages are loaded."
             ("p" . "Project")
             ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"work\"")
             ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"xx299x\"")
+            ("pu" tags "PROJECT")
             ("W" "Weekly Review"
              ((stuck "") ;; review stuck projects as designated by org-stuck-projects
               (tags-todo "PROJECT") ;; review all projects (assuming you use todo keywords to designate projects)
@@ -830,16 +854,6 @@ before packages are loaded."
     ;;                                "* %(format-time-string org-journal-time-format)%^{Title}\n%i%?")))
 
 
-    ;;----------------------------;;
-    (add-to-list 'org-capture-templates '("p" "Project"))
-    (add-to-list 'org-capture-templates
-                 '("pe" "English_System" item
-                   (file+headline "~/Dropbox/org/GTD/task.org" "English_system")
-                   "%^{content}"))
-
-
-
-    ;;----------------------------;;
     (setq org-agenda-files
           (append (file-expand-wildcards "~/Dropbox/org/GTD")
                   ))
@@ -854,6 +868,7 @@ before packages are loaded."
 ;;;;;;;;;;;;;;
 
     (setq org-preview-latex-default-process 'dvisvgm)
+    ;; (setq org-preview-latex-default-process 'imagemagick)
     (setq org-preview-latex-process-alist
           '((dvisvgm :programs
                      ("xelatex" "dvisvgm")
@@ -1128,6 +1143,16 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
     (spacemacs/deft)
     (deft-filter filter t)
     )
+  ;;------------end----------------;;
+
+
+
+;;;;;;;;;;;;;;
+;  bookmarks ;
+;;;;;;;;;;;;;;
+(setq bookmark-default-file "~/.spacemacs.d/bookmarks")
+
+
 
   ;;------------end----------------;;
 
@@ -1143,7 +1168,7 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
   (setq treemacs-use-collapsed-directories 3)
   ;; block the ".#" file generate https://www.gnu.org/software/emacs/manual/html_node/emacs/Interlocking.html#Interlocking
   (setq create-lockfiles nil)
-
+  (server-start)
   ;; (let ((fcitx-path "C:\\software\\bat\\bcn"))
   ;;   (setenv "PATH" (concat fcitx-path ";" (getenv "PATH")))
   ;;   (add-to-list 'exec-path fcitx-path))
@@ -1289,10 +1314,10 @@ static char *gnus-pointer[] = {
  '(objed-cursor-color "#D95468")
  '(org-agenda-files
    (quote
-    ("~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/Notes/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/English.org" "c:/Users/xx299/Dropbox/org/GTD/GTD_problem.org" "c:/Users/xx299/Dropbox/org/GTD/Journal.org" "c:/Users/xx299/Dropbox/org/GTD/Plan.org" "c:/Users/xx299/Dropbox/org/GTD/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/calendar.org" "c:/Users/xx299/Dropbox/org/GTD/finished.org" "c:/Users/xx299/Dropbox/org/GTD/ideas.org" "c:/Users/xx299/Dropbox/org/GTD/item.org" "c:/Users/xx299/Dropbox/org/GTD/learn_way.org" "c:/Users/xx299/Dropbox/org/GTD/notes.org" "c:/Users/xx299/Dropbox/org/GTD/project.org" "c:/Users/xx299/Dropbox/org/GTD/task.org")))
+    ("~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/Notes/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/English.org" "c:/Users/xx299/Dropbox/org/GTD/GTD_problem.org" "c:/Users/xx299/Dropbox/org/GTD/Journal.org" "c:/Users/xx299/Dropbox/org/GTD/Plan.org" "c:/Users/xx299/Dropbox/org/GTD/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/calendar.org" "c:/Users/xx299/Dropbox/org/GTD/finished.org" "c:/Users/xx299/Dropbox/org/GTD/ideas.org" "c:/Users/xx299/Dropbox/org/GTD/item.org" "c:/Users/xx299/Dropbox/org/GTD/learn_way.org" "c:/Users/xx299/Dropbox/org/GTD/notes.org" "c:/Users/xx299/Dropbox/org/GTD/project.org" "c:/Users/xx299/Dropbox/org/GTD/task.org")))
  '(package-selected-packages
    (quote
-    (emojify emoji-cheat-sheet-plus company-emoji powershell helm-gtags helm helm-core ggtags counsel-gtags rust-mode wgrep smex ivy-xref ivy-purpose ivy-hydra counsel-projectile counsel-css counsel swiper ivy pdf-tools tablist ox-gfm org-re-reveal youdao-dictionary yapfify ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs ranger rainbow-delimiters pytest pyim pyenv-mode py-isort popwin pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pangu-spacing pandoc-mode ox-pandoc ox-hugo ox-epub overseer orgit org-sticky-header org-projectile org-present org-pomodoro org-mime org-journal org-download org-cliplink org-bullets org-brain open-junk-file nameless move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum live-py-mode link-hint indent-guide importmagic hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md font-lock+ focus flycheck-package flx-ido find-by-pinyin-dired fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish devdocs define-word cython-mode column-enforce-mode cnfonts clean-aindent-mode chinese-conv centered-cursor-mode blacken auto-highlight-symbol auto-compile auctex-latexmk anaconda-mode aggressive-indent ace-pinyin ace-link ace-jump-helm-line)))
+    (org-ref key-chord helm-bibtex parsebib biblio biblio-core tern nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl add-node-modules-path emojify emoji-cheat-sheet-plus company-emoji powershell helm-gtags helm helm-core ggtags counsel-gtags rust-mode wgrep smex ivy-xref ivy-purpose ivy-hydra counsel-projectile counsel-css counsel swiper ivy pdf-tools tablist ox-gfm org-re-reveal youdao-dictionary yapfify ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs ranger rainbow-delimiters pytest pyim pyenv-mode py-isort popwin pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pangu-spacing pandoc-mode ox-pandoc ox-hugo ox-epub overseer orgit org-sticky-header org-projectile org-present org-pomodoro org-mime org-journal org-download org-cliplink org-bullets org-brain open-junk-file nameless move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum live-py-mode link-hint indent-guide importmagic hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md font-lock+ focus flycheck-package flx-ido find-by-pinyin-dired fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish devdocs define-word cython-mode column-enforce-mode cnfonts clean-aindent-mode chinese-conv centered-cursor-mode blacken auto-highlight-symbol auto-compile auctex-latexmk anaconda-mode aggressive-indent ace-pinyin ace-link ace-jump-helm-line)))
  '(pdf-view-midnight-colors (quote ("#655370" . "#fbf8ef")))
  '(vc-annotate-background "#1D252C")
  '(vc-annotate-color-map
