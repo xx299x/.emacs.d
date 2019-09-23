@@ -2,7 +2,12 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("project"
+(("long-term plan"
+ (filename . "~/Dropbox/org/GTD/Plan.org")
+ (front-context-string . "\n* TODO 学英语\n\n* T")
+ (rear-context-string . "棋，要看几步。不要只顾当前的棋\n")
+ (position . 221))
+("project"
  (filename . "~/Dropbox/org/GTD/project.org")
  (front-context-string . "   CLOCK: [2019-")
  (rear-context-string . "云》\n   :LOGBOOK:\n")
@@ -54,7 +59,7 @@
  (position . 4926))
 ("org-capture-last-stored"
  (filename . "~/Dropbox/org/GTD/task.org")
- (front-context-string . "** TODO [#A] 特色早")
- (rear-context-string . "2019-09-14 Sat]\n")
- (position . 11529))
+ (front-context-string . "* TODO [#A] Conf")
+ (rear-context-string . "-visual-studio/\n")
+ (position . 4982))
 )

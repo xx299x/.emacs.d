@@ -97,7 +97,7 @@ This function should only modify configuration layer settings."
           )
      (spacemacs-layouts :variables
                         layouts-enable-autosave nil
-                        ;; layouts-autosave-delay 300
+                        layouts-autosave-delay 300
                         )
      )
    ;; List of additional packages that will be installed without being
@@ -304,7 +304,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil then the last auto saved layouts are resumed automatically upon
    ;; start. (default nil)
-   dotspacemacs-auto-resume-layouts nil
+   dotspacemacs-auto-resume-layouts t
 
    ;; If non-nil, auto-generate layout name when creating new layouts. Only has
    ;; effect when using the "jump to layout by number" commands. (default nil)
@@ -656,7 +656,7 @@ before packages are loaded."
     (remove-hook 'evil-normal-state-entry-hook 'my-ahk-switch-english)
     (remove-hook 'evil-normal-state-exit-hook 'my-ahk-switch-chinese)
     )
-  (my-ahk-switch-english)
+  ;; (my-ahk-switch-english)
   ;; (my-iem-on)
 
   ;; agenda 下调用比较缓慢,这里暂时关闭了
@@ -687,7 +687,7 @@ before packages are loaded."
   (require 'org-download)
   ;; Drag-and-drop to `dired`
   (add-hook 'org-mode-hook 'emojify-mode)
-  (add-hook 'org-mode-hook 'aggressive-indent-mode)
+  ;; (add-hook 'org-mode-hook 'aggressive-indent-mode)
   (add-hook 'dired-mode-hook 'org-download-enable)
   ;; (add-hook 'org-mode-hook 'auto-fill-mode)
   ;; (add-hook 'org-mode-hook 'smartparens-mode)
@@ -702,7 +702,7 @@ before packages are loaded."
 
   (add-to-list 'auto-mode-alist '("\\.txt\\'" . org-mode))
   (with-eval-after-load 'org
-    ;; 使模板生效
+    ;; template使模板生效
     (require 'org-tempo)
     ;; (setq org-ellipsis " ▼")
     ;; (setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
@@ -755,18 +755,18 @@ before packages are loaded."
     ;; 任务相关捕获模板
     (add-to-list 'org-capture-templates '("t" "Tasks"))
     (add-to-list 'org-capture-templates
-                 '("tr" "Book Reading Task" entry
-                   (file+olp "~/Dropbox/org/GTD/task.org" "Reading" "Book")
-                   "* TODO %^{book name} %^G\n  %u\n%a\n" :clock-in t :clock-resume t))
+                 '("ta" "Project" entry
+                   (file "~/Dropbox/org/GTD/task.org")
+                   "* TODO [#A] %^{Project} %^G\n  %u\n%?" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
-                 '("tt" "Temp" entry
-                   (file+headline "~/Dropbox/org/GTD/task.org" "Tasks")
-                   "* TODO %^{Temp} %^G\n  %u\n%a\n" :clock-in t :clock-resume t))
-    ;; 判断一个任务是否与当前任务有关，有关得则放入 temp，无关的放入 Project
+                 '("tb" "Project" entry
+                   (file "~/Dropbox/org/GTD/task.org")
+                   "* TODO [#B] %^{Project} %^G\n  %u\n%?" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
-                 '("tp" "Project" entry
-                   (file+headline "~/Dropbox/org/GTD/task.org" "Project")
-                   "* TODO %^{Project} %^G\n  %u\n" :clock-in t :clock-resume t))
+                 '("tc" "Project" entry
+                   (file "~/Dropbox/org/GTD/task.org")
+                   "* TODO [#C] %^{Project} %^G\n  %u\n%?" :clock-in t :clock-resume t))
+
     ;; 有的时候，会有临时的小任务，比如说，将要出门，需要准备一些东西，
     ;; 这个迷你项目得作用就来了，想到一条写一条
     (add-to-list 'org-capture-templates
@@ -861,7 +861,22 @@ before packages are loaded."
           '((sequence "TODO(t!)" "NEXT(n!)" "WAITTING(w)" "SOMEDAY(s)" "|" "DONE(d@/!)" "ABORT(a@/!)")
             ))
 
+    ;; 配置归档文件的名称和 Headline 格式
 
+    (setq org-archive-location "~/Dropbox/org/GTD/archive.org::datetree/")
+
+    ;; (defun org-archive-save-buffer ()
+    ;;   (let ((afile (org-extract-archive-file (org-get-local-archive-location))))
+    ;;     (if (file-exists-p afile)
+    ;;         (let ((buffer (find-file-noselect afile)))
+    ;;           (if (y-or-n-p (format "Save (%s)" buffer))
+    ;;               (with-current-buffer buffer
+    ;;                 (save-buffer))
+    ;;             (message "You expressly chose _not_ to save (%s)" buffer)))
+    ;;       (message "Ooops ... (%s) does not exist." afile))))
+
+    ;; (add-hook 'org-archive-hook 'org-archive-save-buffer)
+    (delete "~/Dropbox/org/GTD/archive.org" org-agenda-files)
 
 ;;;;;;;;;;;;;;
     ;; Org-Latex;;
@@ -1150,7 +1165,7 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
 ;;;;;;;;;;;;;;
 ;  bookmarks ;
 ;;;;;;;;;;;;;;
-(setq bookmark-default-file "~/.spacemacs.d/bookmarks")
+  (setq bookmark-default-file "~/.spacemacs.d/other_file/bookmarks")
 
 
 
