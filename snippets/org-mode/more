@@ -1,7 +1,8 @@
 # -*- mode: snippet -*-
-# name: more
-# key: m
+# name: R
+# key: R_
 # --
-<!--more-->
 
+#+begin_src R
 $0
+#+end_src

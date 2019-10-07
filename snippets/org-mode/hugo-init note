@@ -1,0 +1,24 @@
+# -*- mode: snippet -*-
+# name: init note
+# key: #
+# --
+#+TITLE: $3
+#+HUGO_BASE_DIR: ~/my_site/
+#+HUGO_SECTION: post
+#+DATE: `(format-time-string "%Y-%m-%d")`
+#+HUGO_AUTO_SET_LASTMOD: t
+#+HUGO_TAGS: $2
+#+HUGO_CATEGORIES: $1
+#+HUGO_DRAFT: false
+# #------
+# #+AUTHOR: 冉冉升起
+# #+KEYWORDS: nil
+# #+OPTIONS: H:5 num:t toc:2 \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t ^:{} broken-links:auto
+# #+OPTIONS: TeX:t LaTeX:nil skip:nil d:nil todo:t pri:nil tags:not-in-toc
+# #+LaTeX_HEADER: \usepackage[UTF8]{ctex}
+# #+LaTeX_CLASS: article
+# #+EXPORT_FILE_NAME: ~/Desktop/export.html
+# #+LaTeX_CLASS: beamer
+# #+LaTeX_CLASS: book
+
+$0

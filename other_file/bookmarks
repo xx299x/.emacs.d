@@ -2,17 +2,7 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("long-term plan"
- (filename . "~/Dropbox/org/GTD/Plan.org")
- (front-context-string . "\n* TODO 学英语\n\n* T")
- (rear-context-string . "棋，要看几步。不要只顾当前的棋\n")
- (position . 221))
-("project"
- (filename . "~/Dropbox/org/GTD/project.org")
- (front-context-string . "   CLOCK: [2019-")
- (rear-context-string . "云》\n   :LOGBOOK:\n")
- (position . 63))
-("init-search"
+(("init-search"
  (filename . "~/.emacs.d/init.el")
  (front-context-string . ";;; init.el --- ")
  (rear-context-string)
@@ -54,12 +44,12 @@
  (position . 2240))
 ("org-refile-last-stored"
  (filename . "~/Dropbox/org/GTD/task.org")
- (front-context-string . "** DONE 复习快捷键\n  ")
- (rear-context-string . "ort estimates]]\n")
- (position . 4926))
+ (front-context-string . "** TODO [#C] 调试e")
+ (rear-context-string . " Emacs China]]\n\n")
+ (position . 330))
 ("org-capture-last-stored"
  (filename . "~/Dropbox/org/GTD/task.org")
- (front-context-string . "* TODO [#A] Conf")
- (rear-context-string . "-visual-studio/\n")
- (position . 4982))
+ (front-context-string . "* TODO [#A] R中的g")
+ (rear-context-string . "adline，而且目标要清晰。\n")
+ (position . 4302))
 )
