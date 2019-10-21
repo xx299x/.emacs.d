@@ -670,6 +670,9 @@ before packages are loaded."
 ;;;;;;;;;;;;;;
 ;;;  Org   ;;;
 ;;;;;;;;;;;;;;
+  ;; emoji
+  (setq emojify-emojis-dir "c:/Users/xx299/.spacemacs.d/.cache/emojify/")
+
   ;; (require 'jieba)
   ;; (jieba-mode)
 
@@ -748,6 +751,10 @@ before packages are loaded."
     ;;          "* TODO %?\n  %i\n  %a")
     ;;         ("j" "Journal" entry (file+datetree "~/Dropbox/org/journal.org")
     ;;          "* %?\nEntered on %U\n  %i\n  %a")))
+
+    ;;agenda
+    (setq diary-file "~/.spacemacs.d/diary")
+    (setq org-deadline-warning-days 2)  ; 设置默认警告时间。
 
     (setq org-capture-templates nil)
     ;; 任务相关捕获模板
@@ -1342,6 +1349,7 @@ static char *gnus-pointer[] = {
  '(org-agenda-files
    (quote
     ("~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/Notes/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/English.org" "c:/Users/xx299/Dropbox/org/GTD/GTD_problem.org" "c:/Users/xx299/Dropbox/org/GTD/Journal.org" "c:/Users/xx299/Dropbox/org/GTD/Plan.org" "c:/Users/xx299/Dropbox/org/GTD/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/calendar.org" "c:/Users/xx299/Dropbox/org/GTD/finished.org" "c:/Users/xx299/Dropbox/org/GTD/ideas.org" "c:/Users/xx299/Dropbox/org/GTD/item.org" "c:/Users/xx299/Dropbox/org/GTD/learn_way.org" "c:/Users/xx299/Dropbox/org/GTD/notes.org" "c:/Users/xx299/Dropbox/org/GTD/project.org" "c:/Users/xx299/Dropbox/org/GTD/task.org")))
+ '(org-deadline-warning-days 0)
  '(package-selected-packages
    (quote
     (org-ref key-chord helm-bibtex parsebib biblio biblio-core tern nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl add-node-modules-path emojify emoji-cheat-sheet-plus company-emoji powershell helm-gtags helm helm-core ggtags counsel-gtags rust-mode wgrep smex ivy-xref ivy-purpose ivy-hydra counsel-projectile counsel-css counsel swiper ivy pdf-tools tablist ox-gfm org-re-reveal youdao-dictionary yapfify ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs ranger rainbow-delimiters pytest pyim pyenv-mode py-isort popwin pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pangu-spacing pandoc-mode ox-pandoc ox-hugo ox-epub overseer orgit org-sticky-header org-projectile org-present org-pomodoro org-mime org-journal org-download org-cliplink org-bullets org-brain open-junk-file nameless move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum live-py-mode link-hint indent-guide importmagic hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md font-lock+ focus flycheck-package flx-ido find-by-pinyin-dired fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish devdocs define-word cython-mode column-enforce-mode cnfonts clean-aindent-mode chinese-conv centered-cursor-mode blacken auto-highlight-symbol auto-compile auctex-latexmk anaconda-mode aggressive-indent ace-pinyin ace-link ace-jump-helm-line)))

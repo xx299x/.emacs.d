@@ -49,7 +49,7 @@
  (position . 330))
 ("org-capture-last-stored"
  (filename . "~/Dropbox/org/GTD/task.org")
- (front-context-string . "* TODO [#A] 安排计算")
- (rear-context-string . "2019-10-09 Wed]\n")
- (position . 4088))
+ (front-context-string . "* TODO [#A] 网店运营")
+ (rear-context-string . "2019-10-16 Wed]\n")
+ (position . 6061))
 )
