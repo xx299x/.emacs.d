@@ -670,6 +670,7 @@ before packages are loaded."
 ;;;;;;;;;;;;;;
 ;;;  Org   ;;;
 ;;;;;;;;;;;;;;
+  (spacemacs/toggle-truncate-lines)
   ;; emoji
   (setq emojify-emojis-dir "c:/Users/xx299/.spacemacs.d/.cache/emojify/")
 
@@ -753,8 +754,9 @@ before packages are loaded."
     ;;          "* %?\nEntered on %U\n  %i\n  %a")))
 
     ;;agenda
+    (setq org-agenda-span 'day)
     (setq diary-file "~/.spacemacs.d/diary")
-    (setq org-deadline-warning-days 2)  ; 设置默认警告时间。
+    (setq org-deadline-warning-days 3)  ; 设置默认警告时间。
 
     (setq org-capture-templates nil)
     ;; 任务相关捕获模板
@@ -973,7 +975,7 @@ before packages are loaded."
                  '("Lenny" "fncychap" t))
 
     (add-to-list 'org-latex-classes
-                 '("lengyue-org-book"
+                 '("book"
                    "\\documentclass{book}
 \\usepackage[slantfont, boldfont]{xeCJK}
 % chapter set
@@ -1067,7 +1069,7 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
                    ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
     (add-to-list 'org-latex-classes
-                 '("lengyue-org-beamer"
+                 '("beamer"
                    "\\documentclass{beamer}
 \\usepackage[slantfont, boldfont]{xeCJK}
 % beamer set
