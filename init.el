@@ -899,21 +899,42 @@ before packages are loaded."
     ;; Org-Latex;;
 ;;;;;;;;;;;;;;
 
-    (setq org-preview-latex-default-process 'dvisvgm)
+    (setq org-preview-latex-default-process 'dvipng)
     ;; (setq org-preview-latex-default-process 'imagemagick)
     (setq org-preview-latex-process-alist
-          '((dvisvgm :programs
-                     ("xelatex" "dvisvgm")
-                     :description "xdv > svg" :message "you need to install the programs: xelatex and dvisvgm." :use-xcolor t :image-input-type "xdv" :image-output-type "svg" :image-size-adjust
-                     (1.7 . 1.5)
+          '(
+            (dvipng
+             :programs ("latex" "dvipng")
+             :description "dvi > png"
+             :message "you need to install programs: latex, dvipng and ghostscript."
+             :image-input-type "dvi"
+             :image-output-type "png"
+             :image-size-adjust (1.0 . 1.0)
+             :latex-compiler ("latex -interaction nonstopmode -output-directory %o %f")
+             :image-converter ("dvipng -fg %F -bg %B -D %D -T tight -o %O %f"))
+            (dvisvgm :programs
+                     ("xelatex" "dvisvgm" "convert")
+                     :description "xdv > svg"
+                     :message "you need to install the programs: xelatex and dvisvgm."
+                     :use-xcolor t
+                     :image-input-type "xdv"
+                     :image-output-type "svg"
+                     ;; :image-output-type "png"
+                     :imfage-size-adjust (1.7 . 1.5)
+                     ;; :latex-header
+                     ;; "\\usepackage[UTF8]{ctex}"
                      :latex-compiler
                      ("xelatex -no-pdf -interaction nonstopmode -output-directory %o %f")
                      :image-converter
                      ("dvisvgm %f -n -b min -c %S -o %O"))
             (imagemagick :programs
                          ("xelatex" "convert")
-                         :description "pdf > png" :message "you need to install the programs: xelatex and imagemagick." :use-xcolor t :image-input-type "pdf" :image-output-type "png" :image-size-adjust
-                         (1.0 . 1.0)
+                         :description "pdf > png"
+                         :message "you need to install the programs: xelatex and imagemagick."
+                         :use-xcolor t
+                         :image-input-type "pdf"
+                         :image-output-type "png"
+                         :image-size-adjust (1.0 . 1.0)
                          :latex-compiler
                          ("xelatex -interaction nonstopmode -output-directory %o %f")
                          :image-converter
@@ -955,6 +976,8 @@ before packages are loaded."
                  '("" "textcomp"))
     (add-to-list 'org-latex-packages-alist
                  '("" "amsmath"))
+    (setq org-latex-packages-alist
+          '(("fontset=macnew,UTF8" "ctex" t)))
     (add-to-list 'org-latex-packages-alist
                  '("" "tabularx" t))
     (add-to-list 'org-latex-packages-alist

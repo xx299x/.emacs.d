@@ -48,8 +48,8 @@
  (rear-context-string . " Emacs China]]\n\n")
  (position . 330))
 ("org-capture-last-stored"
- (filename . "~/Dropbox/org/GTD/ideas.org")
- (front-context-string . "** 中国人之所以过得水深火热，")
- (rear-context-string . "其赋予意义，这就就仪式感赋能。\n")
- (position . 4208))
+ (filename . "~/Dropbox/org/GTD/task.org")
+ (front-context-string . "* TODO [#C] 博客的S")
+ (rear-context-string . "2019-10-25 Fri]\n")
+ (position . 7692))
 )
