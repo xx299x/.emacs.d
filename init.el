@@ -112,6 +112,7 @@ This function should only modify configuration layer settings."
                                       cnfonts
                                       ox-hugo
                                       anki-editor
+                                      real-auto-save
                                       ;; jieba
                                       ;; easy-hugo
                                       )
@@ -668,9 +669,22 @@ before packages are loaded."
 
 
 ;;;;;;;;;;;;;;
-;;;  Org   ;;;
+;;;Org;;;
 ;;;;;;;;;;;;;;
+  
   (spacemacs/toggle-truncate-lines)
+  ;;load el directory
+  (add-to-list 'load-path "C:/Users/xx299/.spacemacs.d/elisp")
+  ;; Auto-save
+  ;; (require 'auto-save)
+  ;; (setq auto-save-silent t)   ; quietly save
+  ;; (setq auto-save-delete-trailing-whitespace t)  ; automatically delete spaces at the end of the line when saving
+  (require 'real-auto-save)
+  (add-hook 'org-mode-hook 'real-auto-save-mode)
+  ;; (add-hook 'prog-mode-hook 'real-auto-save-mode)
+  (setq real-auto-save-interval 10)
+  ;; Auto-save----end
+
   ;; emoji
   (setq emojify-emojis-dir "c:/Users/xx299/.spacemacs.d/.cache/emojify/")
 
