@@ -1206,12 +1206,16 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
                 "\\|^#\s#\\+?.*$" ;; org-mode metadata
                 "\\)"))
   (global-set-key [f8] 'deft)
+  (global-set-key [C-f8] 'ironman-deft-search-for)
   ;; (setq deft-strip-title-regexp "")
   (defun ironman-deft-search-for(filter)
     (interactive "MFilter: ")
     (spacemacs/deft)
     (deft-filter filter t)
     )
+
+  ;; 功能重复，real-auto-save 就可以了
+  (setq deft-auto-save-interval 9999999)
   ;;------------end----------------;;
 
 
@@ -1230,6 +1234,7 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
 ;;;;;;;;;;;;;;
 ;;;  other ;;;
 ;;;;;;;;;;;;;;
+  ;; (setq projectile-git-submodule-command nil) ;; Git速度慢的问题
   (setq pdf-info-epdfinfo-program '"c:/users/xx299/.spacemacs.d/pdf-tools-20190413.2018/epdfinfo.exe")
 
   (setq treemacs-filewatch-mode t)      ;
@@ -1387,7 +1392,7 @@ static char *gnus-pointer[] = {
  '(objed-cursor-color "#D95468")
  '(org-agenda-files
    (quote
-    ("~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/Notes/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/English.org" "c:/Users/xx299/Dropbox/org/GTD/GTD_problem.org" "c:/Users/xx299/Dropbox/org/GTD/Journal.org" "c:/Users/xx299/Dropbox/org/GTD/Plan.org" "c:/Users/xx299/Dropbox/org/GTD/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/calendar.org" "c:/Users/xx299/Dropbox/org/GTD/finished.org" "c:/Users/xx299/Dropbox/org/GTD/ideas.org" "c:/Users/xx299/Dropbox/org/GTD/item.org" "c:/Users/xx299/Dropbox/org/GTD/learn_way.org" "c:/Users/xx299/Dropbox/org/GTD/notes.org" "c:/Users/xx299/Dropbox/org/GTD/project.org" "c:/Users/xx299/Dropbox/org/GTD/task.org")))
+    ("~/Dropbox/org/GTD/friends.org" "~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/Notes/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/English.org" "c:/Users/xx299/Dropbox/org/GTD/GTD_problem.org" "c:/Users/xx299/Dropbox/org/GTD/Journal.org" "c:/Users/xx299/Dropbox/org/GTD/Plan.org" "c:/Users/xx299/Dropbox/org/GTD/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/calendar.org" "c:/Users/xx299/Dropbox/org/GTD/finished.org" "c:/Users/xx299/Dropbox/org/GTD/ideas.org" "c:/Users/xx299/Dropbox/org/GTD/item.org" "c:/Users/xx299/Dropbox/org/GTD/learn_way.org" "c:/Users/xx299/Dropbox/org/GTD/notes.org" "c:/Users/xx299/Dropbox/org/GTD/project.org" "c:/Users/xx299/Dropbox/org/GTD/task.org")))
  '(org-deadline-warning-days 0)
  '(package-selected-packages
    (quote

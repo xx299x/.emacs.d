@@ -2,7 +2,12 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("spacemacs"
+(("friends"
+ (filename . "~/Dropbox/org/GTD/friends.org")
+ (front-context-string . "* 芦灏\n\n** 信息\n%%(o")
+ (rear-context-string . "TITLE: Friends\n\n")
+ (position . 19))
+("spacemacs"
  (filename . "~/.emacs.d/init.el")
  (front-context-string . "tq gc-cons-thres")
  (rear-context-string . "rrent-time))\n(se")
@@ -54,7 +59,7 @@
  (position . 330))
 ("org-capture-last-stored"
  (filename . "~/Dropbox/org/GTD/task.org")
- (front-context-string . "* TODO [#A] 研究淘宝")
- (rear-context-string . "0-26 Sat 09:43]\n")
- (position . 2731))
+ (front-context-string . "* TODO [#A] 讲义编辑")
+ (rear-context-string . " 01:54]\n  :END:\n")
+ (position . 3255))
 )
