@@ -64,6 +64,7 @@ This function should only modify configuration layer settings."
      deft
      emoji
      bibtex
+     speed-reading
      ;; themes-megapack
      ;; version-control
      ;; (shell :variables
@@ -115,6 +116,8 @@ This function should only modify configuration layer settings."
                                       real-auto-save
                                       ;; jieba
                                       ;; easy-hugo
+                                      ;; 农历
+                                      cal-china-x
                                       )
 
    ;; A list of packages that cannot be updated.
@@ -309,7 +312,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil, auto-generate layout name when creating new layouts. Only has
    ;; effect when using the "jump to layout by number" commands. (default nil)
    dotspacemacs-auto-generate-layout-names nil
-
+   
    ;; Size (in MB) above which spacemacs will prompt to open the large file
    ;; literally to avoid performance issues. Opening a file literally means that
    ;; no major mode or minor modes are active. (default is 1)
@@ -455,7 +458,7 @@ It should only modify the values of Spacemacs settings."
    ;; %z - mnemonics of buffer, terminal, and keyboard coding systems
    ;; %Z - like %z, but including the end-of-line format
    ;; (default "%I@%S")
-   dotspacemacs-frame-title-format "%a -- 专注，拒绝碎片化思考"
+   dotspacemacs-frame-title-format "%a -- 事实上，诸多情绪的产生都可以归结为无能"
 
    ;; Format specification for setting the icon title format
    ;; (default nil - same as frame-title-format)
@@ -671,7 +674,63 @@ before packages are loaded."
 ;;;;;;;;;;;;;;
 ;;;Org;;;
 ;;;;;;;;;;;;;;
-  
+  ;; 字数统计
+  (defvar wc-regexp-chinese-char-and-punc
+      (rx (category chinese)))
+  (defvar wc-regexp-chinese-punc
+    "[。，！？；：「」『』（）、【】《》〈〉※—]")
+  (defvar wc-regexp-english-word
+    "[a-zA-Z0-9-]+")
+
+  (defun wc ()
+    "「較精確地」統計中/日/英文字數。
+- 文章中的註解不算在字數內。
+- 平假名與片假名亦包含在「中日文字數」內，每個平/片假名都算單獨一個字（但片假
+  名不含連音「ー」）。
+- 英文只計算「單字數」，不含標點。
+- 韓文不包含在內。
+
+※計算標準太多種了，例如英文標點是否算入、以及可能有不太常用的標點符號沒算入等
+。且中日文標點的計算標準要看 Emacs 如何定義特殊標點符號如ヴァランタン・アルカン
+中間的點也被 Emacs 算為一個字而不是標點符號。"
+  (interactive)
+  (let* ((v-buffer-string
+          (progn
+            (if (eq major-mode 'org-mode) ; 去掉 org 文件的 OPTIONS（以#+開頭）
+                (setq v-buffer-string (replace-regexp-in-string "^#\\+.+" ""
+                                       (buffer-substring-no-properties (point-min) (point-max))))
+              (setq v-buffer-string (buffer-substring-no-properties (point-min) (point-max))))
+            (replace-regexp-in-string (format "^ *%s *.+" comment-start) "" v-buffer-string)))
+                                        ; 把註解行刪掉（不把註解算進字數）。
+         (chinese-char-and-punc 0)
+         (chinese-punc 0)
+         (english-word 0)
+         (chinese-char 0))
+    (with-temp-buffer
+      (insert v-buffer-string)
+      (goto-char (point-min))
+      ;; 中文（含標點、片假名）
+      (while (re-search-forward wc-regexp-chinese-char-and-punc nil :no-error)
+        (setq chinese-char-and-punc (1+ chinese-char-and-punc)))
+      ;; 中文標點符號
+      (goto-char (point-min))
+      (while (re-search-forward wc-regexp-chinese-punc nil :no-error)
+        (setq chinese-punc (1+ chinese-punc)))
+      ;; 英文字數（不含標點）
+      (goto-char (point-min))
+      (while (re-search-forward wc-regexp-english-word nil :no-error)
+        (setq english-word (1+ english-word))))
+    (setq chinese-char (- chinese-char-and-punc chinese-punc))
+    (message
+     (format "中日文字數（不含標點）：%s
+中日文字數（包含標點）：%s
+英文字數（不含標點）：%s
+=======================
+中英文合計（不含標點）：%s"
+             chinese-char chinese-char-and-punc english-word
+             (+ chinese-char english-word)))))
+
+
   (spacemacs/toggle-truncate-lines)
   ;;load el directory
   (add-to-list 'load-path "C:/Users/xx299/.spacemacs.d/elisp")
@@ -700,7 +759,15 @@ before packages are loaded."
   ;;   (setq js2-strict-missing-semi-warning nil))
   ;; (add-hook 'js2-mode-hook 'my-js-mode-hook)
   (setq-default org-download-image-dir "~/Dropbox/org/pictures")
-  (require 'org-download)
+  (defun custom-org-download-method (link)
+    (org-download--fullname (org-link-unescape link)))
+  (setq org-download-method 'custom-org-download-method) ; 注意：这里不能用lambda表达式
+
+  ;; 顺便改下annotate，就是自动插入的那行注释，里面写的是图片来源路径
+  (setq org-download-annotate-function
+        '(lambda (link)
+           (org-download-annotate-default (org-link-unescape link))))
+
   ;; Drag-and-drop to `dired`
   (add-hook 'org-mode-hook 'emojify-mode)
   ;; (add-hook 'org-mode-hook 'aggressive-indent-mode)
@@ -768,6 +835,30 @@ before packages are loaded."
     ;;          "* %?\nEntered on %U\n  %i\n  %a")))
 
     ;;agenda
+    ;; 农历生日
+    ;; https://emacs-china.org/t/topic/2119/19?u=elliott
+    (require 'cal-china-x)
+    (setq mark-holidays-in-calendar t)
+    (setq cal-china-x-important-holidays cal-china-x-chinese-holidays)
+    (setq cal-china-x-general-holidays '((holiday-lunar 1 15 "元宵节")))
+    ;; (setq other-holidays ')
+    (setq calendar-holidays
+          (append cal-china-x-important-holidays
+                  cal-china-x-general-holidays
+                  ;; other-holidays
+                  ))
+
+    (defun my--diarY-chinese-anniversary (lunar-month lunar-day &optional year mark)
+      (if year
+          (let* ((d-date (diary-make-date lunar-month lunar-day year))
+                 (a-date (calendar-absolute-from-gregorian d-date))
+                 (c-date (calendar-chinese-from-absolute a-date))
+                 (cycle (car c-date))
+                 (yy (cadr c-date))
+                 (y (+ (* 100 cycle) yy)))
+            (diary-chinese-anniversary lunar-month lunar-day y mark))
+        (diary-chinese-anniversary lunar-month lunar-day year mark)))
+
     (setq org-agenda-span 'day)
     (setq diary-file "~/.spacemacs.d/diary")
     (setq org-deadline-warning-days 3)  ; 设置默认警告时间。
@@ -881,7 +972,10 @@ before packages are loaded."
 
     (setq org-todo-keywords
           '((sequence "TODO(t!)" "NEXT(n!)" "WAITTING(w)" "SOMEDAY(s)" "|" "DONE(d@/!)" "ABORT(a@/!)")
+          ;; '((sequence "TODO(t)" "NEXT(n)" "WAITTING(w)" "SOMEDAY(s)" "|" "DONE(d)" "ABORT(a)")
             ))
+    ;; 设置TODO完成状态改变抽屉
+    (setq org-log-into-drawer "LOGBOOK")
 
     ;; 配置归档文件的名称和 Headline 格式
 
@@ -1392,7 +1486,7 @@ static char *gnus-pointer[] = {
  '(objed-cursor-color "#D95468")
  '(org-agenda-files
    (quote
-    ("~/Dropbox/org/GTD/friends.org" "~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/Notes/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/English.org" "c:/Users/xx299/Dropbox/org/GTD/GTD_problem.org" "c:/Users/xx299/Dropbox/org/GTD/Journal.org" "c:/Users/xx299/Dropbox/org/GTD/Plan.org" "c:/Users/xx299/Dropbox/org/GTD/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/calendar.org" "c:/Users/xx299/Dropbox/org/GTD/finished.org" "c:/Users/xx299/Dropbox/org/GTD/ideas.org" "c:/Users/xx299/Dropbox/org/GTD/item.org" "c:/Users/xx299/Dropbox/org/GTD/learn_way.org" "c:/Users/xx299/Dropbox/org/GTD/notes.org" "c:/Users/xx299/Dropbox/org/GTD/project.org" "c:/Users/xx299/Dropbox/org/GTD/task.org")))
+    ("~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/GTD/friends.org" "~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/Notes/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/GTD_problem.org" "c:/Users/xx299/Dropbox/org/GTD/Journal.org" "c:/Users/xx299/Dropbox/org/GTD/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/calendar.org" "c:/Users/xx299/Dropbox/org/GTD/ideas.org" "c:/Users/xx299/Dropbox/org/GTD/task.org")))
  '(org-deadline-warning-days 0)
  '(package-selected-packages
    (quote

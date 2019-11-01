@@ -22,11 +22,6 @@
  (front-context-string . " \n** TODO GTD Ad")
  (rear-context-string . "8-23 Fri +1w>\n  ")
  (position . 210))
-("English project"
- (filename . "~/Dropbox/org/GTD/English.org")
- (front-context-string . "* Cycle\n  \n** TO")
- (rear-context-string . "gs: English(e)\n\n")
- (position . 59))
 ("agenda filter"
  (filename . "~/.spacemacs.d/init.el")
  (front-context-string . "\"Blog\" tags-todo")
@@ -59,7 +54,7 @@
  (position . 330))
 ("org-capture-last-stored"
  (filename . "~/Dropbox/org/GTD/task.org")
- (front-context-string . "* TODO [#A] 讲义编辑")
- (rear-context-string . " 01:54]\n  :END:\n")
- (position . 3255))
+ (front-context-string . "* TODO [#A] 搞定do")
+ (rear-context-string . "[2019-10-28 周一]\n")
+ (position . 2891))
 )
