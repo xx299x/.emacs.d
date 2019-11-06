@@ -2,7 +2,12 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("friends"
+(("archive"
+ (filename . "~/Dropbox/org/GTD/archive.org")
+ (front-context-string . "**** ABORT [#A] ")
+ (rear-context-string . ":01\n     :END:\n\n")
+ (position . 58772))
+("friends"
  (filename . "~/Dropbox/org/GTD/friends.org")
  (front-context-string . "* 芦灏\n\n** 信息\n%%(o")
  (rear-context-string . "TITLE: Friends\n\n")
@@ -54,7 +59,7 @@
  (position . 330))
 ("org-capture-last-stored"
  (filename . "~/Dropbox/org/GTD/task.org")
- (front-context-string . "* TODO [#A] 搞定do")
- (rear-context-string . "[2019-10-28 周一]\n")
- (position . 2891))
+ (front-context-string . "* TODO Excel地址  ")
+ (rear-context-string . "\n  :END:\n  6408\n")
+ (position . 10421))
 )

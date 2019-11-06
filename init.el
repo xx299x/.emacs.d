@@ -33,10 +33,11 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(javascript
+   '(
+     javascript
      autohotkey
      windows-scripts
-     rust
+     ;; rust
      html
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -58,20 +59,23 @@ This function should only modify configuration layer settings."
      treemacs
      latex
      markdown
-     ;; pandoc
+     pandoc
+     ;; ranger 浏览文件必备
      ranger
      pdf
      deft
      emoji
+     ;; bibtex 相当于latex模板
      bibtex
-     speed-reading
+     speed-reading ;;幻灯片
      ;; themes-megapack
      ;; version-control
      ;; (shell :variables
      ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
-     (python :variables
-             python-test-runner 'pytest)
+     ;;        shell-default-positionf 'bottom
+     ;; (python :variab
+     ;;         python-test-runner 'pytest)
+
      (chinese :variables
               ;; chinese-enable-fcitx t
               chinese-enable-youdao-dict t
@@ -731,7 +735,6 @@ before packages are loaded."
              (+ chinese-char english-word)))))
 
 
-  (spacemacs/toggle-truncate-lines)
   ;;load el directory
   (add-to-list 'load-path "C:/Users/xx299/.spacemacs.d/elisp")
   ;; Auto-save
@@ -861,7 +864,7 @@ before packages are loaded."
 
     (setq org-agenda-span 'day)
     (setq diary-file "~/.spacemacs.d/diary")
-    (setq org-deadline-warning-days 3)  ; 设置默认警告时间。
+    (setq org-deadline-warning-days 0)  ; 设置默认警告时间。
 
     (setq org-capture-templates nil)
     ;; 任务相关捕获模板
@@ -869,19 +872,19 @@ before packages are loaded."
     (add-to-list 'org-capture-templates
                  '("ta" "Project" entry
                    (file "~/Dropbox/org/GTD/task.org")
-                   "* TODO [#A] %^{Project} %^G\n  %u\n%?" :clock-in t :clock-resume t))
+                   "* TODO [#A] %^{Project} %^G \n  SCHEDULED: %^t  \n%?" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
                  '("tb" "Project" entry
                    (file "~/Dropbox/org/GTD/task.org")
-                   "* TODO [#B] %^{Project} %^G\n  %u\n%?" :clock-in t :clock-resume t))
+                   "* TODO %^{Project} %^G \n  SCHEDULED: %^t  \n%?" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
                  '("tc" "Project" entry
                    (file "~/Dropbox/org/GTD/task.org")
-                   "* TODO [#C] %^{Project} %^G\n  %u\n%?" :clock-in t :clock-resume t))
+                   "* TODO [#C] %^{Project} %^G \n  SCHEDULED: %^t  \n%?" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
                  '("ts" "Project" entry
                    (file "~/Dropbox/org/GTD/suspend.org")
-                   "* TODO [#B] %^{Project} %^G\n  %u\n%?" :clock-in t :clock-resume t))
+                   "* TODO [#B] %^{Project} %^G \n  SCHEDULED: %^t  \n%?" :clock-in t :clock-resume t))
 
     ;; 有的时候，会有临时的小任务，比如说，将要出门，需要准备一些东西，
     ;; 这个迷你项目得作用就来了，想到一条写一条
@@ -894,15 +897,15 @@ before packages are loaded."
     (add-to-list 'org-capture-templates
                  '("it" "Temp Idea" entry
                    (file+headline "~/Dropbox/org/GTD/ideas.org" "Temp")
-                   "* %^{core_idea}\n  %u\n" :clock-in t :clock-resume t))
+                   "* %^{core_idea}  \n" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
                  '("ip" "About people" entry
                    (file+headline "~/Dropbox/org/GTD/ideas.org" "People")
-                   "* %^{core_idea}\n  %u\n" :clock-in t :clock-resume t))
+                   "* %^{core_idea}  \n" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
                  '("im" "About matter" entry
                    (file+headline "~/Dropbox/org/GTD/ideas.org" "Matter")
-                   "* %^{core_idea}\n  %u\n" :clock-in t :clock-resume t))
+                   "* %^{core_idea}\n  \n" :clock-in t :clock-resume t))
     ;; 日志
     (add-to-list 'org-capture-templates
                  '("j" "Journal" entry (file+datetree "~/Dropbox/org/GTD/Journal.org")
@@ -921,7 +924,7 @@ before packages are loaded."
     (add-to-list 'org-capture-templates
                  '("pp" "TARGET" entry
                    (file+headline "~/Dropbox/org/GTD/project.org" "My goal")
-                   "* TODO %^{Speak your mind}\n  %u\n" :clock-in t :clock-resume t))
+                   "* TODO %^{Speak your mind}  \n" :clock-in t :clock-resume t))
 
 
 
@@ -1049,13 +1052,13 @@ before packages are loaded."
                          ("convert -density %D -trim -antialias %f -quality 100 %O"))))
 
     ;; 安装 XeLaTeX 是另外一个故事了..
+    (require 'ox-latex)
     (setq Tex-command-default "XeLaTeX")
     ;; (setq org-latex-compiler "xelatex")
 
 
     ;;前面的东西必要动
     ;;org-mode export to latex
-    (require 'ox-latex)
     (setq org-export-latex-listings t)
 
     ;;org-mode source code setup in exporting to latex
@@ -1084,8 +1087,8 @@ before packages are loaded."
                  '("" "textcomp"))
     (add-to-list 'org-latex-packages-alist
                  '("" "amsmath"))
-    (setq org-latex-packages-alist
-          '(("fontset=macnew,UTF8" "ctex" t)))
+    (add-to-list 'org-latex-packages-alist
+                 '("fontset=macnew,UTF8" "ctex" t))
     (add-to-list 'org-latex-packages-alist
                  '("" "tabularx" t))
     (add-to-list 'org-latex-packages-alist
