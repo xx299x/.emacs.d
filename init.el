@@ -33,7 +33,7 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(rust
      javascript
      autohotkey
      windows-scripts
@@ -64,7 +64,7 @@ This function should only modify configuration layer settings."
      ranger
      pdf
      deft
-     emoji
+     ;; emoji
      ;; bibtex 相当于latex模板
      bibtex
      speed-reading ;;幻灯片
@@ -97,7 +97,7 @@ This function should only modify configuration layer settings."
           ;; org-journal-time-format ""
                                         ;
           org-enable-hugo-support t
-          org-enable-sticky-header t
+          ;; org-enable-sticky-header t
           ;; org-enable-epub-support t
           )
      (spacemacs-layouts :variables
@@ -746,9 +746,9 @@ before packages are loaded."
   ;; (add-hook 'prog-mode-hook 'real-auto-save-mode)
   (setq real-auto-save-interval 10)
   ;; Auto-save----end
-
   ;; emoji
-  (setq emojify-emojis-dir "c:/Users/xx299/.spacemacs.d/.cache/emojify/")
+  ;; (add-hook 'org-mode-hook 'emojify-mode)
+  ;; (setq emojify-emojis-dir "c:/Users/xx299/.spacemacs.d/.cache/emojify/")
 
   ;; (require 'jieba)
   ;; (jieba-mode)
@@ -772,8 +772,8 @@ before packages are loaded."
            (org-download-annotate-default (org-link-unescape link))))
 
   ;; Drag-and-drop to `dired`
-  (add-hook 'org-mode-hook 'emojify-mode)
-  ;; (add-hook 'org-mode-hook 'aggressive-indent-mode)
+
+  (add-hook 'org-mode-hook 'aggressive-indent-mode)
   (add-hook 'dired-mode-hook 'org-download-enable)
   ;; (add-hook 'org-mode-hook 'auto-fill-mode)
   ;; (add-hook 'org-mode-hook 'smartparens-mode)
@@ -788,6 +788,26 @@ before packages are loaded."
 
   (add-to-list 'auto-mode-alist '("\\.txt\\'" . org-mode))
   (with-eval-after-load 'org
+    ;; org-init
+
+    (setq org-cycle-separator-lines 0)
+    (setq spacemacs-space-doc-modificators
+          '(center-buffer-mode
+            org-indent-mode
+            view-mode
+            hide-line-numbers
+            alternative-emphasis
+            alternative-tags-look
+            link-protocol
+            org-block-line-face-remap
+            org-bl-face-remap
+            org-kbd-face-remap
+            resize-inline-images))
+    ;; writeroom
+    (with-eval-after-load 'writeroom-mode
+      (define-key writeroom-mode-map (kbd "C-M-<") #'writeroom-decrease-width)
+      (define-key writeroom-mode-map (kbd "C-M->") #'writeroom-increase-width)
+      (define-key writeroom-mode-map (kbd "C-M-=") #'writeroom-adjust-width))
     ;; template使模板生效
     (require 'org-tempo)
     ;; (setq org-ellipsis " ▼")
@@ -865,16 +885,16 @@ before packages are loaded."
     (setq org-agenda-span 'day)
     (setq diary-file "~/.spacemacs.d/diary")
     (setq org-deadline-warning-days 0)  ; 设置默认警告时间。
-
+    (setq org-agenda-include-diary t)
     (setq org-capture-templates nil)
-    ;; 任务相关捕获模板
+    ;; capture-init
     (add-to-list 'org-capture-templates '("t" "Tasks"))
     (add-to-list 'org-capture-templates
                  '("ta" "Project" entry
                    (file "~/Dropbox/org/GTD/task.org")
                    "* TODO [#A] %^{Project} %^G \n  SCHEDULED: %^t  \n%?" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
-                 '("tb" "Project" entry
+                 '("tb" "Task" entry
                    (file "~/Dropbox/org/GTD/task.org")
                    "* TODO %^{Project} %^G \n  SCHEDULED: %^t  \n%?" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
@@ -1295,6 +1315,7 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
   (setq deft-use-filter-string-for-filename t)
   (setq deft-org-mode-title-prefix t)
   (setq deft-use-filename-as-title nil)
+  (setq deft-default-extension "org")
   (setq deft-strip-summary-regexp
         (concat "\\("
                 "[\n\t]"                    ;; blank
@@ -1493,7 +1514,7 @@ static char *gnus-pointer[] = {
  '(org-deadline-warning-days 0)
  '(package-selected-packages
    (quote
-    (org-ref key-chord helm-bibtex parsebib biblio biblio-core tern nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl add-node-modules-path emojify emoji-cheat-sheet-plus company-emoji powershell helm-gtags helm helm-core ggtags counsel-gtags rust-mode wgrep smex ivy-xref ivy-purpose ivy-hydra counsel-projectile counsel-css counsel swiper ivy pdf-tools tablist ox-gfm org-re-reveal youdao-dictionary yapfify ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs ranger rainbow-delimiters pytest pyim pyenv-mode py-isort popwin pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pangu-spacing pandoc-mode ox-pandoc ox-hugo ox-epub overseer orgit org-sticky-header org-projectile org-present org-pomodoro org-mime org-journal org-download org-cliplink org-bullets org-brain open-junk-file nameless move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum live-py-mode link-hint indent-guide importmagic hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md font-lock+ focus flycheck-package flx-ido find-by-pinyin-dired fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish devdocs define-word cython-mode column-enforce-mode cnfonts clean-aindent-mode chinese-conv centered-cursor-mode blacken auto-highlight-symbol auto-compile auctex-latexmk anaconda-mode aggressive-indent ace-pinyin ace-link ace-jump-helm-line)))
+    (toml-mode racer flycheck-rust dap-mode bui tree-mode lsp-mode cargo org-ref key-chord helm-bibtex parsebib biblio biblio-core tern nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl add-node-modules-path emojify emoji-cheat-sheet-plus company-emoji powershell helm-gtags helm helm-core ggtags counsel-gtags rust-mode wgrep smex ivy-xref ivy-purpose ivy-hydra counsel-projectile counsel-css counsel swiper ivy pdf-tools tablist ox-gfm org-re-reveal youdao-dictionary yapfify ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs ranger rainbow-delimiters pytest pyim pyenv-mode py-isort popwin pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pangu-spacing pandoc-mode ox-pandoc ox-hugo ox-epub overseer orgit org-sticky-header org-projectile org-present org-pomodoro org-mime org-journal org-download org-cliplink org-bullets org-brain open-junk-file nameless move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum live-py-mode link-hint indent-guide importmagic hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md font-lock+ focus flycheck-package flx-ido find-by-pinyin-dired fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish devdocs define-word cython-mode column-enforce-mode cnfonts clean-aindent-mode chinese-conv centered-cursor-mode blacken auto-highlight-symbol auto-compile auctex-latexmk anaconda-mode aggressive-indent ace-pinyin ace-link ace-jump-helm-line)))
  '(pdf-view-midnight-colors (quote ("#655370" . "#fbf8ef")))
  '(vc-annotate-background "#1D252C")
  '(vc-annotate-color-map
