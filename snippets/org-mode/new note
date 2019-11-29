@@ -7,9 +7,10 @@
 #+HUGO_SECTION: post
 #+DATE: `(format-time-string "%Y-%m-%d")`
 #+HUGO_AUTO_SET_LASTMOD: t
-#+HUGO_TAGS: 未分类
+#+HUGO_TAGS: 暂无标签
 #+HUGO_CATEGORIES: @未分类 
 #+HUGO_DRAFT: false
+#+HUGO_CUSTOM_FRONT_MATTER: :toc true
 # #------
 # #+AUTHOR: 冉冉升起
 # #+KEYWORDS: nil
@@ -20,5 +21,4 @@
 # #+EXPORT_FILE_NAME: ~/Desktop/export.html
 # #+LaTeX_CLASS: beamer
 # #+LaTeX_CLASS: book
-
 $0

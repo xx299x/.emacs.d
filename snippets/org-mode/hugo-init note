@@ -9,7 +9,8 @@
 #+HUGO_AUTO_SET_LASTMOD: t
 #+HUGO_TAGS: $2
 #+HUGO_CATEGORIES: $1
-#+HUGO_DRAFT: false
+#+HUGO_DRAFT: true
+#+HUGO_CUSTOM_FRONT_MATTER: :toc false
 # #------
 # #+AUTHOR: 冉冉升起
 # #+KEYWORDS: nil
@@ -20,5 +21,4 @@
 # #+EXPORT_FILE_NAME: ~/Desktop/export.html
 # #+LaTeX_CLASS: beamer
 # #+LaTeX_CLASS: book
-
 $0

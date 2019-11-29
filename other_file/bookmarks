@@ -2,7 +2,25 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("archive"
+(("spacemacs documentation"
+ (filename . "~/.emacs.d/doc/DOCUMENTATION.org")
+ (front-context-string . "* Differences be")
+ (rear-context-string . "ode)\n#+END_SRC\n\n")
+ (position . 46075))
+("英语思维 解密英语语法的原理"
+ (filename . "d:/Learning/Basic_course/English/Grammar_system/英语思维  解密英语语法的原理_14194104.pdf")
+ (position . 1)
+ (page . 1)
+ (slice)
+ (size . fit-width)
+ (origin 0.0 . 0.20483641536273117)
+ (handler . pdf-view-bookmark-jump-handler))
+("init-lisp"
+ (filename . "c:/software/emacs26.2/init-lisp.el")
+ (front-context-string)
+ (rear-context-string)
+ (position . 1))
+("archive"
  (filename . "~/Dropbox/org/GTD/archive.org")
  (front-context-string . "**** ABORT [#A] ")
  (rear-context-string . ":01\n     :END:\n\n")
@@ -59,7 +77,7 @@
  (position . 330))
 ("org-capture-last-stored"
  (filename . "~/Dropbox/org/GTD/task.org")
- (front-context-string . "* TODO 黄金时代、喜欢你吃")
- (rear-context-string . " :END:\n  崇文楼517\n")
- (position . 7485))
+ (front-context-string . "* TODO 整理已经收集的资源")
+ (rear-context-string . "] 290\n- [ ] 300\n")
+ (position . 10007))
 )

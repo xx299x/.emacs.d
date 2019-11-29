@@ -64,9 +64,10 @@ This function should only modify configuration layer settings."
      ranger
      pdf
      deft
+     epub 
      ;; emoji
      ;; bibtex 相当于latex模板
-     bibtex
+     ;; bibtex
      speed-reading ;;幻灯片
      ;; themes-megapack
      ;; version-control
@@ -122,6 +123,7 @@ This function should only modify configuration layer settings."
                                       ;; easy-hugo
                                       ;; 农历
                                       cal-china-x
+                                      org-noter
                                       )
 
    ;; A list of packages that cannot be updated.
@@ -147,6 +149,13 @@ before layer configuration.
 It should only modify the values of Spacemacs settings."
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
+  (setq org-emphasis-regexp-components
+        ;; markup 记号前后允许中文
+        (list (concat " \t('\"{"            "[:nonascii:]")
+              (concat "- \t.,:!?;'\")}\\["  "[:nonascii:]")
+              " \t\r\n,\"'"
+              "."
+              1))
   (setq-default
    ;; If non-nil then enable support for the portable dumper. You'll need
    ;; to compile Emacs 27 from source following the instructions in file
@@ -311,7 +320,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil then the last auto saved layouts are resumed automatically upon
    ;; start. (default nil)
-   dotspacemacs-auto-resume-layouts t
+   dotspacemacs-auto-resume-layouts nil
 
    ;; If non-nil, auto-generate layout name when creating new layouts. Only has
    ;; effect when using the "jump to layout by number" commands. (default nil)
@@ -498,6 +507,7 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; 设置垃圾回收，在 Windows 下，emacs25 版本会频繁出发垃圾回收，所以需要设置
+
   (when (eq system-type 'windows-nt)
     (setq gc-cons-threshold (* 512 1024 1024))
     (setq gc-cons-percentage 0.5)
@@ -512,10 +522,12 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   ;; ;; Don’t compact font caches during GC.
   (setq inhibit-compacting-font-caches t) 
+  (setq tramp-ssh-controlmaster-options
+        "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
   ;; proxy
   (setq url-proxy-services '(("no_proxy" . "127.0.0.1")
-                             ("http" . "127.0.0.1:8010")
-                             ("https" . "127.0.0.1:8010")
+                             ("http" . "127.0.0.1:8011")
+                             ("https" . "127.0.0.1:8011")
                              ))
   )
 (defun dotspacemacs/user-config ()
@@ -571,8 +583,6 @@ before packages are loaded."
 ;;; Python ;;;
 ;;;;;;;;;;;;;;
 
-  (set-language-environment 'utf-8)
-  ;; (set-language-environment 'Chinese-GB18030)
   (add-hook 'python-mode-hook
             (lambda ()
               (set (make-local-variable 'company-backends) '(company-dabbrev company-diag)))) ;fixed complement
@@ -603,6 +613,7 @@ before packages are loaded."
   (evil-leader/set-key "ote" 'evil-org-mode)
   (evil-leader/set-key "otf" 'focus-mode)
   (evil-leader/set-key "ott" 'spaceline-toggle-org-clock)
+  (evil-leader/set-key "otn" 'org-noter)
   (define-key evil-insert-state-map (kbd "C-s") 'helm-swoop)
   (define-key evil-normal-state-map (kbd "C-s") 'helm-swoop)
   ;; (define-key evil-insert-state-map (kbd "C-]") 'forward-char)
@@ -767,16 +778,17 @@ before packages are loaded."
   (setq org-download-method 'custom-org-download-method) ; 注意：这里不能用lambda表达式
 
   ;; 顺便改下annotate，就是自动插入的那行注释，里面写的是图片来源路径
-  (setq org-download-annotate-function
-        '(lambda (link)
-           (org-download-annotate-default (org-link-unescape link))))
+   (setq org-download-annotate-function
+         '(lambda (link)
+            (org-download-annotate-default (org-link-unescape link))))
 
   ;; Drag-and-drop to `dired`
 
-  (add-hook 'org-mode-hook 'aggressive-indent-mode)
+  ;; (add-hook 'org-mode-hook 'aggressive-indent-mode)
   (add-hook 'dired-mode-hook 'org-download-enable)
   ;; (add-hook 'org-mode-hook 'auto-fill-mode)
-  ;; (add-hook 'org-mode-hook 'smartparens-mode)
+  (add-hook 'org-mode-hook 'smartparens-mode)
+  (add-hook 'org-mode-hook 'org-indent-mode)
 
   ;; auto added whitespace
   ;; SPC h SPC search pangu-spacing
@@ -789,8 +801,8 @@ before packages are loaded."
   (add-to-list 'auto-mode-alist '("\\.txt\\'" . org-mode))
   (with-eval-after-load 'org
     ;; org-init
-
-    (setq org-cycle-separator-lines 0)
+    (setq org-hide-emphasis-markers nil)
+    (setq org-cycle-separator-lines 2)
     (setq spacemacs-space-doc-modificators
           '(center-buffer-mode
             org-indent-mode
@@ -892,19 +904,19 @@ before packages are loaded."
     (add-to-list 'org-capture-templates
                  '("ta" "Project" entry
                    (file "~/Dropbox/org/GTD/task.org")
-                   "* TODO [#A] %^{Project} %^G \n  SCHEDULED: %^t  \n%?" :clock-in t :clock-resume t))
+                   "* TODO [#A] %^{Project} %^G \nSCHEDULED: %^t\n%?" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
                  '("tb" "Task" entry
                    (file "~/Dropbox/org/GTD/task.org")
-                   "* TODO %^{Project} %^G \n  SCHEDULED: %^t  \n%?" :clock-in t :clock-resume t))
+                   "* TODO %^{Project} %^G \nSCHEDULED: %^t\n%?" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
                  '("tc" "Project" entry
                    (file "~/Dropbox/org/GTD/task.org")
-                   "* TODO [#C] %^{Project} %^G \n  SCHEDULED: %^t  \n%?" :clock-in t :clock-resume t))
+                   "* TODO [#C] %^{Project} %^G \nSCHEDULED: %^t\n%?" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
                  '("ts" "Project" entry
                    (file "~/Dropbox/org/GTD/suspend.org")
-                   "* TODO [#B] %^{Project} %^G \n  SCHEDULED: %^t  \n%?" :clock-in t :clock-resume t))
+                   "* TODO [#B] %^{Project} %^G \nSCHEDULED: %^t\n%?" :clock-in t :clock-resume t))
 
     ;; 有的时候，会有临时的小任务，比如说，将要出门，需要准备一些东西，
     ;; 这个迷你项目得作用就来了，想到一条写一条
@@ -1347,14 +1359,17 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
 
   ;;------------end----------------;;
 
-
-
+  ;init-pdf
+  (require 'pdf-tools-extension)
+  (setq pdf-info-epdfinfo-program '"c:/users/xx299/.spacemacs.d/pdf-tools-20190413.2018/epdfinfo.exe")
+  (add-hook 'pdf-view-mode-hook 'pdf-tools-enable-minor-modes)
+  (setq org-noter-notes-search-path '("c:/Users/xx299/Dropbox/org/Notes"))
+  (define-key pdf-view-mode-map (kbd "e") 'pdf-view-scroll-down-or-previous-page)
 ;;;;;;;;;;;;;;
 ;;;  other ;;;
 ;;;;;;;;;;;;;;
   ;; (setq projectile-git-submodule-command nil) ;; Git速度慢的问题
-  (setq pdf-info-epdfinfo-program '"c:/users/xx299/.spacemacs.d/pdf-tools-20190413.2018/epdfinfo.exe")
-
+  (setq large-file-warning-threshold nil)
   (setq treemacs-filewatch-mode t)      ;
   (setq treemacs-file-event-delay 1000)
   (setq treemacs-use-collapsed-directories 3)
@@ -1390,7 +1405,19 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
   (yas-global-mode 1) ;; or M-x yas-reload-all if you've started YASnippet already.
 
   ;; 编码问题
-  (setq file-name-coding-system 'gbk)
+  ;; (when (eq system-type 'windows-nt)
+  ;;   (setq locale-coding-system 'gb18030)  ;此句保证中文字体设置有效
+  ;;   (setq w32-unicode-filenames 'nil)       ; 确保file-name-coding-system变量的设置不会无效
+  ;;   (setq file-name-coding-system 'gb18030) ; 设置文件名的编码为gb18030
+  ;;   )
+
+  (setq-default message-draft-coding-system 'GB18030)
+
+  (set-language-environment 'utf-8)
+
+
+  ;; (setq-default nnheader-pathname-coding-system 'gbk)
+  ;; (setq-default nnmail-pathname-coding-system 'gbk)
   ;; set coding config, last is highest priority.
   ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Recognize-Coding.html#Recognize-Coding
   (prefer-coding-system 'cp950)
@@ -1400,6 +1427,7 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
   (prefer-coding-system 'utf-16)
   (prefer-coding-system 'utf-8-dos)
   (prefer-coding-system 'utf-8-unix)
+  ;; (set-language-environment 'Chinese-GB18030)
 
 
 
@@ -1484,6 +1512,7 @@ static char *gnus-pointer[] = {
 \"###....####.######\",
 \"###..######.######\",
 \"###########.######\" };")) t)
+ '(helm-source-names-using-follow nil)
  '(hl-todo-keyword-faces
    (quote
     (("TODO" . "#dc752f")
@@ -1514,7 +1543,7 @@ static char *gnus-pointer[] = {
  '(org-deadline-warning-days 0)
  '(package-selected-packages
    (quote
-    (toml-mode racer flycheck-rust dap-mode bui tree-mode lsp-mode cargo org-ref key-chord helm-bibtex parsebib biblio biblio-core tern nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl add-node-modules-path emojify emoji-cheat-sheet-plus company-emoji powershell helm-gtags helm helm-core ggtags counsel-gtags rust-mode wgrep smex ivy-xref ivy-purpose ivy-hydra counsel-projectile counsel-css counsel swiper ivy pdf-tools tablist ox-gfm org-re-reveal youdao-dictionary yapfify ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs ranger rainbow-delimiters pytest pyim pyenv-mode py-isort popwin pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pangu-spacing pandoc-mode ox-pandoc ox-hugo ox-epub overseer orgit org-sticky-header org-projectile org-present org-pomodoro org-mime org-journal org-download org-cliplink org-bullets org-brain open-junk-file nameless move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum live-py-mode link-hint indent-guide importmagic hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md font-lock+ focus flycheck-package flx-ido find-by-pinyin-dired fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish devdocs define-word cython-mode column-enforce-mode cnfonts clean-aindent-mode chinese-conv centered-cursor-mode blacken auto-highlight-symbol auto-compile auctex-latexmk anaconda-mode aggressive-indent ace-pinyin ace-link ace-jump-helm-line)))
+    (org-wild-notifier org-noter toml-mode racer flycheck-rust dap-mode bui tree-mode lsp-mode cargo org-ref key-chord helm-bibtex parsebib biblio biblio-core tern nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl add-node-modules-path emojify emoji-cheat-sheet-plus company-emoji powershell helm-gtags helm helm-core ggtags counsel-gtags rust-mode wgrep smex ivy-xref ivy-purpose ivy-hydra counsel-projectile counsel-css counsel swiper ivy pdf-tools tablist ox-gfm org-re-reveal youdao-dictionary yapfify ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs ranger rainbow-delimiters pytest pyim pyenv-mode py-isort popwin pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pangu-spacing pandoc-mode ox-pandoc ox-hugo ox-epub overseer orgit org-sticky-header org-projectile org-present org-pomodoro org-mime org-journal org-download org-cliplink org-bullets org-brain open-junk-file nameless move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum live-py-mode link-hint indent-guide importmagic hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md font-lock+ focus flycheck-package flx-ido find-by-pinyin-dired fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish devdocs define-word cython-mode column-enforce-mode cnfonts clean-aindent-mode chinese-conv centered-cursor-mode blacken auto-highlight-symbol auto-compile auctex-latexmk anaconda-mode aggressive-indent ace-pinyin ace-link ace-jump-helm-line)))
  '(pdf-view-midnight-colors (quote ("#655370" . "#fbf8ef")))
  '(vc-annotate-background "#1D252C")
  '(vc-annotate-color-map
