@@ -2,19 +2,21 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("spacemacs documentation"
+(("英语思维"
+ (filename . "~/Dropbox/org/Notes/英语思维  解密英语语法的原理_14194104.org")
+ (front-context-string)
+ (rear-context-string . "PAGE: 165\n:END:\n")
+ (position . 3150))
+("病隙碎笔"
+ (filename . "~/Dropbox/org/Notes/病隙碎笔-史铁生.org")
+ (front-context-string . "生\n:PROPERTIES:\n:")
+ (rear-context-string)
+ (position . 10))
+("spacemacs documentation"
  (filename . "~/.emacs.d/doc/DOCUMENTATION.org")
  (front-context-string . "* Differences be")
  (rear-context-string . "ode)\n#+END_SRC\n\n")
  (position . 46075))
-("英语思维 解密英语语法的原理"
- (filename . "d:/Learning/Basic_course/English/Grammar_system/英语思维  解密英语语法的原理_14194104.pdf")
- (position . 1)
- (page . 1)
- (slice)
- (size . fit-width)
- (origin 0.0 . 0.20483641536273117)
- (handler . pdf-view-bookmark-jump-handler))
 ("init-lisp"
  (filename . "c:/software/emacs26.2/init-lisp.el")
  (front-context-string)
@@ -77,7 +79,7 @@
  (position . 330))
 ("org-capture-last-stored"
  (filename . "~/Dropbox/org/GTD/task.org")
- (front-context-string . "* TODO 整理已经收集的资源")
- (rear-context-string . "] 290\n- [ ] 300\n")
- (position . 10007))
+ (front-context-string . "* TODO 明天下午查看蓝桥杯")
+ (rear-context-string . "ue 00:47]\n:END:\n")
+ (position . 9848))
 )

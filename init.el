@@ -329,7 +329,7 @@ It should only modify the values of Spacemacs settings."
    ;; Size (in MB) above which spacemacs will prompt to open the large file
    ;; literally to avoid performance issues. Opening a file literally means that
    ;; no major mode or minor modes are active. (default is 1)
-   dotspacemacs-large-file-size 1
+   dotspacemacs-large-file-size 10000
 
    ;; Location where to auto-save files. Possible values are `original' to
    ;; auto-save the file in-place, `cache' to auto-save the file to another
@@ -471,7 +471,8 @@ It should only modify the values of Spacemacs settings."
    ;; %z - mnemonics of buffer, terminal, and keyboard coding systems
    ;; %Z - like %z, but including the end-of-line format
    ;; (default "%I@%S")
-   dotspacemacs-frame-title-format "%a -- 事实上，诸多情绪的产生都可以归结为无能"
+   dotspacemacs-frame-title-format "%b %f %p %m %z -- 事实上，诸多情绪的产生都可以归结为无能"
+   ;; dotspacemacs-frame-title-format "%a %t %I %S %U %b %f %F %s %p %P %m %n %z %Z"
 
    ;; Format specification for setting the icon title format
    ;; (default nil - same as frame-title-format)
@@ -756,6 +757,29 @@ before packages are loaded."
   (add-hook 'org-mode-hook 'real-auto-save-mode)
   ;; (add-hook 'prog-mode-hook 'real-auto-save-mode)
   (setq real-auto-save-interval 10)
+  (defmacro with-suppressed-message (&rest body)
+    "Suppress new messages temporarily in the echo area and the `*Messages*' buffer while BODY is evaluated."
+    (declare (indent 0))
+    (let ((message-log-max nil))
+      `(with-temp-message (or (current-message) "") ,@body)))
+
+  (with-suppressed-message (save-buffer))
+
+  ;; (defmacro no-message (&rest body)
+  ;;   "Eval BODY, with `message' doing nothing."
+  ;;   `(cl-letf (((symbol-function 'message)
+  ;;               (lambda (&rest args)
+  ;;                 nil)))
+  ;;      (progn ,@body)))
+
+  ;; (no-message
+  ;;  (message "meaningless")  ; do nothing
+  ;;  (print [1 2 3])  ; not affected
+  ;;  (save-buffer))  ; won't display messages in minibuffer
+
+
+  ;; (evil-leader/set-key "ota" '(remove-hook org-mode-hook real-auto-save-mode))
+  ;; (remove-hook 'org-mode-hook 'real-auto-save-mode)
   ;; Auto-save----end
   ;; emoji
   ;; (add-hook 'org-mode-hook 'emojify-mode)
@@ -772,15 +796,58 @@ before packages are loaded."
   ;;   (setq js2-include-node-externs t)
   ;;   (setq js2-strict-missing-semi-warning nil))
   ;; (add-hook 'js2-mode-hook 'my-js-mode-hook)
+  ;;init-download
+  (require 'org-download)
   (setq-default org-download-image-dir "~/Dropbox/org/pictures")
   (defun custom-org-download-method (link)
     (org-download--fullname (org-link-unescape link)))
   (setq org-download-method 'custom-org-download-method) ; 注意：这里不能用lambda表达式
-
   ;; 顺便改下annotate，就是自动插入的那行注释，里面写的是图片来源路径
-   (setq org-download-annotate-function
-         '(lambda (link)
-            (org-download-annotate-default (org-link-unescape link))))
+  (setq org-download-annotate-function 'ignore)
+  (setq org-download-annotate-function (lambda (_link) ""))
+  ;; (setq org-download-annotate-function
+  ;;       '(lambda (link)
+  ;;         (org-download-annotate-default (org-link-unescape link))))
+  (global-set-key (kbd "C-c y") 'org-download-yank)
+
+  (setq org-download-screenshot-method "convert clipboard: %s")
+  ;; (setq-default org-download-image-dir "./images")
+  ;; set key binding for org-download-screenshot
+  (global-set-key (kbd "C-S-y") 'org-download-screenshot)
+  ;; 去除插入前空格
+  (defun org-download-insert-link (link filename)
+  (let* ((beg (point))
+         (line-beg (line-beginning-position))
+         (indent (- beg line-beg))
+         (in-item-p (org-in-item-p))
+         str)
+    (if (looking-back "^[ \t]+" line-beg)
+        (delete-region (match-beginning 0) (match-end 0))
+      ;; (newline))
+      (+ 1 1))
+    (insert (funcall org-download-annotate-function link))
+    ;; (insert "\n")
+    (dolist (attr org-download-image-attr-list)
+      (insert attr "\n"))
+    (insert (if (= org-download-image-html-width 0)
+                ""
+              (format "#+attr_html: :width %dpx\n" org-download-image-html-width)))
+    (insert (if (= org-download-image-latex-width 0)
+                ""
+              (format "#+attr_latex: :width %dcm\n" org-download-image-latex-width)))
+    (insert (if (= org-download-image-org-width 0)
+                ""
+              (format "#+attr_org: :width %dpx\n" org-download-image-org-width)))
+    (insert
+     (format org-download-link-format
+             (org-link-escape
+              (funcall org-download-abbreviate-filename-function filename))))
+    (org-download--display-inline-images)
+    (setq str (buffer-substring-no-properties line-beg (point)))
+    (when in-item-p
+      (indent-region line-beg (point) indent))
+    str))
+
 
   ;; Drag-and-drop to `dired`
 
@@ -796,10 +863,174 @@ before packages are loaded."
 
 
   ;; https://github.com/KingBing/blog-src/blob/e259933e9bc5f246fde50645f024731a16bb6bbc/blog/%E5%9C%A8%20org-mode%20%E4%B8%AD%E9%A1%AF%E7%A4%BA%E5%9C%96%E7%89%87.org
-  (setq org-image-actual-width '(300))       ; Fallback to width 300
+  (setq image-type-available-p 'imagemagick)
+  (setq org-image-actual-width '(500))       ; Fallback to width 300
 
   (add-to-list 'auto-mode-alist '("\\.txt\\'" . org-mode))
   (with-eval-after-load 'org
+    ;; 临时解决图片缩放问题
+
+;; Copied from https://github.com/jkitchin/scimax/blob/master/scimax-org.el
+;; * Rescaling inline-images
+;; This will eventually be obsolete if this makes it into org-mode
+(defvar org-inline-image-resize-function
+  #'org-inline-image-resize
+  "Function that takes a filename and resize argument and returns
+ a new filename pointing to the resized image.")
+
+(defun org-inline-image-resize (fname resize-options)
+  "Resize FNAME with RESIZE-OPTIONS.
+RESIZE-OPTIONS are passed to \"mogrify resized-fname -resize resize-options\".
+RESIZE-OPTIONS could be:
+N% to scale the image by a percentage.
+N to set the width, keeping the aspect ratio constant.
+xN to set the height, keeping the aspect ratio constant.
+NxM! to set the width and height, ignoring the aspect ratio.
+See http://www.imagemagick.org/Usage/resize/#resize for more options."
+  (let* ((md5-hash (with-temp-buffer (insert-file-contents fname)
+				     (insert (format "%s" resize-options))
+				     (md5 (buffer-string))))
+	 (resized-fname (concat (expand-file-name
+				 md5-hash
+				 temporary-file-directory)
+				"."
+				(file-name-extension fname)))
+	 (cmd (format "mogrify -resize %s %s"
+		      resize-options
+		      resized-fname)))
+    (if (not (executable-find "mogrify"))
+	(progn
+	  (message "No mogrify executable found. To eliminate this message, set  `org-inline-image-resize-function' to nil or install imagemagick from http://www.imagemagick.org/script/binary-releases.php")
+	  fname)
+      (unless (file-exists-p resized-fname)
+	(copy-file fname resized-fname)
+	(shell-command cmd))
+      resized-fname)))
+
+;; this is copied and modified from org.el
+(defun org-display-inline-images (&optional include-linked refresh beg end)
+  "Display inline images.
+An inline image is a link which follows either of these
+conventions:
+  1. Its path is a file with an extension matching return value
+     from `image-file-name-regexp' and it has no contents.
+  2. Its description consists in a single link of the previous
+     type.
+When optional argument INCLUDE-LINKED is non-nil, also links with
+a text description part will be inlined.  This can be nice for
+a quick look at those images, but it does not reflect what
+exported files will look like.
+When optional argument REFRESH is non-nil, refresh existing
+images between BEG and END.  This will create new image displays
+only if necessary.  BEG and END default to the buffer
+boundaries."
+  (interactive "P")
+  (when (display-graphic-p)
+    (unless refresh
+      (org-remove-inline-images)
+      (when (fboundp 'clear-image-cache) (clear-image-cache)))
+    (org-with-wide-buffer
+     (goto-char (or beg (point-min)))
+     (let ((case-fold-search t)
+	   (file-extension-re (image-file-name-regexp)))
+       (while (re-search-forward "[][]\\[\\(?:file\\|[./~]\\)" end t)
+	 (let ((link (save-match-data (org-element-context))))
+	   ;; Check if we're at an inline image.
+	   (when (and (equal (org-element-property :type link) "file")
+		      (or include-linked
+			  (not (org-element-property :contents-begin link)))
+		      (let ((parent (org-element-property :parent link)))
+			(or (not (eq (org-element-type parent) 'link))
+			    (not (cdr (org-element-contents parent)))))
+		      (org-string-match-p file-extension-re
+					  (org-element-property :path link)))
+	     (let ((file (expand-file-name
+			  (org-link-unescape
+			   (org-element-property :path link)))))
+	       (when (file-exists-p file)
+		 (let ((width
+			;; Apply `org-image-actual-width' specifications.
+			(cond
+			 ((and (not (image-type-available-p 'imagemagick))
+			       (not org-inline-image-resize-function))
+			  nil)
+			 ((eq org-image-actual-width t) nil)
+			 ((listp org-image-actual-width)
+			  (or
+			   ;; First try to find a width among
+			   ;; attributes associated to the paragraph
+			   ;; containing link.
+			   (let* ((paragraph
+				   (let ((e link))
+				     (while (and (setq e (org-element-property
+							  :parent e))
+						 (not (eq (org-element-type e)
+							  'paragraph))))
+				     e))
+				  (attr_org (org-element-property :attr_org paragraph)))
+			     (when attr_org
+			       (plist-get
+				(org-export-read-attribute :attr_org  paragraph) :width)))
+			   ;; Otherwise, fall-back to provided number.
+			   (car org-image-actual-width)))
+			 ((numberp org-image-actual-width)
+			  org-image-actual-width)))
+		       (old (get-char-property-and-overlay
+			     (org-element-property :begin link)
+			     'org-image-overlay))) 
+		   (if (and (car-safe old) refresh)
+		       (image-refresh (overlay-get (cdr old) 'display))
+		     
+		     (when (and width org-inline-image-resize-function)
+		       (setq file (funcall  org-inline-image-resize-function file width)
+			     width nil))
+		     (let ((image (create-image file
+						(cond
+						 ((image-type-available-p 'imagemagick)
+						  (and width 'imagemagick))
+						 (t nil)) 
+						nil
+						:width width)))
+		       (when image
+			 (let* ((link
+				 ;; If inline image is the description
+				 ;; of another link, be sure to
+				 ;; consider the latter as the one to
+				 ;; apply the overlay on.
+				 (let ((parent
+					(org-element-property :parent link)))
+				   (if (eq (org-element-type parent) 'link)
+				       parent
+				     link)))
+				(ov (make-overlay
+				     (org-element-property :begin link)
+				     (progn
+				       (goto-char
+					(org-element-property :end link))
+				       (skip-chars-backward " \t")
+				       (point)))))
+			   (overlay-put ov 'display image)
+			   (overlay-put ov 'face 'default)
+			   (overlay-put ov 'org-image-overlay t)
+			   (overlay-put
+			    ov 'modification-hooks
+			    (list 'org-display-inline-remove-overlay))
+(push ov org-inline-image-overlays)))))))))))))))
+
+;; * Enable pdf and eps images in org-mode
+;; Suggested on the org-mode maillist by Julian Burgos
+;; (add-to-list 'image-file-name-extensions "pdf")
+(add-to-list 'image-file-name-extensions "eps")
+
+(add-to-list 'image-type-file-name-regexps '("\\.eps\\'" . imagemagick))
+(add-to-list 'image-file-name-extensions "eps")
+;; (add-to-list 'image-type-file-name-regexps '("\\.pdf\\'" . imagemagick))
+;; (add-to-list 'image-file-name-extensions "pdf")
+
+;; (setq imagemagick-types-inhibit (remove 'PDF imagemagick-types-inhibit))
+
+;; 临时解决图片缩放问题END
+
     ;; org-init
     (setq org-hide-emphasis-markers nil)
     (setq org-cycle-separator-lines 2)
@@ -1299,12 +1530,12 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
                 (define-key LaTeX-mode-map (kbd "TAB") 'TeX-complete-symbol)))
     )
 
-  (with-eval-after-load 'org-agenda
-    (require 'org-projectile)
-    (mapcar '(lambda (file)
-               (when (file-exists-p file)
-                 (push file org-agenda-files)))
-            (org-projectile-todo-files)))
+  ;; (with-eval-after-load 'org-agenda
+  ;;   (require 'org-projectile)
+  ;;   (mapcar '(lambda (file)
+  ;;              (when (file-exists-p file)
+  ;;                (push file org-agenda-files)))
+  ;;           (org-projectile-todo-files)))
 
   ;;------------end----------------;;
 
@@ -1345,7 +1576,7 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
     )
 
   ;; 功能重复，real-auto-save 就可以了
-  (setq deft-auto-save-interval 9999999)
+  (setq deft-auto-save-interval 9999)
   ;;------------end----------------;;
 
 
@@ -1356,19 +1587,30 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
   (setq bookmark-default-file "~/.spacemacs.d/other_file/bookmarks")
 
 
-
   ;;------------end----------------;;
-
-  ;init-pdf
+  ;;init-pdf
   (require 'pdf-tools-extension)
   (setq pdf-info-epdfinfo-program '"c:/users/xx299/.spacemacs.d/pdf-tools-20190413.2018/epdfinfo.exe")
   (add-hook 'pdf-view-mode-hook 'pdf-tools-enable-minor-modes)
   (setq org-noter-notes-search-path '("c:/Users/xx299/Dropbox/org/Notes"))
+  (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
   (define-key pdf-view-mode-map (kbd "e") 'pdf-view-scroll-down-or-previous-page)
+  ;;init-epub
+  ;; epub 打不开问题
+  (require 'nov)
+  (with-eval-after-load "nov"
+    (when (string-equal system-type "windows-nt")
+      (setq process-coding-system-alist
+            (cons `(,nov-unzip-program . (gbk . gbk))
+                  process-coding-system-alist))))
+
+  (define-key nov-mode-map (kbd "e") 'nov-scroll-down)
+
 ;;;;;;;;;;;;;;
 ;;;  other ;;;
 ;;;;;;;;;;;;;;
-  ;; (setq projectile-git-submodule-command nil) ;; Git速度慢的问题
+
+  ;; (setq projectile-git-submodule-command nil) ;; 速度Git速度慢的问题
   (setq large-file-warning-threshold nil)
   (setq treemacs-filewatch-mode t)      ;
   (setq treemacs-file-event-delay 1000)
@@ -1405,13 +1647,14 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
   (yas-global-mode 1) ;; or M-x yas-reload-all if you've started YASnippet already.
 
   ;; 编码问题
-  ;; (when (eq system-type 'windows-nt)
-  ;;   (setq locale-coding-system 'gb18030)  ;此句保证中文字体设置有效
-  ;;   (setq w32-unicode-filenames 'nil)       ; 确保file-name-coding-system变量的设置不会无效
-  ;;   (setq file-name-coding-system 'gb18030) ; 设置文件名的编码为gb18030
-  ;;   )
 
-  (setq-default message-draft-coding-system 'GB18030)
+  (when (eq system-type 'windows-nt)
+    (setq locale-coding-system 'gb18030)  ;此句保证中文字体设置有效
+    (setq w32-unicode-filenames 'nil)       ; 确保file-name-coding-system变量的设置不会无效
+    (setq file-name-coding-system 'gb18030) ; 设置文件名的编码为gb18030
+    )
+
+  (setq-default message-draft-coding-system 'utf-8)
 
   (set-language-environment 'utf-8)
 
@@ -1430,6 +1673,11 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
   ;; (set-language-environment 'Chinese-GB18030)
 
 
+
+  ;;init-help
+  (define-key help-mode-map (kbd "u") 'evil-scroll-up)
+  (define-key help-mode-map (kbd "d") 'evil-scroll-down)
+  (define-key help-mode-map (kbd "C-s") 'helm-swoop)
 
 
   ;;------------end----------------;;
