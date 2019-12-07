@@ -74,9 +74,12 @@ This function should only modify configuration layer settings."
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-positionf 'bottom
-     ;; (python :variab
-     ;;         python-test-runner 'pytest)
-
+     (python :variab
+             python-test-runner 'pytest
+             python-save-before-test nil
+             python-backend 'anaconda)
+     (ess :variables
+          ess-enable-smart-equals t)
      (chinese :variables
               ;; chinese-enable-fcitx t
               chinese-enable-youdao-dict t
@@ -87,7 +90,8 @@ This function should only modify configuration layer settings."
           org-projectile-file "TODOs.org"
           org-support-shift-select t
           org-want-todo-bindings t
-
+          org-enable-reveal-js-support t
+          org-enable-github-support t
           ;;                               ;journal
           ;; org-enable-org-journal-support t
           ;; org-journal-dir "~/Dropbox/org/journal/"
@@ -442,7 +446,8 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
    ;; over any automatically added closing parenthesis, bracket, quote, etc...
    ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
-   dotspacemacs-smart-closing-parenthesis 'C-q
+   ;; dotspacemacs-smart-closing-parenthesis 'C-q
+   dotspacemacs-smart-closing-parenthesis nil
 
    ;; Select a scope to highlight delimiters. Possible values are `any',
    ;; `current', `all' or `nil'. Default is `all' (highlight any scope and
@@ -587,6 +592,11 @@ before packages are loaded."
   (add-hook 'python-mode-hook
             (lambda ()
               (set (make-local-variable 'company-backends) '(company-dabbrev company-diag)))) ;fixed complement
+  ;; importmagic-mode 会导致变得卡顿，暂时禁用
+  (remove-hook 'python-mode-hook 'importmagic-mode)
+  (setq org-confirm-babel-evaluate nil)
+  (setq python-indent-offset 2)
+  (setq python-indent-guess-indent-offset-verbose nil)
   ;; (add-to-list 'load-path "C:/Users/Elliott/.spacemacs.d/anaconda-mode")
   ;; (setenv "WORKON_HOME" "C:/tools/Anaconda3/Lib/site-packages/conda_env")
   ;; (setq python-shell-interpreter "ipython"
@@ -1055,8 +1065,6 @@ boundaries."
     (require 'org-tempo)
     ;; (setq org-ellipsis " ▼")
     ;; (setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
-    (setq org-enable-github-support t)
-    (setq org-enable-reveal-js-support t)
 
     ; 一段关于设置frame标题的代码,在标题显示clock时钟
     ;; (defun sanityinc/show-org-clock-in-header-line ()
@@ -1618,10 +1626,11 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
   ;; block the ".#" file generate https://www.gnu.org/software/emacs/manual/html_node/emacs/Interlocking.html#Interlocking
   (setq create-lockfiles nil)
   (server-start)
+  ;;init-fcitx
   ;; (let ((fcitx-path "C:\\software\\bat\\bcn"))
   ;;   (setenv "PATH" (concat fcitx-path ";" (getenv "PATH")))
   ;;   (add-to-list 'exec-path fcitx-path))
-
+  ;; (fcitx-prefix-keys-turn-off)
   ;; Make sure the following comes before `(fcitx-aggressive-setup)'
   ;; (setq fcitx-active-evil-states '(insert emacs hybrid)) ; if you use hybrid mode
   ;; (fcitx-aggressive-setup)

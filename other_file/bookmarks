@@ -79,7 +79,7 @@
  (position . 330))
 ("org-capture-last-stored"
  (filename . "~/Dropbox/org/GTD/task.org")
- (front-context-string . "* TODO 明天下午查看蓝桥杯")
- (rear-context-string . "ue 00:47]\n:END:\n")
- (position . 9848))
+ (front-context-string . "* TODO 自动切换中英输入法")
+ (rear-context-string . "nswer/907939543\n")
+ (position . 4766))
 )
