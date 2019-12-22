@@ -45,7 +45,7 @@ This function should only modify configuration layer settings."
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      auto-completion
-     better-defaults
+     ;; better-defaults
      emacs-lisp
      ;; lsp
      git
@@ -88,7 +88,7 @@ This function should only modify configuration layer settings."
               )
      (org :variables
           org-projectile-file "TODOs.org"
-          org-support-shift-select t
+          org-support-shift-select always
           org-want-todo-bindings t
           org-enable-reveal-js-support t
           org-enable-github-support t
@@ -128,6 +128,7 @@ This function should only modify configuration layer settings."
                                       ;; 农历
                                       cal-china-x
                                       org-noter
+                                      org-super-agenda
                                       )
 
    ;; A list of packages that cannot be updated.
@@ -627,6 +628,12 @@ before packages are loaded."
   (evil-leader/set-key "otn" 'org-noter)
   (define-key evil-insert-state-map (kbd "C-s") 'helm-swoop)
   (define-key evil-normal-state-map (kbd "C-s") 'helm-swoop)
+  (define-key evil-insert-state-map (kbd "C-v") 'org-yank)
+  (define-key evil-insert-state-map (kbd "<C-M-return>") 'org-insert-subheading)
+  (define-key evil-insert-state-map (kbd "C-a") 'mark-whole-buffer)
+  (define-key evil-insert-state-map (kbd "C-b") 'spacemacs/org-bold)
+  (define-key evil-insert-state-map (kbd "C-f") 'spacemacs/org-code)
+
   ;; (define-key evil-insert-state-map (kbd "C-]") 'forward-char)
   ;;------------end----------------;;
 
@@ -696,10 +703,21 @@ before packages are loaded."
   (evil-leader/set-key "oti" 'my-iem-on)
   (evil-leader/set-key "otI" 'my-iem-off)
 
+  (require 'spaceline-config)
+
 
 ;;;;;;;;;;;;;;
-;;;Org;;;
+;;;Org-init;;;
 ;;;;;;;;;;;;;;
+  ;;init-keyboard
+
+  ;; (define-key evil-insert-state-map (kbd "C-S-left") 'org-yank)
+
+
+
+
+
+
   ;; 字数统计
   (defvar wc-regexp-chinese-char-and-punc
       (rx (category chinese)))
@@ -1041,7 +1059,25 @@ boundaries."
 
 ;; 临时解决图片缩放问题END
 
-    ;; org-init
+
+    ;;init-org
+    ;;init-freemind
+    (require 'ox-freemind)
+    (setq org-freemind-styles
+      '((default . "<node>\n</node>")
+        (0 . "<node COLOR=\"#000000\">\n<font NAME=\"SansSerif\" SIZE=\"20\"/>\n</node>")
+        (1 . "<node COLOR=\"#0033ff\">\n<edge STYLE=\"sharp_bezier\" WIDTH=\"8\"/>\n<font NAME=\"SansSerif\" SIZE=\"18\"/>\n</node>")
+        (2 . "<node COLOR=\"#00b439\">\n<edge STYLE=\"bezier\" WIDTH=\"thin\"/>\n<font NAME=\"SansSerif\" SIZE=\"16\"/>\n</node>")
+        (3 . "<node COLOR=\"#990000\" FOLDED=\"true\">\n<font NAME=\"SansSerif\" SIZE=\"14\"/>\n</node>")
+        (4 . "<node COLOR=\"#990000\" FOLDED=\"true\">\n<font NAME=\"SansSerif\" SIZE=\"14\"/>\n</node>")
+        (5 . "<node COLOR=\"#990000\" FOLDED=\"true\">\n<font NAME=\"SansSerif\" SIZE=\"14\"/>\n</node>")
+        (6 . "<node COLOR=\"#990000\" FOLDED=\"true\">\n<font NAME=\"SansSerif\" SIZE=\"14\"/>\n</node>")
+        (7 . "<node COLOR=\"#990000\" FOLDED=\"true\">\n<font NAME=\"SansSerif\" SIZE=\"14\"/>\n</node>")
+        (8 . "<node COLOR=\"#990000\" FOLDED=\"true\">\n<font NAME=\"SansSerif\" SIZE=\"14\"/>\n</node>")
+        (9 . "<node COLOR=\"#990000\" FOLDED=\"true\">\n<font NAME=\"SansSerif\" SIZE=\"14\"/>\n</node>")
+        (10 . "<node COLOR=\"#990000\" FOLDED=\"true\">\n<font NAME=\"SansSerif\" SIZE=\"14\"/>\n</node>")
+        (11 . "<node COLOR=\"#990000\" FOLDED=\"true\">\n<font NAME=\"SansSerif\" SIZE=\"14\"/>\n</node>")
+        (12 . "<node COLOR=\"#111111\">\n</node>")))
     (setq org-hide-emphasis-markers nil)
     (setq org-cycle-separator-lines 2)
     (setq spacemacs-space-doc-modificators
@@ -1107,8 +1143,58 @@ boundaries."
     ;;          "* TODO %?\n  %i\n  %a")
     ;;         ("j" "Journal" entry (file+datetree "~/Dropbox/org/journal.org")
     ;;          "* %?\nEntered on %U\n  %i\n  %a")))
+    ;;init-org-super-agenda
+    (setq org-super-agenda-groups
+          '(
+            ;; (:name "Today"
+            ;;         :time-grid t
+            ;;         :date today
+            ;;         :todo "TODAY"
+            ;;         :scheduled today
+            ;;         :order 1
+            ;;         )
+            (:name "ENGLISH"
+                    :tag "ENGLISH"
+                    :priority "A"
+                    :order 2
+                    )
+            (:name "BOOK"
+                    :tag "BOOK"
+                    :order 11)
+            (:name "Due Today"
+                    :deadline today
+                    :order 3)
+            (:name "Due Soon"
+                    :deadline future
+                    )
+            (:name "Overdue"
+                    :deadline past)
+            (:name "Projects"
+                    :tag "Project"
+                    :order 12)
+            (:name "Research"
+                    :tag "Research"
+                    :order 13)
+            (:name "Routine"
+                                      ;:habit
+                    :order 10
+                    )
+            (:order-multi (3 (:name "Done today"
+                                    :and (:regexp "State \"DONE\""
+                                                  :log t)
+                                    )
+                              (:name "Clocked today"
+                                    :log t
+                                    )
+                              ))
+            (:priority<= "B"
+                          :order 1)
 
-    ;;agenda
+            )
+          )
+                                      ;(setq org-agenda nil "a")
+    (org-super-agenda-mode t)
+    ;;init-agenda
     ;; 农历生日
     ;; https://emacs-china.org/t/topic/2119/19?u=elliott
     (require 'cal-china-x)
@@ -1597,12 +1683,25 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
 
   ;;------------end----------------;;
   ;;init-pdf
+  ;; 显示当前页数
+  (define-pdf-cache-function pagelabels)
+  (defun pdf-view-page-number ()
+    (interactive)
+    (message " [%s/%s/%s]"
+             (nth (1- (pdf-view-current-page))
+                  (pdf-cache-pagelabels))
+             (number-to-string (pdf-view-current-page))
+             (number-to-string (pdf-cache-number-of-pages))))
+
   (require 'pdf-tools-extension)
   (setq pdf-info-epdfinfo-program '"c:/users/xx299/.spacemacs.d/pdf-tools-20190413.2018/epdfinfo.exe")
   (add-hook 'pdf-view-mode-hook 'pdf-tools-enable-minor-modes)
   (setq org-noter-notes-search-path '("c:/Users/xx299/Dropbox/org/Notes"))
   (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
+  ;; 按键
   (define-key pdf-view-mode-map (kbd "e") 'pdf-view-scroll-down-or-previous-page)
+  (define-key pdf-view-mode-map (kbd "c") 'pdf-view-page-number)
+  (define-key pdf-view-mode-map (kbd "t") 'spacemacs/toggle-mode-line)
   ;;init-epub
   ;; epub 打不开问题
   (require 'nov)

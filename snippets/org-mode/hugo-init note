@@ -10,7 +10,7 @@
 #+HUGO_TAGS: $2
 #+HUGO_CATEGORIES: $1
 #+HUGO_DRAFT: true
-#+HUGO_CUSTOM_FRONT_MATTER: :toc false
+#+HUGO_CUSTOM_FRONT_MATTER: :toc true
 # #------
 # #+AUTHOR: 冉冉升起
 # #+KEYWORDS: nil
