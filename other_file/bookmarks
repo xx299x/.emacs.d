@@ -2,7 +2,12 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("出门要带的东西"
+(("Casplock ini"
+ (filename . "c:/software/autohotkey/Capslock+/CapsLock+settings.ini")
+ (front-context-string . "[Global]\nautosta")
+ (rear-context-string . "emo.ini 来配置相关设置\n")
+ (position . 84))
+("出门要带的东西"
  (filename . "~/Dropbox/org/Notes/出门要带的东西.org")
  (front-context-string)
  (rear-context-string . ": 出门要带的东西\n* 必带\n*")

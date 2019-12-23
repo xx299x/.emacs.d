@@ -88,7 +88,7 @@ This function should only modify configuration layer settings."
               )
      (org :variables
           org-projectile-file "TODOs.org"
-          org-support-shift-select always
+          org-support-shift-select 'always
           org-want-todo-bindings t
           org-enable-reveal-js-support t
           org-enable-github-support t
@@ -633,6 +633,7 @@ before packages are loaded."
   (define-key evil-insert-state-map (kbd "C-a") 'mark-whole-buffer)
   (define-key evil-insert-state-map (kbd "C-b") 'spacemacs/org-bold)
   (define-key evil-insert-state-map (kbd "C-f") 'spacemacs/org-code)
+  (define-key evil-insert-state-map (kbd "C-z") 'undo-tree-undo)
 
   ;; (define-key evil-insert-state-map (kbd "C-]") 'forward-char)
   ;;------------end----------------;;
@@ -878,12 +879,19 @@ before packages are loaded."
 
 
   ;; Drag-and-drop to `dired`
-
+  ;;init-autostartup
   ;; (add-hook 'org-mode-hook 'aggressive-indent-mode)
   (add-hook 'dired-mode-hook 'org-download-enable)
   ;; (add-hook 'org-mode-hook 'auto-fill-mode)
   (add-hook 'org-mode-hook 'smartparens-mode)
   (add-hook 'org-mode-hook 'org-indent-mode)
+  (add-hook 'org-mode-hook 'spaceline-toggle-org-clock)
+  (add-hook 'org-mode-hook 'spacemacs/toggle-mode-line-minor-modes)
+
+ ;; (smartparens-mode)
+ ;; (org-indent-mode)
+ ;; (spaceline-toggle-org-clock)
+ ;; (spacemacs/toggle-mode-line-minor-modes)
 
   ;; auto added whitespace
   ;; SPC h SPC search pangu-spacing
@@ -1331,7 +1339,8 @@ boundaries."
 
 
     (setq org-todo-keywords
-          '((sequence "TODO(t!)" "NEXT(n!)" "WAITTING(w)" "SOMEDAY(s)" "|" "DONE(d@/!)" "ABORT(a@/!)")
+          ;; '((sequence "TODO(t!)" "NEXT(n!)" "WAITTING(w)" "SOMEDAY(s)" "|" "DONE(d@/!)" "ABORT(a@/!)")
+            '((sequence "TODO(t!)" "NEXT(n!)" "WAITTING(w)" "SOMEDAY(s)" "|" "DONE(d/!)" "ABORT(a/!)")
           ;; '((sequence "TODO(t)" "NEXT(n)" "WAITTING(w)" "SOMEDAY(s)" "|" "DONE(d)" "ABORT(a)")
             ))
     ;; 设置TODO完成状态改变抽屉
@@ -1676,13 +1685,18 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
 
 
 ;;;;;;;;;;;;;;
-;  bookmarks ;
+;init-bookmarks ;
 ;;;;;;;;;;;;;;
   (setq bookmark-default-file "~/.spacemacs.d/other_file/bookmarks")
-
-
+  (defadvice bookmark-jump (after bookmark-jump activate)
+    (let ((latest (bookmark-get-bookmark bookmark)))
+      (setq bookmark-alist (delq latest bookmark-alist))
+      (add-to-list 'bookmark-alist latest)))
+  (setq bookmark-sort-flag t)
   ;;------------end----------------;;
   ;;init-pdf
+  (require 'pdf-tools-extension)
+  (require 'pdf-cache)
   ;; 显示当前页数
   (define-pdf-cache-function pagelabels)
   (defun pdf-view-page-number ()
@@ -1693,7 +1707,6 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
              (number-to-string (pdf-view-current-page))
              (number-to-string (pdf-cache-number-of-pages))))
 
-  (require 'pdf-tools-extension)
   (setq pdf-info-epdfinfo-program '"c:/users/xx299/.spacemacs.d/pdf-tools-20190413.2018/epdfinfo.exe")
   (add-hook 'pdf-view-mode-hook 'pdf-tools-enable-minor-modes)
   (setq org-noter-notes-search-path '("c:/Users/xx299/Dropbox/org/Notes"))
