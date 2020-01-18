@@ -2,7 +2,47 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("Casplock ini"
+(("calendar"
+ (filename . "~/Dropbox/org/GTD/calendar.org")
+ (front-context-string . " \n** TODO GTD Ad")
+ (rear-context-string . "8-23 Fri +1w>\n  ")
+ (position . 210))
+("厚黑学"
+ (filename . "~/Dropbox/org/Notes/厚黑学.org")
+ (front-context-string)
+ (rear-context-string . "/厚黑学.epub\n:END:\n")
+ (position . 76))
+("病隙碎笔"
+ (filename . "~/Dropbox/org/Notes/病隙碎笔-史铁生.org")
+ (front-context-string . "生\n:PROPERTIES:\n:")
+ (rear-context-string)
+ (position . 10))
+("系统思考 第五项修炼 学习型组织的艺术与实践"
+ (filename . "~/Dropbox/org/Notes/第五项修炼学习型组织的艺术与实践1珍藏版（美）彼得·圣吉著.org")
+ (front-context-string)
+ (rear-context-string . "_PAGE: 25\n:END:\n")
+ (position . 819))
+("赖世雄语法"
+ (filename . "~/Dropbox/org/Notes/语法：赖世雄经典英语语法.org")
+ (front-context-string . ":END:\n** make\n:P")
+ (rear-context-string . "86861313868613)\n")
+ (position . 664))
+("发音练习"
+ (filename . "~/Dropbox/org/Notes/[Colin_Mortimer]_Elements_of_pronunciation__intens(z-lib.org).org")
+ (front-context-string . "习\n#+HUGO_BASE_DI")
+ (rear-context-string)
+ (position . 13))
+("archive"
+ (filename . "~/Dropbox/org/GTD/archive.org")
+ (front-context-string . "**** ABORT [#A] ")
+ (rear-context-string . ":01\n     :END:\n\n")
+ (position . 58772))
+("task gtd"
+ (filename . "~/Dropbox/org/GTD/task.org")
+ (front-context-string)
+ (rear-context-string . "2019-08-21 Wed]\n")
+ (position . 5723))
+("Casplock ini"
  (filename . "c:/software/autohotkey/Capslock+/CapsLock+settings.ini")
  (front-context-string . "[Global]\nautosta")
  (rear-context-string . "emo.ini 来配置相关设置\n")
@@ -12,21 +52,11 @@
  (front-context-string)
  (rear-context-string . ": 出门要带的东西\n* 必带\n*")
  (position . 24))
-("系统思考 第五项修炼 学习型组织的艺术与实践"
- (filename . "~/Dropbox/org/Notes/第五项修炼学习型组织的艺术与实践1珍藏版（美）彼得·圣吉著.org")
- (front-context-string)
- (rear-context-string . "_PAGE: 25\n:END:\n")
- (position . 819))
 ("英语思维"
  (filename . "~/Dropbox/org/Notes/英语思维  解密英语语法的原理_14194104.org")
  (front-context-string)
  (rear-context-string . "PAGE: 165\n:END:\n")
  (position . 3150))
-("病隙碎笔"
- (filename . "~/Dropbox/org/Notes/病隙碎笔-史铁生.org")
- (front-context-string . "生\n:PROPERTIES:\n:")
- (rear-context-string)
- (position . 10))
 ("spacemacs documentation"
  (filename . "~/.emacs.d/doc/DOCUMENTATION.org")
  (front-context-string . "* Differences be")
@@ -37,11 +67,6 @@
  (front-context-string)
  (rear-context-string)
  (position . 1))
-("archive"
- (filename . "~/Dropbox/org/GTD/archive.org")
- (front-context-string . "**** ABORT [#A] ")
- (rear-context-string . ":01\n     :END:\n\n")
- (position . 58772))
 ("friends"
  (filename . "~/Dropbox/org/GTD/friends.org")
  (front-context-string . "* 芦灏\n\n** 信息\n%%(o")
@@ -57,11 +82,6 @@
  (front-context-string . ";;; init.el --- ")
  (rear-context-string)
  (position . 1))
-("calendar"
- (filename . "~/Dropbox/org/GTD/calendar.org")
- (front-context-string . " \n** TODO GTD Ad")
- (rear-context-string . "8-23 Fri +1w>\n  ")
- (position . 210))
 ("agenda filter"
  (filename . "~/.spacemacs.d/init.el")
  (front-context-string . "\"Blog\" tags-todo")
@@ -72,11 +92,6 @@
  (front-context-string . "     :LOGBOOK:\n ")
  (rear-context-string . ":44] - ffffafaf\n")
  (position . 479))
-("task gtd"
- (filename . "~/Dropbox/org/GTD/task.org")
- (front-context-string)
- (rear-context-string . "2019-08-21 Wed]\n")
- (position . 5723))
 ("ideas matter people temp"
  (filename . "~/Dropbox/org/GTD/ideas.org")
  (front-context-string)
@@ -94,7 +109,7 @@
  (position . 330))
 ("org-capture-last-stored"
  (filename . "~/Dropbox/org/GTD/task.org")
- (front-context-string . "* TODO 508 朱老师  ")
- (rear-context-string . " =>  0:00\n:END:\n")
- (position . 8645))
+ (front-context-string . "* TODO 把祁林童叫过来  ")
+ (rear-context-string . "册，到时候直接复制粘贴就好了。\n")
+ (position . 17335))
 )

@@ -124,6 +124,7 @@ This function should only modify configuration layer settings."
                                       anki-editor
                                       real-auto-save
                                       ;; jieba
+                                      jsonrpc
                                       ;; easy-hugo
                                       ;; 农历
                                       cal-china-x
@@ -477,7 +478,7 @@ It should only modify the values of Spacemacs settings."
    ;; %z - mnemonics of buffer, terminal, and keyboard coding systems
    ;; %Z - like %z, but including the end-of-line format
    ;; (default "%I@%S")
-   dotspacemacs-frame-title-format "%b %f %p %m %z -- 事实上，诸多情绪的产生都可以归结为无能"
+   dotspacemacs-frame-title-format "%b %f %p %m %z -- Perfectionism eats away our most precious resource, time"
    ;; dotspacemacs-frame-title-format "%a %t %I %S %U %b %f %F %s %p %P %m %n %z %Z"
 
    ;; Format specification for setting the icon title format
@@ -620,6 +621,12 @@ before packages are loaded."
   ;;Additional keyboard;;
 ;;;;;;;;;;;;;;
 
+  (defun org-my-custom-timestamp()
+    (interactive)
+    (insert (format-time-string "[%H:%M]")))
+  (add-hook 'org-mode-hook
+            (lambda()
+              (local-set-key "\C-c-" 'org-my-custom-timestamp)))
   (evil-leader/set-key "oy" 'youdao-dictionary-search-at-point+)
   (evil-leader/set-key "od" 'find-by-pinyin-dired)
   (evil-leader/set-key "ote" 'evil-org-mode)
@@ -714,10 +721,8 @@ before packages are loaded."
 
   ;; (define-key evil-insert-state-map (kbd "C-S-left") 'org-yank)
 
-
-
-
-
+  ;; (define-key org-agenda-keymap (kbd "v") 'org-agenda-view-mode-dispatch)
+  (global-set-key (kbd "M-c") 'org-agenda)
 
   ;; 字数统计
   (defvar wc-regexp-chinese-char-and-punc
@@ -813,7 +818,8 @@ before packages are loaded."
   ;; emoji
   ;; (add-hook 'org-mode-hook 'emojify-mode)
   ;; (setq emojify-emojis-dir "c:/Users/xx299/.spacemacs.d/.cache/emojify/")
-
+  ;;init jieba
+  ;; (add-to-list 'load-path "C:/Users/xx299/.spacemacs.d/elisp")
   ;; (require 'jieba)
   ;; (jieba-mode)
 
@@ -885,8 +891,9 @@ before packages are loaded."
   ;; (add-hook 'org-mode-hook 'auto-fill-mode)
   (add-hook 'org-mode-hook 'smartparens-mode)
   (add-hook 'org-mode-hook 'org-indent-mode)
-  (add-hook 'org-mode-hook 'spaceline-toggle-org-clock)
-  (add-hook 'org-mode-hook 'spacemacs/toggle-mode-line-minor-modes)
+  (add-hook 'org-mode-hook 'spacemacs/toggle-truncate-lines-off)
+  (add-hook 'org-clock-in-hook 'spaceline-toggle-org-clock-on)
+  (add-hook 'org-mode-hook 'spacemacs/toggle-mode-line-minor-modes-off)
 
  ;; (smartparens-mode)
  ;; (org-indent-mode)
@@ -895,7 +902,14 @@ before packages are loaded."
 
   ;; auto added whitespace
   ;; SPC h SPC search pangu-spacing
-
+  ;;init-clock
+  ;;忽略时间为0的时间
+  ;;https://emacs.stackexchange.com/questions/52048/drop-rows-with-zero-time-in-org-mode-agenda-clockreport
+  (setq org-agenda-clockreport-parameter-plist '(:stepskip0 t :link t :maxlevel 4 :fileskip0 t))
+  ;; (setq org-clock-in-switch-to-state "NEXT")
+  ;; (setq org-clock-out-switch-to-state "DONE")
+  ;; (add-hook 'org-after-todo-state-change-hook 'org-clock-in)
+  ;; (add-hook 'org-after-todo-state-change-hook 'org-clock-out)
 
 
   ;; https://github.com/KingBing/blog-src/blob/e259933e9bc5f246fde50645f024731a16bb6bbc/blog/%E5%9C%A8%20org-mode%20%E4%B8%AD%E9%A1%AF%E7%A4%BA%E5%9C%96%E7%89%87.org
@@ -1161,9 +1175,15 @@ boundaries."
             ;;         :scheduled today
             ;;         :order 1
             ;;         )
+            (:name "Thought"
+                   :tag "Thought"
+                   :tag "Journals"
+                   ;; :priority "A"
+                   :order 1
+                   )
             (:name "ENGLISH"
                     :tag "ENGLISH"
-                    :priority "A"
+                    ;; :priority "A"
                     :order 2
                     )
             (:name "BOOK"
@@ -1177,6 +1197,10 @@ boundaries."
                     )
             (:name "Overdue"
                     :deadline past)
+            (:name "TopTEMP"
+                   :and (:tag "EMACS" :priority "A")
+                   :order 2
+                   )
             (:name "Projects"
                     :tag "Project"
                     :order 12)
@@ -1196,7 +1220,7 @@ boundaries."
                                     )
                               ))
             (:priority<= "B"
-                          :order 1)
+                          :order 11)
 
             )
           )
@@ -1232,14 +1256,14 @@ boundaries."
     (setq org-deadline-warning-days 0)  ; 设置默认警告时间。
     (setq org-agenda-include-diary t)
     (setq org-capture-templates nil)
-    ;; capture-init
+    ;;init-capture
     (add-to-list 'org-capture-templates '("t" "Tasks"))
     (add-to-list 'org-capture-templates
-                 '("ta" "Project" entry
+                 '("ta" "A" entry
                    (file "~/Dropbox/org/GTD/task.org")
                    "* TODO [#A] %^{Project} %^G \nSCHEDULED: %^t\n%?" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
-                 '("tb" "Task" entry
+                 '("tb" "B" entry
                    (file "~/Dropbox/org/GTD/task.org")
                    "* TODO %^{Project} %^G \nSCHEDULED: %^t\n%?" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
@@ -1247,10 +1271,13 @@ boundaries."
                    (file "~/Dropbox/org/GTD/task.org")
                    "* TODO [#C] %^{Project} %^G \nSCHEDULED: %^t\n%?" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
-                 '("ts" "Project" entry
+                 '("ts" "C" entry
                    (file "~/Dropbox/org/GTD/suspend.org")
                    "* TODO [#B] %^{Project} %^G \nSCHEDULED: %^t\n%?" :clock-in t :clock-resume t))
+    ;;capture-map
+    (global-set-key [f7] 'helm-org-capture-templates)
 
+    ;; capture-init
     ;; 有的时候，会有临时的小任务，比如说，将要出门，需要准备一些东西，
     ;; 这个迷你项目得作用就来了，想到一条写一条
     (add-to-list 'org-capture-templates
@@ -1309,6 +1336,7 @@ boundaries."
               (calendar-last-day-of-month month year)))
         (= day last-day-of-month)))
 
+    ;init custom-commands
     (setq org-agenda-custom-commands
           '(
             ("w" . "Task filter")
@@ -1316,6 +1344,8 @@ boundaries."
             ("wb" "B" tags-todo "-Weekly-Monthly-Daily+PRIORITY=\"B\"")
             ;; ("wb" "B" tags-todo "+PRIORITY=\"B\"")
             ("wc" "C" tags-todo "+PRIORITY=\"C\"")
+            ("we" "EMACS" tags-todo "EMACS")
+            ("wr" "Rest" tags-todo "Rest")
             ("b" "Blog" tags-todo "BLOG")
             ("p" . "Project")
             ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"work\"")
@@ -1669,8 +1699,8 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
                 "\\|^#\\+[[:alnum:]_]+:.*$" ;; org-mode metadata
                 "\\|^#\s#\\+?.*$" ;; org-mode metadata
                 "\\)"))
-  (global-set-key [f8] 'deft)
-  (global-set-key [C-f8] 'ironman-deft-search-for)
+  (global-set-key [f8] 'ironman-deft-search-for)
+  (global-set-key [C-f8] 'deft)
   ;; (setq deft-strip-title-regexp "")
   (defun ironman-deft-search-for(filter)
     (interactive "MFilter: ")
@@ -1697,6 +1727,8 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
   ;;init-pdf
   (require 'pdf-tools-extension)
   (require 'pdf-cache)
+  (require 'pdf-outline)
+  (require 'org-noter)
   ;; 显示当前页数
   (define-pdf-cache-function pagelabels)
   (defun pdf-view-page-number ()
@@ -1712,9 +1744,12 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
   (setq org-noter-notes-search-path '("c:/Users/xx299/Dropbox/org/Notes"))
   (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
   ;; 按键
+  (define-key org-noter-notes-mode-map (kbd "M-n") 'org-noter-sync-next-note)
+  (define-key org-noter-notes-mode-map (kbd "M-p") 'org-noter-sync-prev-note)
   (define-key pdf-view-mode-map (kbd "e") 'pdf-view-scroll-down-or-previous-page)
   (define-key pdf-view-mode-map (kbd "c") 'pdf-view-page-number)
   (define-key pdf-view-mode-map (kbd "t") 'spacemacs/toggle-mode-line)
+  (define-key pdf-outline-buffer-mode-map (kbd "C-s") 'helm-swoop)
   ;;init-epub
   ;; epub 打不开问题
   (require 'nov)
@@ -1726,9 +1761,35 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
 
   (define-key nov-mode-map (kbd "e") 'nov-scroll-down)
 
+  ;;init helm
+  (add-to-list 'load-path "c:/Users/xx299/.spacemacs.d/elisp/iswitchb-pinyin/")
+  (require 'iswitchb-pinyin)
+  ;; 支持中文拼音首字母匹配，会使helm-find-files匹配过多。
+  (cl-defun helm-mm-3-match/around (orig-fn str &rest args)
+    (apply orig-fn (concat str "|" (str-unicode-to-pinyin-initial str)) args))
+  (advice-add 'helm-mm-3-match :around #'helm-mm-3-match/around)
+  ;; 默认在输入前面加空格解决匹配问题。
+  (defun helm-find-files-1/around (orig-fn fname &rest args)
+    (apply orig-fn (concat fname " ") args))
+  (advice-add 'helm-find-files-1 :around #'helm-find-files-1/around)
+
+
+  ;;auto startup
+  (defun tdh/eval-startblock ()
+    (if (member "startblock" (org-babel-src-block-names))
+        (save-excursion
+          (org-babel-goto-named-src-block "startblock")
+          (org-babel-execute-src-block))
+      nil
+      )
+    )
+  (add-hook 'org-mode-hook 'tdh/eval-startblock)
+
 ;;;;;;;;;;;;;;
 ;;;  other ;;;
 ;;;;;;;;;;;;;;
+  
+
 
   ;; (setq projectile-git-submodule-command nil) ;; 速度Git速度慢的问题
   (setq large-file-warning-threshold nil)
@@ -1802,7 +1863,6 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
 
 
   ;;------------end----------------;;
-
   )
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
