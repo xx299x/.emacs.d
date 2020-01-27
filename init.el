@@ -720,7 +720,7 @@ before packages are loaded."
   ;;init-keyboard
 
   ;; (define-key evil-insert-state-map (kbd "C-S-left") 'org-yank)
-
+  (setq org-tags-column 2)
   ;; (define-key org-agenda-keymap (kbd "v") 'org-agenda-view-mode-dispatch)
   (global-set-key (kbd "M-c") 'org-agenda)
 

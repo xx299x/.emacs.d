@@ -2,16 +2,31 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("calendar"
- (filename . "~/Dropbox/org/GTD/calendar.org")
- (front-context-string . " \n** TODO GTD Ad")
- (rear-context-string . "8-23 Fri +1w>\n  ")
- (position . 210))
+(("赖世雄语法"
+ (filename . "~/Dropbox/org/Notes/语法：赖世雄经典英语语法.org")
+ (front-context-string . ":END:\n** make\n:P")
+ (rear-context-string . "86861313868613)\n")
+ (position . 664))
 ("厚黑学"
  (filename . "~/Dropbox/org/Notes/厚黑学.org")
  (front-context-string)
  (rear-context-string . "/厚黑学.epub\n:END:\n")
  (position . 76))
+("friends"
+ (filename . "~/Dropbox/org/GTD/friends.org")
+ (front-context-string . "* 芦灏\n\n** 信息\n%%(o")
+ (rear-context-string . "TITLE: Friends\n\n")
+ (position . 19))
+("calendar"
+ (filename . "~/Dropbox/org/GTD/calendar.org")
+ (front-context-string . " \n** TODO GTD Ad")
+ (rear-context-string . "8-23 Fri +1w>\n  ")
+ (position . 210))
+("新编英语阅读手册 英语查询"
+ (filename . "~/Dropbox/org/Notes/新编英语阅读手册.org")
+ (front-context-string . ":PROPERTIES:\n:NO")
+ (rear-context-string)
+ (position . 12))
 ("病隙碎笔"
  (filename . "~/Dropbox/org/Notes/病隙碎笔-史铁生.org")
  (front-context-string . "生\n:PROPERTIES:\n:")
@@ -22,11 +37,6 @@
  (front-context-string)
  (rear-context-string . "_PAGE: 25\n:END:\n")
  (position . 819))
-("赖世雄语法"
- (filename . "~/Dropbox/org/Notes/语法：赖世雄经典英语语法.org")
- (front-context-string . ":END:\n** make\n:P")
- (rear-context-string . "86861313868613)\n")
- (position . 664))
 ("发音练习"
  (filename . "~/Dropbox/org/Notes/[Colin_Mortimer]_Elements_of_pronunciation__intens(z-lib.org).org")
  (front-context-string . "习\n#+HUGO_BASE_DI")
@@ -67,11 +77,6 @@
  (front-context-string)
  (rear-context-string)
  (position . 1))
-("friends"
- (filename . "~/Dropbox/org/GTD/friends.org")
- (front-context-string . "* 芦灏\n\n** 信息\n%%(o")
- (rear-context-string . "TITLE: Friends\n\n")
- (position . 19))
 ("spacemacs"
  (filename . "~/.emacs.d/init.el")
  (front-context-string . "tq gc-cons-thres")
@@ -109,7 +114,7 @@
  (position . 330))
 ("org-capture-last-stored"
  (filename . "~/Dropbox/org/GTD/task.org")
- (front-context-string . "* TODO 把祁林童叫过来  ")
- (rear-context-string . "册，到时候直接复制粘贴就好了。\n")
- (position . 17335))
+ (front-context-string . "* TODO 整理表情包 :WA")
+ (rear-context-string . "央准没错。节省时间，又有效率。\n")
+ (position . 21801))
 )
