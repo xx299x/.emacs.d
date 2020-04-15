@@ -2,36 +2,171 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("赖世雄语法"
- (filename . "~/Dropbox/org/Notes/语法：赖世雄经典英语语法.org")
- (front-context-string . ":END:\n** make\n:P")
- (rear-context-string . "86861313868613)\n")
- (position . 664))
-("厚黑学"
- (filename . "~/Dropbox/org/Notes/厚黑学.org")
- (front-context-string)
- (rear-context-string . "/厚黑学.epub\n:END:\n")
- (position . 76))
-("friends"
- (filename . "~/Dropbox/org/GTD/friends.org")
- (front-context-string . "* 芦灏\n\n** 信息\n%%(o")
- (rear-context-string . "TITLE: Friends\n\n")
- (position . 19))
+(("憨憨 hh"
+ (filename . "~/Dropbox/org/GTD/My_Gril.org")
+ (front-context-string . "* 承诺\n** 我的承诺\n** ")
+ (rear-context-string . "话、沙雕、乖巧\n*** 何首污\n")
+ (position . 2293))
+("org-capture-last-stored"
+ (filename . "~/Dropbox/org/GTD/My_Gril.org")
+ (front-context-string . "***** 身份互换，换为思考 ")
+ (rear-context-string . " 2020-04-15 星期三\n")
+ (position . 1717))
+("憨憨 hh "
+ (filename . "~/Dropbox/org/GTD/")
+ (front-context-string . "\n** 乐乐\n\n* 情绪爱好以及")
+ (rear-context-string . "1-02-24 周三]\n* 闺蜜")
+ (position . 2374))
+("archive"
+ (filename . "~/Dropbox/org/GTD/archive.org")
+ (front-context-string . "**** ABORT [#A] ")
+ (rear-context-string . ":01\n     :END:\n\n")
+ (position . 58772))
+("阅读理解 唐迟 ydlj tc"
+ (filename . "~/Dropbox/org/Notes/2020-02-06T1956.org")
+ (front-context-string . "\n** 定位范围\n定位句、上下句")
+ (rear-context-string . "出题顺序和文章顺序大致保持一致\n")
+ (position . 916))
+("非暴力沟通 fblgt"
+ (filename . "~/Dropbox/org/Notes/非暴力沟通-马歇尔·卢森堡著.org")
+ (front-context-string . ":\n** 第五章　感受的根源\n:")
+ (rear-context-string . ". 0.000726)\n:END")
+ (position . 1078))
 ("calendar"
  (filename . "~/Dropbox/org/GTD/calendar.org")
- (front-context-string . " \n** TODO GTD Ad")
- (rear-context-string . "8-23 Fri +1w>\n  ")
- (position . 210))
-("新编英语阅读手册 英语查询"
- (filename . "~/Dropbox/org/Notes/新编英语阅读手册.org")
- (front-context-string . ":PROPERTIES:\n:NO")
+ (front-context-string . ":COURSE:\n** Mon\n")
+ (rear-context-string . ":END:\n\n* Course ")
+ (position . 47697))
+("新东方田静大学英语四六级语法 xdftjdxyysljyf"
+ (filename . "~/Dropbox/org/Notes/新东方田静大学英语四六级语法.org")
+ (front-context-string)
+ (rear-context-string . "uce.\n** 虚拟\n\n* 真题")
+ (position . 6536))
+("话术惯例大全 hsgldq"
+ (filename . "~/Dropbox/org/Notes/浪迹-话术惯例大全.org")
+ (front-context-string)
+ (rear-context-string . "天》/浪迹-话术惯例大全.pdf")
+ (position . 100))
+("2020年计划 2020njh"
+ (filename . "~/Dropbox/org/Notes/2019-12-26T1715.org")
+ (front-context-string . "年学习计划\n#+HUGO_BAS")
  (rear-context-string)
- (position . 12))
+ (position . 14))
+("摊牌说的话 yxtpsdh"
+ (filename . "~/Dropbox/org/GTD/task.org")
+ (front-context-string . "有很多事情要做，世界还在等着我去")
+ (rear-context-string . "恋爱不是坐享其成的。\n2. 我还")
+ (position . 8730))
+("数据可视化高级应用 sjkshgjyy"
+ (filename . "~/Dropbox/org/Notes/数据可视化高级应用.org")
+ (front-context-string)
+ (rear-context-string . "ITLE: 数据可视化高级应用\n")
+ (position . 20))
+("ideas matter people temp"
+ (filename . "~/Dropbox/org/GTD/ideas.org")
+ (front-context-string . "\n:LOGBOOK:\nCLOCK")
+ (rear-context-string . "* 你无法管理没有量化的事情。 ")
+ (position . 7886))
+("GTD_problem"
+ (filename . "~/Dropbox/org/GTD/GTD_problem.org")
+ (front-context-string . "     :LOGBOOK:\n ")
+ (rear-context-string . ":44] - ffffafaf\n")
+ (position . 479))
+("优美句子集 ymjzj"
+ (filename . "~/Dropbox/org/Notes/优美句子集.org")
+ (front-context-string)
+ (rear-context-string . "#+TITLE: 优美句子集\n\n")
+ (position . 17))
+("task gtd"
+ (filename . "~/Dropbox/org/GTD/task.org")
+ (front-context-string)
+ (rear-context-string . "、可爱、沙雕、舔、还有羞羞哒\n\n")
+ (position . 6887))
+("恋爱日记大纲"
+ (filename . "~/Dropbox/org/Notes/恋爱日记大纲.org")
+ (front-context-string . "统\n** 憨憨欠我的愿望\n1 个")
+ (rear-context-string . "LASS: book\n* 愿望系")
+ (position . 586))
+("新编英语阅读手册 xbyyydsc"
+ (filename . "~/Dropbox/org/Notes/新编英语阅读手册.org")
+ (front-context-string . "** Skeleton\n*** ")
+ (rear-context-string . "语阅读手册.pdf\n:END:\n")
+ (position . 109))
 ("病隙碎笔"
  (filename . "~/Dropbox/org/Notes/病隙碎笔-史铁生.org")
  (front-context-string . "生\n:PROPERTIES:\n:")
  (rear-context-string)
  (position . 10))
+("英语思维 yysw"
+ (filename . "~/Dropbox/org/Notes/英语思维  解密英语语法的原理_14194104.org")
+ (front-context-string . "* 英语思维  解密英语语法的原")
+ (rear-context-string . "的要么完成态，要么完成进行态。\n")
+ (position . 782))
+("英语思维"
+ (filename . "~/Dropbox/org/Notes/英语思维  解密英语语法的原理_14194104.org")
+ (front-context-string . "* 英语思维  解密英语语法的原")
+ (rear-context-string . "的要么完成态，要么完成进行态。\n")
+ (position . 782))
+("优美句子集"
+ (filename . "~/Dropbox/org/Notes/优美句子集.org")
+ (front-context-string)
+ (rear-context-string . "#+TITLE: 优美句子集\n\n")
+ (position . 17))
+("人生规划"
+ (filename . "~/Dropbox/org/Notes/人生规划.org")
+ (front-context-string . "层开始\n*** 自己的经历也十分")
+ (rear-context-string . "** 后代绝不会太差，也不是从底")
+ (position . 437))
+("剧情话术大全.org"
+ (filename . "~/Dropbox/org/Notes/剧情话术大全.org")
+ (front-context-string . "要动，再动我不保证会发生什么。\n")
+ (rear-context-string . "里说着不要身体却很诚实。\n3、不")
+ (position . 56))
+("friends"
+ (filename . "~/Dropbox/org/GTD/friends.org")
+ (front-context-string . "* 芦灏\n\n** 信息\n%%(o")
+ (rear-context-string . "TITLE: Friends\n\n")
+ (position . 19))
+("围城.org"
+ (filename . "~/Dropbox/org/Notes/围城.org")
+ (front-context-string . "** Notes for pag")
+ (rear-context-string . "17293233)\n:END:\n")
+ (position . 186))
+("《中国式的情与爱》武志红.org"
+ (filename . "~/Dropbox/org/Notes/《中国式的情与爱》武志红.org")
+ (front-context-string)
+ (rear-context-string . "《中国式的情与爱》武志红.pdf")
+ (position . 90))
+("图解数据结构使用Python.org"
+ (filename . "~/Dropbox/org/Notes/图解数据结构使用Python.org")
+ (front-context-string . "* 图解数据结构使用Python")
+ (rear-context-string)
+ (position . 1))
+("赖世雄语法"
+ (filename . "~/Dropbox/org/Notes/语法：赖世雄经典英语语法.org")
+ (front-context-string . ":PROPERTIES:\n:NO")
+ (rear-context-string . "END:\n** used to\n")
+ (position . 6633))
+("MOOC慕课陈斌-数据结构与算法-Python版.org"
+ (filename . "~/Dropbox/org/Notes/MOOC慕课陈斌-数据结构与算法-Python版.org")
+ (front-context-string)
+ (rear-context-string . "thon版.pdf\n:END:\n")
+ (position . 138))
+("init-layter"
+ (filename . "~/.spacemacs.d/init.el")
+ (front-context-string . "     treemacs\n  ")
+ (rear-context-string . "syntax-checking\n")
+ (position . 2240))
+("init-search"
+ (filename . "~/.emacs.d/init.el")
+ (front-context-string . ";;; init.el --- ")
+ (rear-context-string)
+ (position . 1))
+("厚黑学"
+ (filename . "~/Dropbox/org/Notes/厚黑学.org")
+ (front-context-string)
+ (rear-context-string . "/厚黑学.epub\n:END:\n")
+ (position . 76))
 ("系统思考 第五项修炼 学习型组织的艺术与实践"
  (filename . "~/Dropbox/org/Notes/第五项修炼学习型组织的艺术与实践1珍藏版（美）彼得·圣吉著.org")
  (front-context-string)
@@ -42,16 +177,6 @@
  (front-context-string . "习\n#+HUGO_BASE_DI")
  (rear-context-string)
  (position . 13))
-("archive"
- (filename . "~/Dropbox/org/GTD/archive.org")
- (front-context-string . "**** ABORT [#A] ")
- (rear-context-string . ":01\n     :END:\n\n")
- (position . 58772))
-("task gtd"
- (filename . "~/Dropbox/org/GTD/task.org")
- (front-context-string)
- (rear-context-string . "2019-08-21 Wed]\n")
- (position . 5723))
 ("Casplock ini"
  (filename . "c:/software/autohotkey/Capslock+/CapsLock+settings.ini")
  (front-context-string . "[Global]\nautosta")
@@ -62,11 +187,6 @@
  (front-context-string)
  (rear-context-string . ": 出门要带的东西\n* 必带\n*")
  (position . 24))
-("英语思维"
- (filename . "~/Dropbox/org/Notes/英语思维  解密英语语法的原理_14194104.org")
- (front-context-string)
- (rear-context-string . "PAGE: 165\n:END:\n")
- (position . 3150))
 ("spacemacs documentation"
  (filename . "~/.emacs.d/doc/DOCUMENTATION.org")
  (front-context-string . "* Differences be")
@@ -82,39 +202,14 @@
  (front-context-string . "tq gc-cons-thres")
  (rear-context-string . "rrent-time))\n(se")
  (position . 504))
-("init-search"
- (filename . "~/.emacs.d/init.el")
- (front-context-string . ";;; init.el --- ")
- (rear-context-string)
- (position . 1))
 ("agenda filter"
  (filename . "~/.spacemacs.d/init.el")
  (front-context-string . "\"Blog\" tags-todo")
  (rear-context-string . "           (\"b\" ")
  (position . 34096))
-("GTD_problem"
- (filename . "~/Dropbox/org/GTD/GTD_problem.org")
- (front-context-string . "     :LOGBOOK:\n ")
- (rear-context-string . ":44] - ffffafaf\n")
- (position . 479))
-("ideas matter people temp"
- (filename . "~/Dropbox/org/GTD/ideas.org")
- (front-context-string)
- (rear-context-string . "一觉就好了,一觉不行,就睡两觉\n")
- (position . 5225))
-("init-layter"
- (filename . "~/.spacemacs.d/init.el")
- (front-context-string . "     treemacs\n  ")
- (rear-context-string . "syntax-checking\n")
- (position . 2240))
 ("org-refile-last-stored"
  (filename . "~/Dropbox/org/GTD/task.org")
  (front-context-string . "** TODO [#C] 调试e")
  (rear-context-string . " Emacs China]]\n\n")
  (position . 330))
-("org-capture-last-stored"
- (filename . "~/Dropbox/org/GTD/task.org")
- (front-context-string . "* TODO 整理表情包 :WA")
- (rear-context-string . "央准没错。节省时间，又有效率。\n")
- (position . 21801))
 )

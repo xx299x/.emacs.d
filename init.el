@@ -130,6 +130,7 @@ This function should only modify configuration layer settings."
                                       cal-china-x
                                       org-noter
                                       org-super-agenda
+                                      olivetti
                                       )
 
    ;; A list of packages that cannot be updated.
@@ -629,6 +630,7 @@ before packages are loaded."
               (local-set-key "\C-c-" 'org-my-custom-timestamp)))
   (evil-leader/set-key "oy" 'youdao-dictionary-search-at-point+)
   (evil-leader/set-key "od" 'find-by-pinyin-dired)
+  (evil-leader/set-key "od" 'server-edit)
   (evil-leader/set-key "ote" 'evil-org-mode)
   (evil-leader/set-key "otf" 'focus-mode)
   (evil-leader/set-key "ott" 'spaceline-toggle-org-clock)
@@ -641,7 +643,9 @@ before packages are loaded."
   (define-key evil-insert-state-map (kbd "C-b") 'spacemacs/org-bold)
   (define-key evil-insert-state-map (kbd "C-f") 'spacemacs/org-code)
   (define-key evil-insert-state-map (kbd "C-z") 'undo-tree-undo)
-
+  (define-key evil-insert-state-map (kbd "C-d") 'org-time-stamp-inactive)
+  (define-key evil-insert-state-map (kbd "C-c C-8") 'org-ctrl-c-star)
+  
   ;; (define-key evil-insert-state-map (kbd "C-]") 'forward-char)
   ;;------------end----------------;;
 
@@ -717,12 +721,23 @@ before packages are loaded."
 ;;;;;;;;;;;;;;
 ;;;Org-init;;;
 ;;;;;;;;;;;;;;
+
+
+
+
   ;;init-keyboard
 
   ;; (define-key evil-insert-state-map (kbd "C-S-left") 'org-yank)
   (setq org-tags-column 2)
   ;; (define-key org-agenda-keymap (kbd "v") 'org-agenda-view-mode-dispatch)
   (global-set-key (kbd "M-c") 'org-agenda)
+
+  ;;org-mode 省略符
+  (setq org-ellipsis "⤵")
+  ;;未知
+  (setq org-fontify-whole-heading-line t)
+  ;; line-spacing
+  (setq line-spacing 3)
 
   ;; 字数统计
   (defvar wc-regexp-chinese-char-and-punc
@@ -891,6 +906,7 @@ before packages are loaded."
   ;; (add-hook 'org-mode-hook 'auto-fill-mode)
   (add-hook 'org-mode-hook 'smartparens-mode)
   (add-hook 'org-mode-hook 'org-indent-mode)
+  ;; (add-hook 'org-mode-hook 'org-num-mode)
   (add-hook 'org-mode-hook 'spacemacs/toggle-truncate-lines-off)
   (add-hook 'org-clock-in-hook 'spaceline-toggle-org-clock-on)
   (add-hook 'org-mode-hook 'spacemacs/toggle-mode-line-minor-modes-off)
@@ -918,6 +934,7 @@ before packages are loaded."
 
   (add-to-list 'auto-mode-alist '("\\.txt\\'" . org-mode))
   (with-eval-after-load 'org
+
     ;; 临时解决图片缩放问题
 
 ;; Copied from https://github.com/jkitchin/scimax/blob/master/scimax-org.el
@@ -1081,7 +1098,6 @@ boundaries."
 
 ;; 临时解决图片缩放问题END
 
-
     ;;init-org
     ;;init-freemind
     (require 'ox-freemind)
@@ -1168,65 +1184,72 @@ boundaries."
     ;;init-org-super-agenda
     (setq org-super-agenda-groups
           '(
-            ;; (:name "Today"
-            ;;         :time-grid t
-            ;;         :date today
-            ;;         :todo "TODAY"
-            ;;         :scheduled today
-            ;;         :order 1
-            ;;         )
-            (:name "Thought"
-                   :tag "Thought"
-                   :tag "Journals"
+
+            (:name "Will"
+                   :tag "Will"
                    ;; :priority "A"
-                   :order 1
+                   :order 5
                    )
+
+            (:name "Now"
+                   :tag "Now"
+                   ;; :priority "A"
+                   :order 7
+                   )
+
+            (:name "语汐"
+                   :tag "Love"
+                   ;; :priority "A"
+                   :order 7
+                   )
+
+            (:name "COURSE"
+                   :tag "COURSE"
+                   ;; :priority "A"
+                   :order 10
+                   )
+
             (:name "ENGLISH"
                     :tag "ENGLISH"
                     ;; :priority "A"
-                    :order 2
+                    :order 10
                     )
+
+            (:name "MATH"
+                   :tag "MATH"
+                   ;; :priority "A"
+                   :order 10
+                   )
+
             (:name "BOOK"
                     :tag "BOOK"
-                    :order 11)
+                    :order 90)
+
+            (:name "Thought & HABIT"
+                   :tag "Thought"
+                   :tag "Journals"
+                   :tag "HABIT"
+                   ;; :priority "A"
+                   :order 80
+                   )
             (:name "Due Today"
-                    :deadline today
-                    :order 3)
+                   :deadline today
+                   :order 8)
+
             (:name "Due Soon"
                     :deadline future
                     )
-            (:name "Overdue"
-                    :deadline past)
-            (:name "TopTEMP"
-                   :and (:tag "EMACS" :priority "A")
-                   :order 2
-                   )
-            (:name "Projects"
-                    :tag "Project"
-                    :order 12)
-            (:name "Research"
-                    :tag "Research"
-                    :order 13)
-            (:name "Routine"
-                                      ;:habit
-                    :order 10
-                    )
-            (:order-multi (3 (:name "Done today"
-                                    :and (:regexp "State \"DONE\""
-                                                  :log t)
-                                    )
-                              (:name "Clocked today"
-                                    :log t
-                                    )
-                              ))
-            (:priority<= "B"
-                          :order 11)
 
+            (:name "Overdue"
+                   :deadline past
+                   :scheduled past
+                   )
             )
           )
                                       ;(setq org-agenda nil "a")
     (org-super-agenda-mode t)
     ;;init-agenda
+    (define-key org-agenda-keymap (kbd "C-s") 'helm-swoop)
     ;; 农历生日
     ;; https://emacs-china.org/t/topic/2119/19?u=elliott
     (require 'cal-china-x)
@@ -1257,66 +1280,87 @@ boundaries."
     (setq org-agenda-include-diary t)
     (setq org-capture-templates nil)
     ;;init-capture
-    (add-to-list 'org-capture-templates '("t" "Tasks"))
+    ;; (add-to-list 'org-capture-templates '("t" "Tasks"))
+    ;; (add-to-list 'org-capture-templates
+    ;;              '("ta" "A" entry
+    ;;                (file "~/Dropbox/org/GTD/task.org")
+    ;;                "* TODO [#A] %^{Project} %^G \nDEADLINE: %^t\n%?" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
-                 '("ta" "A" entry
+                 '("t" "Task" entry
                    (file "~/Dropbox/org/GTD/task.org")
-                   "* TODO [#A] %^{Project} %^G \nSCHEDULED: %^t\n%?" :clock-in t :clock-resume t))
-    (add-to-list 'org-capture-templates
-                 '("tb" "B" entry
-                   (file "~/Dropbox/org/GTD/task.org")
-                   "* TODO %^{Project} %^G \nSCHEDULED: %^t\n%?" :clock-in t :clock-resume t))
-    (add-to-list 'org-capture-templates
-                 '("tc" "Project" entry
-                   (file "~/Dropbox/org/GTD/task.org")
-                   "* TODO [#C] %^{Project} %^G \nSCHEDULED: %^t\n%?" :clock-in t :clock-resume t))
-    (add-to-list 'org-capture-templates
-                 '("ts" "C" entry
-                   (file "~/Dropbox/org/GTD/suspend.org")
-                   "* TODO [#B] %^{Project} %^G \nSCHEDULED: %^t\n%?" :clock-in t :clock-resume t))
+                   "* TODO %^{1.Actionable?\t2.Less then 2 min?} %^G \nDEADLINE: %t\n%?" :clock-in t :clock-resume t))
+    ;; (add-to-list 'org-capture-templates
+    ;;              '("tc" "Project" entry
+    ;;                (file "~/Dropbox/org/GTD/task.org")
+    ;;                "* TODO [#C] %^{Project} %^G \nDEADLINE: %^t\n%?" :clock-in t :clock-resume t))
+    ;; (add-to-list 'org-capture-templates
+    ;;              '("ts" "C" entry
+    ;;                (file "~/Dropbox/org/GTD/suspend.org")
+    ;;                "* TODO [#B] %^{Project} %^G \nSCHEDULED: %^t\n%?" :clock-in t :clock-resume t))
     ;;capture-map
-    (global-set-key [f7] 'helm-org-capture-templates)
+    (global-set-key (kbd "M-v") 'org-capture)
 
     ;; capture-init
     ;; 有的时候，会有临时的小任务，比如说，将要出门，需要准备一些东西，
     ;; 这个迷你项目得作用就来了，想到一条写一条
-    (add-to-list 'org-capture-templates
-                 '("tm" "Mini" item
-                   (file+headline "~/Dropbox/org/GTD/task.org" "Mini_Project")
-                   "%^{content}"))
+    ;; (add-to-list 'org-capture-templates
+    ;;              '("tm" "Mini" item
+    ;;                (file+headline "~/Dropbox/org/GTD/task.org" "Mini_Project")
+    ;;                "%^{content}"))
     ;; 想法类相关捕获模板
-    (add-to-list 'org-capture-templates '("i" "Idea"))
+    ;; (add-to-list 'org-capture-templates '("i" "Idea"))
+    ;; 大道理Principles
+    ;; (add-to-list 'org-capture-templates
+    ;;              '("p" "Temp Idea" entry
+    ;;                (file+headline "~/Dropbox/org/GTD/ideas.org" "Temp")
+    ;;                "* %^{core_idea}  \n" :clock-in t :clock-resume t))
+    ;; (add-to-list 'org-capture-templates
+    ;;              '("ip" "About people" entry
+    ;;                (file+headline "~/Dropbox/org/GTD/ideas.org" "People")
+    ;;                "* %^{core_idea}  \n" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
-                 '("it" "Temp Idea" entry
-                   (file+headline "~/Dropbox/org/GTD/ideas.org" "Temp")
-                   "* %^{core_idea}  \n" :clock-in t :clock-resume t))
-    (add-to-list 'org-capture-templates
-                 '("ip" "About people" entry
-                   (file+headline "~/Dropbox/org/GTD/ideas.org" "People")
-                   "* %^{core_idea}  \n" :clock-in t :clock-resume t))
-    (add-to-list 'org-capture-templates
-                 '("im" "About matter" entry
-                   (file+headline "~/Dropbox/org/GTD/ideas.org" "Matter")
-                   "* %^{core_idea}\n  \n" :clock-in t :clock-resume t))
+                 '("p" "Principle" entry
+                   (file "~/Dropbox/org/GTD/ideas.org")
+                   "* %^{Core idea} \n%U\n%?" :clock-in t :clock-resume t))
     ;; 日志
     (add-to-list 'org-capture-templates
-                 '("j" "Journal" entry (file+datetree "~/Dropbox/org/GTD/Journal.org")
-                   "* %U - %^{heading}\n  %?" :clock-in t :clock-resume t))
+                 '("j" "Journals" entry
+                   (file "~/Dropbox/org/GTD/task.org")
+                   "* TODO %^{What do you want to say?} :Journals: \nDEADLINE: %t\n%?" :clock-in t :clock-resume t))
+    ;; (add-to-list 'org-capture-templates
+    ;;              '("j" "Journal" entry (file+datetree "~/Dropbox/org/GTD/Journal.org")
+    ;;                "* %U - %^{heading}\n  %?" :clock-in t :clock-resume t))
     ;; GTD 记录 https://orgmode.org/manual/Template-expansion.html
     (add-to-list 'org-capture-templates
-                 '("g" "GTD" entry (file+datetree "c:/Users/xx299/Dropbox/org/GTD/GTD_problem.org")
-                   "* TODO %U - %^{heading} %^G\n  %a\n\n   %?" :clock-in t :clock-resume t))
+                 '("g" "GTD" entry
+                   (file "c:/Users/xx299/Dropbox/org/GTD/GTD_problem.org")
+                   "* TODO %^{What do you have any question?} :GTD:\n%a\n%?" :clock-in t :clock-resume t))
+
+    (add-to-list 'org-capture-templates '("r" "Repeat"))
+    (add-to-list 'org-capture-templates
+                 '("re" "Repeat thing" entry
+                   (file+olp "~/Dropbox/org/GTD/calendar.org" "Term-Plan" "English" "单词重复")
+                   "* TODO %^{What do you want to repeat?} \nDEADLINE: %^t\n%?" :clock-in t :clock-resume t))
+    (add-to-list 'org-capture-templates
+                 '("rp" "Repeat thing" entry
+                   (file+olp "~/Dropbox/org/GTD/calendar.org" "Journal" "REPEAT")
+                   "* TODO %^{What do you want to repeat?} \nDEADLINE: %^t\n%?" :clock-in t :clock-resume t))
+
+    (add-to-list 'org-capture-templates
+                 '("l" "Love language" entry
+                   (file+olp+datetree "~/Dropbox/org/GTD/My_Gril.org" "聊天主题规划")
+                   "* TODO %^{What do you want to say?} \n%u\n%?" :clock-in t :clock-resume t)) 
 
     ;;----------------------------;;
-    (add-to-list 'org-capture-templates '("p" "Project"))
-    (add-to-list 'org-capture-templates
-                 '("pe" "English_System" item
-                   (file+headline "~/Dropbox/org/GTD/task.org" "English_system")
-                   "%^{content}"))
-    (add-to-list 'org-capture-templates
-                 '("pp" "TARGET" entry
-                   (file+headline "~/Dropbox/org/GTD/project.org" "My goal")
-                   "* TODO %^{Speak your mind}  \n" :clock-in t :clock-resume t))
+    ;; (add-to-list 'org-capture-templates '("p" "Project"))
+    ;; (add-to-list 'org-capture-templates
+    ;;              '("pe" "English_System" item
+    ;;                (file+headline "~/Dropbox/org/GTD/task.org" "English_system")
+    ;;                "%^{content}"))
+    ;; (add-to-list 'org-capture-templates
+    ;;              '("pp" "TARGET" entry
+    ;;                (file+headline "~/Dropbox/org/GTD/project.org" "My goal")
+    ;;                "* TODO %^{Speak your mind}  \n" :clock-in t :clock-resume t))
 
 
 
@@ -1346,7 +1390,7 @@ boundaries."
             ("wc" "C" tags-todo "+PRIORITY=\"C\"")
             ("we" "EMACS" tags-todo "EMACS")
             ("wr" "Rest" tags-todo "Rest")
-            ("b" "Blog" tags-todo "BLOG")
+            ("b" "BOOK" tags-todo "BOOK")
             ("p" . "Project")
             ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"work\"")
             ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"xx299x\"")
@@ -1723,6 +1767,7 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
       (setq bookmark-alist (delq latest bookmark-alist))
       (add-to-list 'bookmark-alist latest)))
   (setq bookmark-sort-flag t)
+  (evil-leader/set-key "ob" 'bookmark-set)
   ;;------------end----------------;;
   ;;init-pdf
   (require 'pdf-tools-extension)
@@ -1739,7 +1784,7 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
              (number-to-string (pdf-view-current-page))
              (number-to-string (pdf-cache-number-of-pages))))
 
-  (setq pdf-info-epdfinfo-program '"c:/users/xx299/.spacemacs.d/pdf-tools-20190413.2018/epdfinfo.exe")
+  (setq pdf-info-epdfinfo-program '"c:/users/xx299/.spacemacs.d/pdf-tools-20191128.1731/epdfinfo.exe")
   (add-hook 'pdf-view-mode-hook 'pdf-tools-enable-minor-modes)
   (setq org-noter-notes-search-path '("c:/Users/xx299/Dropbox/org/Notes"))
   (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
@@ -1877,6 +1922,7 @@ dump."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -1968,7 +2014,7 @@ static char *gnus-pointer[] = {
  '(objed-cursor-color "#D95468")
  '(org-agenda-files
    (quote
-    ("~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/GTD/friends.org" "~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/Notes/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/GTD_problem.org" "c:/Users/xx299/Dropbox/org/GTD/Journal.org" "c:/Users/xx299/Dropbox/org/GTD/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/calendar.org" "c:/Users/xx299/Dropbox/org/GTD/ideas.org" "c:/Users/xx299/Dropbox/org/GTD/task.org")))
+    ("~/Dropbox/org/GTD/My_Gril.org" "~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/GTD/friends.org" "~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/Notes/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/GTD_problem.org" "c:/Users/xx299/Dropbox/org/GTD/Journal.org" "c:/Users/xx299/Dropbox/org/GTD/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/calendar.org" "c:/Users/xx299/Dropbox/org/GTD/ideas.org" "c:/Users/xx299/Dropbox/org/GTD/task.org")))
  '(org-deadline-warning-days 0)
  '(package-selected-packages
    (quote
