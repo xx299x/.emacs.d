@@ -1203,6 +1203,7 @@ boundaries."
                    :order 7
                    )
 
+
             (:name "COURSE"
                    :tag "COURSE"
                    ;; :priority "A"
@@ -1232,6 +1233,15 @@ boundaries."
                    ;; :priority "A"
                    :order 80
                    )
+
+            (:name "HEALTH"
+                   :tag "HEALTH"
+                   :order 79)
+
+            (:name "鸡汤"
+                   :tag "鸡汤"
+                   :order 99)
+
             (:name "Due Today"
                    :deadline today
                    :order 8)
@@ -1250,6 +1260,7 @@ boundaries."
     (org-super-agenda-mode t)
     ;;init-agenda
     (define-key org-agenda-keymap (kbd "C-s") 'helm-swoop)
+    (setq org-agenda-use-time-grid nil)
     ;; 农历生日
     ;; https://emacs-china.org/t/topic/2119/19?u=elliott
     (require 'cal-china-x)
@@ -1279,6 +1290,8 @@ boundaries."
     (setq org-deadline-warning-days 0)  ; 设置默认警告时间。
     (setq org-agenda-include-diary t)
     (setq org-capture-templates nil)
+    ;;capture-map
+    (global-set-key (kbd "M-v") 'org-capture)
     ;;init-capture
     ;; (add-to-list 'org-capture-templates '("t" "Tasks"))
     ;; (add-to-list 'org-capture-templates
@@ -1289,6 +1302,11 @@ boundaries."
                  '("t" "Task" entry
                    (file "~/Dropbox/org/GTD/task.org")
                    "* TODO %^{1.Actionable?\t2.Less then 2 min?} %^G \nDEADLINE: %t\n%?" :clock-in t :clock-resume t))
+    (add-to-list 'org-capture-templates
+                 '("i" "Immediately" entry
+                   (file "~/Dropbox/org/GTD/task.org")
+                   "* TODO %^{1.Actionable?\t2.Less then 2 min?} %^G \nDEADLINE: %t\n%?" :unnarrowed t :clock-in t :clock-resume t))
+
     ;; (add-to-list 'org-capture-templates
     ;;              '("tc" "Project" entry
     ;;                (file "~/Dropbox/org/GTD/task.org")
@@ -1297,8 +1315,6 @@ boundaries."
     ;;              '("ts" "C" entry
     ;;                (file "~/Dropbox/org/GTD/suspend.org")
     ;;                "* TODO [#B] %^{Project} %^G \nSCHEDULED: %^t\n%?" :clock-in t :clock-resume t))
-    ;;capture-map
-    (global-set-key (kbd "M-v") 'org-capture)
 
     ;; capture-init
     ;; 有的时候，会有临时的小任务，比如说，将要出门，需要准备一些东西，
@@ -1340,7 +1356,7 @@ boundaries."
     (add-to-list 'org-capture-templates
                  '("re" "Repeat thing" entry
                    (file+olp "~/Dropbox/org/GTD/calendar.org" "Term-Plan" "English" "单词重复")
-                   "* TODO %^{What do you want to repeat?} \nDEADLINE: %^t\n%?" :clock-in t :clock-resume t))
+                   "* TODO %^{What do you want to repeat?} \nDEADLINE: %^t\n%?" :clock-in t :clock-resume t :unnarrowed t))
     (add-to-list 'org-capture-templates
                  '("rp" "Repeat thing" entry
                    (file+olp "~/Dropbox/org/GTD/calendar.org" "Journal" "REPEAT")
@@ -1349,7 +1365,11 @@ boundaries."
     (add-to-list 'org-capture-templates
                  '("l" "Love language" entry
                    (file+olp+datetree "~/Dropbox/org/GTD/My_Gril.org" "聊天主题规划")
-                   "* TODO %^{What do you want to say?} \n%u\n%?" :clock-in t :clock-resume t)) 
+                   "* TODO %^{What do you want to say?} :CMNCT: \n%u\n%?" :clock-in t :clock-resume t)) 
+    (add-to-list 'org-capture-templates
+                 '("e" "The Diary of Emotion" entry
+                   (file+olp "~/Dropbox/org/Notes/情绪日记.org" "Temp")
+                   "** %^{What do you want to say?} \n%u\n%?" :unnarrowed t :clock-in t :clock-resume t)) 
 
     ;;----------------------------;;
     ;; (add-to-list 'org-capture-templates '("p" "Project"))
@@ -1391,6 +1411,7 @@ boundaries."
             ("we" "EMACS" tags-todo "EMACS")
             ("wr" "Rest" tags-todo "Rest")
             ("b" "BOOK" tags-todo "BOOK")
+            ("l" tags-todo "Love+CMNCT")
             ("p" . "Project")
             ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"work\"")
             ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"xx299x\"")
