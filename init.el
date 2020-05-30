@@ -64,7 +64,7 @@ This function should only modify configuration layer settings."
      ranger
      pdf
      deft
-     epub 
+     epub
      ;; emoji
      ;; bibtex 相当于latex模板
      ;; bibtex
@@ -131,6 +131,7 @@ This function should only modify configuration layer settings."
                                       org-noter
                                       org-super-agenda
                                       olivetti
+                                      ;; org-ql
                                       )
 
    ;; A list of packages that cannot be updated.
@@ -265,8 +266,8 @@ It should only modify the values of Spacemacs settings."
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
-                         spacemacs-light
                          spacemacs-dark
+                         spacemacs-light
                          )
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
@@ -332,7 +333,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil, auto-generate layout name when creating new layouts. Only has
    ;; effect when using the "jump to layout by number" commands. (default nil)
    dotspacemacs-auto-generate-layout-names nil
-   
+
    ;; Size (in MB) above which spacemacs will prompt to open the large file
    ;; literally to avoid performance issues. Opening a file literally means that
    ;; no major mode or minor modes are active. (default is 1)
@@ -530,7 +531,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;;       ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
 
   ;; ;; Don’t compact font caches during GC.
-  (setq inhibit-compacting-font-caches t) 
+  (setq inhibit-compacting-font-caches t)
   (setq tramp-ssh-controlmaster-options
         "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
   ;; proxy
@@ -561,10 +562,12 @@ before packages are loaded."
 
   ;; 在状态栏显示时间
 
+  (spacemacs/toggle-golden-ratio-on)
+  (spacemacs/toggle-mode-line-off)
   (setq focus-dimness 20)
   (display-time-mode 1)
   ;;字体问题
-  (cnfonts-enable) 
+  (cnfonts-enable)
   (cnfonts-set-spacemacs-fallback-fonts)
   (setq cnfonts-profiles-directory "~/.spacemacs.d/cnfonts/")
 
@@ -645,7 +648,9 @@ before packages are loaded."
   (define-key evil-insert-state-map (kbd "C-z") 'undo-tree-undo)
   (define-key evil-insert-state-map (kbd "C-d") 'org-time-stamp-inactive)
   (define-key evil-insert-state-map (kbd "C-c C-8") 'org-ctrl-c-star)
-  
+  (define-key evil-normal-state-map (kbd "C-1") 'org-noter)
+  (define-key evil-insert-state-map (kbd "C-1") 'org-noter)
+
   ;; (define-key evil-insert-state-map (kbd "C-]") 'forward-char)
   ;;------------end----------------;;
 
@@ -802,10 +807,10 @@ before packages are loaded."
   ;; (require 'auto-save)
   ;; (setq auto-save-silent t)   ; quietly save
   ;; (setq auto-save-delete-trailing-whitespace t)  ; automatically delete spaces at the end of the line when saving
-  (require 'real-auto-save)
-  (add-hook 'org-mode-hook 'real-auto-save-mode)
+  ;; (require 'real-auto-save)
+  ;; (add-hook 'org-mode-hook 'real-auto-save-mode)
   ;; (add-hook 'prog-mode-hook 'real-auto-save-mode)
-  (setq real-auto-save-interval 10)
+  ;; (setq real-auto-save-interval 10)
   (defmacro with-suppressed-message (&rest body)
     "Suppress new messages temporarily in the echo area and the `*Messages*' buffer while BODY is evaluated."
     (declare (indent 0))
@@ -910,6 +915,7 @@ before packages are loaded."
   (add-hook 'org-mode-hook 'spacemacs/toggle-truncate-lines-off)
   (add-hook 'org-clock-in-hook 'spaceline-toggle-org-clock-on)
   (add-hook 'org-mode-hook 'spacemacs/toggle-mode-line-minor-modes-off)
+  (add-hook 'org-mode-hook 'spacemacs/toggle-mode-line-off)
 
  ;; (smartparens-mode)
  ;; (org-indent-mode)
@@ -1044,10 +1050,10 @@ boundaries."
 			  org-image-actual-width)))
 		       (old (get-char-property-and-overlay
 			     (org-element-property :begin link)
-			     'org-image-overlay))) 
+			     'org-image-overlay)))
 		   (if (and (car-safe old) refresh)
 		       (image-refresh (overlay-get (cdr old) 'display))
-		     
+
 		     (when (and width org-inline-image-resize-function)
 		       (setq file (funcall  org-inline-image-resize-function file width)
 			     width nil))
@@ -1055,7 +1061,7 @@ boundaries."
 						(cond
 						 ((image-type-available-p 'imagemagick)
 						  (and width 'imagemagick))
-						 (t nil)) 
+						 (t nil))
 						nil
 						:width width)))
 		       (when image
@@ -1204,8 +1210,9 @@ boundaries."
                    )
 
 
-            (:name "COURSE"
+            (:name "COURSE&WORK"
                    :tag "COURSE"
+                   :tag "WORKROUTINE"
                    ;; :priority "A"
                    :order 10
                    )
@@ -1305,7 +1312,7 @@ boundaries."
     (add-to-list 'org-capture-templates
                  '("i" "Immediately" entry
                    (file "~/Dropbox/org/GTD/task.org")
-                   "* TODO %^{1.Actionable?\t2.Less then 2 min?} %^G \nDEADLINE: %t\n%?" :unnarrowed t :clock-in t :clock-resume t))
+                   "* TODO %^{1.Actionable?\t2.Less then 2 min?}  :MUST: \nSCHEDULED: %t\n%?" :clock-in t :clock-resume t))
 
     ;; (add-to-list 'org-capture-templates
     ;;              '("tc" "Project" entry
@@ -1354,7 +1361,7 @@ boundaries."
 
     (add-to-list 'org-capture-templates '("r" "Repeat"))
     (add-to-list 'org-capture-templates
-                 '("re" "Repeat thing" entry
+                 '("re" "Repeat English" entry
                    (file+olp "~/Dropbox/org/GTD/calendar.org" "Term-Plan" "English" "单词重复")
                    "* TODO %^{What do you want to repeat?} \nDEADLINE: %^t\n%?" :clock-in t :clock-resume t :unnarrowed t))
     (add-to-list 'org-capture-templates
@@ -1365,11 +1372,17 @@ boundaries."
     (add-to-list 'org-capture-templates
                  '("l" "Love language" entry
                    (file+olp+datetree "~/Dropbox/org/GTD/My_Gril.org" "聊天主题规划")
-                   "* TODO %^{What do you want to say?} :CMNCT: \n%u\n%?" :clock-in t :clock-resume t)) 
+                   "* TODO %^{What do you want to say?} :CMNCT: \n%u\n%?" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
                  '("e" "The Diary of Emotion" entry
                    (file+olp "~/Dropbox/org/Notes/情绪日记.org" "Temp")
-                   "** %^{What do you want to say?} \n%u\n%?" :unnarrowed t :clock-in t :clock-resume t)) 
+                   "** %^{What do you want to say?} \n%u\n%?" :unnarrowed t :clock-in t :clock-resume t))
+    (add-to-list 'org-capture-templates
+                 '("f" "Free Time" entry
+                   (file "~/Dropbox/org/GTD/task.org")
+                   "* TODO %^{1.Actionable?\t2.Less then 2 min?} :FREE:%^G \n%?" :clock-in t :clock-resume t))
+
+
 
     ;;----------------------------;;
     ;; (add-to-list 'org-capture-templates '("p" "Project"))
@@ -1411,11 +1424,15 @@ boundaries."
             ("we" "EMACS" tags-todo "EMACS")
             ("wr" "Rest" tags-todo "Rest")
             ("b" "BOOK" tags-todo "BOOK")
+            ("n" . "Not deadline Not Routine Today")
+            ("nd" "Not deadline and schedul" tags-todo "-BOOK-LOVE-Love-SCHEDULED={.+}-DEADLINE={.+}")
+            ("nr" "Not deadline and schedul" tags-todo "-BOOK-LOVE-Love-ROUTINE+SCHEDULED=\"<today>\"+DEADLINE=\"<today>\"")
             ("l" tags-todo "Love+CMNCT")
             ("p" . "Project")
             ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"work\"")
             ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"xx299x\"")
             ("pu" tags "PROJECT")
+            ("f" "Free Time" tags-todo "FREE")
             ("W" "Weekly Review"
              ((stuck "") ;; review stuck projects as designated by org-stuck-projects
               (tags-todo "PROJECT") ;; review all projects (assuming you use todo keywords to designate projects)
@@ -1773,8 +1790,28 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
     (deft-filter filter t)
     )
 
+  (require 'auto-save)
+  (auto-save-enable)
+
+  (setq auto-save-silent t)   ; quietly save
+  (setq auto-save-delete-trailing-whitespace nil)  ; automatically delete spaces at the end of the line when saving
+
+;;; custom predicates if you don't want auto save.
+;;; disable auto save mode when current filetype is an gpg file.
+  (setq auto-save-disable-predicates
+        '((lambda ()
+            (string-suffix-p
+             "gpg"
+             (file-name-extension (buffer-name)) t))))
+
   ;; 功能重复，real-auto-save 就可以了
-  (setq deft-auto-save-interval 9999)
+  ;; (add-hook 'org-mode-hook 'auto-save-mode)
+  ;; ;; (remove-hook 'org-mode-hook 'real-auto-save-mode)
+  ;; (setq auto-save-interval 10)
+  ;; (setq auto-save-timeout 30)
+
+
+  ;; (setq deft-auto-save-interval 10)
   ;;------------end----------------;;
 
 
@@ -1807,11 +1844,13 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
 
   (setq pdf-info-epdfinfo-program '"c:/users/xx299/.spacemacs.d/pdf-tools-20191128.1731/epdfinfo.exe")
   (add-hook 'pdf-view-mode-hook 'pdf-tools-enable-minor-modes)
+  ;; (add-hook 'pdf-view-mode-hook '(spacemacs/enlarge-window-horizontally 22))
   (setq org-noter-notes-search-path '("c:/Users/xx299/Dropbox/org/Notes"))
   (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
   ;; 按键
   (define-key org-noter-notes-mode-map (kbd "M-n") 'org-noter-sync-next-note)
   (define-key org-noter-notes-mode-map (kbd "M-p") 'org-noter-sync-prev-note)
+
   (define-key pdf-view-mode-map (kbd "e") 'pdf-view-scroll-down-or-previous-page)
   (define-key pdf-view-mode-map (kbd "c") 'pdf-view-page-number)
   (define-key pdf-view-mode-map (kbd "t") 'spacemacs/toggle-mode-line)
@@ -1854,7 +1893,7 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
 ;;;;;;;;;;;;;;
 ;;;  other ;;;
 ;;;;;;;;;;;;;;
-  
+
 
 
   ;; (setq projectile-git-submodule-command nil) ;; 速度Git速度慢的问题
@@ -1943,7 +1982,6 @@ dump."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -1955,14 +1993,12 @@ This function is called at the very end of Spacemacs initialization."
    [unspecified "#14191f" "#d15120" "#81af34" "#deae3e" "#7e9fc9" "#a878b5" "#7e9fc9" "#dcdddd"])
  '(company-quickhelp-color-background "#4F4F4F")
  '(company-quickhelp-color-foreground "#DCDCCC")
- '(custom-enabled-themes (quote (spacemacs-dark)))
+ '(custom-enabled-themes '(spacemacs-dark))
  '(custom-safe-themes
-   (quote
-    ("a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" "ab04c00a7e48ad784b52f34aa6bfa1e80d0c3fcacc50e1189af3651013eb0d58" "2540689fd0bc5d74c4682764ff6c94057ba8061a98be5dd21116bf7bf301acfb" "ab2cbf30ab758c5e936b527377d543ce4927001742f79519b62c45ba9dd9f55e" "66f32da4e185defe7127e0dc8b779af99c00b60c751b0662276acaea985e2721" "e11880d349e5b3f3d47e5bd6f7d9ff773ab6301e124ec7dbbbfbba5fb8482390" "9c27124b3a653d43b3ffa088cd092c34f3f82296cf0d5d4f719c0c0817e1afa6" "89536596ee5bdc5ef9ea3d3d5b515ea616285fa9274c836263024f1993f6b3dd" "801a567c87755fe65d0484cb2bded31a4c5bb24fd1fe0ed11e6c02254017acb2" "341b2570a9bbfc1817074e3fad96a7eff06a75d8e2362c76a2c348d0e0877f31" "8a97050c9dd0af1cd8c3290b061f4b6032ccf2044ddc4d3c2c39e516239b2463" "72085337718a3a9b4a7d8857079aa1144ea42d07a4a7696f86627e46ac52f50b" "8dce5b23232d0a490f16d62112d3abff6babeef86ae3853241a85856f9b0a6e7" "450f3382907de50be905ae8a242ecede05ea9b858a8ed3cc8d1fbdf2d57090af" "4138944fbed88c047c9973f68908b36b4153646a045648a22083bd622d1e636d" "1dd7b369ab51f00e91b6a990634017916e7bdeb64002b4dda0d7a618785725ac" "621595cbf6c622556432e881945dda779528e48bb57107b65d428e61a8bb7955" "cd7ffd461946d2a644af8013d529870ea0761dccec33ac5c51a7aaeadec861c2" "a7051d761a713aaf5b893c90eaba27463c791cd75d7257d3a8e66b0c8c346e77" default)))
- '(diary-entry-marker (quote font-lock-variable-name-face))
+   '("a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" "ab04c00a7e48ad784b52f34aa6bfa1e80d0c3fcacc50e1189af3651013eb0d58" "2540689fd0bc5d74c4682764ff6c94057ba8061a98be5dd21116bf7bf301acfb" "ab2cbf30ab758c5e936b527377d543ce4927001742f79519b62c45ba9dd9f55e" "66f32da4e185defe7127e0dc8b779af99c00b60c751b0662276acaea985e2721" "e11880d349e5b3f3d47e5bd6f7d9ff773ab6301e124ec7dbbbfbba5fb8482390" "9c27124b3a653d43b3ffa088cd092c34f3f82296cf0d5d4f719c0c0817e1afa6" "89536596ee5bdc5ef9ea3d3d5b515ea616285fa9274c836263024f1993f6b3dd" "801a567c87755fe65d0484cb2bded31a4c5bb24fd1fe0ed11e6c02254017acb2" "341b2570a9bbfc1817074e3fad96a7eff06a75d8e2362c76a2c348d0e0877f31" "8a97050c9dd0af1cd8c3290b061f4b6032ccf2044ddc4d3c2c39e516239b2463" "72085337718a3a9b4a7d8857079aa1144ea42d07a4a7696f86627e46ac52f50b" "8dce5b23232d0a490f16d62112d3abff6babeef86ae3853241a85856f9b0a6e7" "450f3382907de50be905ae8a242ecede05ea9b858a8ed3cc8d1fbdf2d57090af" "4138944fbed88c047c9973f68908b36b4153646a045648a22083bd622d1e636d" "1dd7b369ab51f00e91b6a990634017916e7bdeb64002b4dda0d7a618785725ac" "621595cbf6c622556432e881945dda779528e48bb57107b65d428e61a8bb7955" "cd7ffd461946d2a644af8013d529870ea0761dccec33ac5c51a7aaeadec861c2" "a7051d761a713aaf5b893c90eaba27463c791cd75d7257d3a8e66b0c8c346e77" default))
+ '(diary-entry-marker 'font-lock-variable-name-face)
  '(emms-mode-line-icon-image-cache
-   (quote
-    (image :type xpm :ascent center :data "/* XPM */
+   '(image :type xpm :ascent center :data "/* XPM */
 static char *note[] = {
 /* width height num_colors chars_per_pixel */
 \"    10   11        2            1\",
@@ -1980,14 +2016,13 @@ static char *note[] = {
 \"#..######.\",
 \"#######...\",
 \"######....\",
-\"#######..#\" };")))
+\"#######..#\" };"))
  '(evil-want-Y-yank-to-eol nil)
  '(fci-rule-character-color "#192028")
  '(fci-rule-color "#56697A")
- '(gnus-logo-colors (quote ("#2fdbde" "#c0c0c0")) t)
+ '(gnus-logo-colors '("#2fdbde" "#c0c0c0") t)
  '(gnus-mode-line-image-cache
-   (quote
-    (image :type xpm :ascent center :data "/* XPM */
+   '(image :type xpm :ascent center :data "/* XPM */
 static char *gnus-pointer[] = {
 /* width height num_colors chars_per_pixel */
 \"    18    13        2            1\",
@@ -2007,11 +2042,10 @@ static char *gnus-pointer[] = {
 \"######..###.######\",
 \"###....####.######\",
 \"###..######.######\",
-\"###########.######\" };")) t)
+\"###########.######\" };") t)
  '(helm-source-names-using-follow nil)
  '(hl-todo-keyword-faces
-   (quote
-    (("TODO" . "#dc752f")
+   '(("TODO" . "#dc752f")
      ("NEXT" . "#dc752f")
      ("THEM" . "#2d9574")
      ("PROG" . "#3a81c3")
@@ -2025,22 +2059,19 @@ static char *gnus-pointer[] = {
      ("TEMP" . "#b1951d")
      ("FIXME" . "#dc752f")
      ("XXX+" . "#dc752f")
-     ("\\?\\?\\?+" . "#dc752f"))))
+     ("\\?\\?\\?+" . "#dc752f")))
  '(jdee-db-active-breakpoint-face-colors (cons "#10151C" "#5EC4FF"))
  '(jdee-db-requested-breakpoint-face-colors (cons "#10151C" "#8BD49C"))
  '(jdee-db-spec-breakpoint-face-colors (cons "#10151C" "#384551"))
  '(nrepl-message-colors
-   (quote
-    ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
+   '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(objed-cursor-color "#D95468")
  '(org-agenda-files
-   (quote
-    ("~/Dropbox/org/GTD/My_Gril.org" "~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/GTD/friends.org" "~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/Notes/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/GTD_problem.org" "c:/Users/xx299/Dropbox/org/GTD/Journal.org" "c:/Users/xx299/Dropbox/org/GTD/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/calendar.org" "c:/Users/xx299/Dropbox/org/GTD/ideas.org" "c:/Users/xx299/Dropbox/org/GTD/task.org")))
+   '("~/Dropbox/org/GTD/My_Gril.org" "~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/GTD/friends.org" "~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/Notes/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/GTD_problem.org" "c:/Users/xx299/Dropbox/org/GTD/Journal.org" "c:/Users/xx299/Dropbox/org/GTD/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/calendar.org" "c:/Users/xx299/Dropbox/org/GTD/ideas.org" "c:/Users/xx299/Dropbox/org/GTD/task.org"))
  '(org-deadline-warning-days 0)
  '(package-selected-packages
-   (quote
-    (org-wild-notifier org-noter toml-mode racer flycheck-rust dap-mode bui tree-mode lsp-mode cargo org-ref key-chord helm-bibtex parsebib biblio biblio-core tern nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl add-node-modules-path emojify emoji-cheat-sheet-plus company-emoji powershell helm-gtags helm helm-core ggtags counsel-gtags rust-mode wgrep smex ivy-xref ivy-purpose ivy-hydra counsel-projectile counsel-css counsel swiper ivy pdf-tools tablist ox-gfm org-re-reveal youdao-dictionary yapfify ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs ranger rainbow-delimiters pytest pyim pyenv-mode py-isort popwin pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pangu-spacing pandoc-mode ox-pandoc ox-hugo ox-epub overseer orgit org-sticky-header org-projectile org-present org-pomodoro org-mime org-journal org-download org-cliplink org-bullets org-brain open-junk-file nameless move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum live-py-mode link-hint indent-guide importmagic hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md font-lock+ focus flycheck-package flx-ido find-by-pinyin-dired fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish devdocs define-word cython-mode column-enforce-mode cnfonts clean-aindent-mode chinese-conv centered-cursor-mode blacken auto-highlight-symbol auto-compile auctex-latexmk anaconda-mode aggressive-indent ace-pinyin ace-link ace-jump-helm-line)))
- '(pdf-view-midnight-colors (quote ("#655370" . "#fbf8ef")))
+   '(org-ql peg ov org-wild-notifier org-noter toml-mode racer flycheck-rust dap-mode bui tree-mode lsp-mode cargo org-ref key-chord helm-bibtex parsebib biblio biblio-core tern nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl add-node-modules-path emojify emoji-cheat-sheet-plus company-emoji powershell helm-gtags helm helm-core ggtags counsel-gtags rust-mode wgrep smex ivy-xref ivy-purpose ivy-hydra counsel-projectile counsel-css counsel swiper ivy pdf-tools tablist ox-gfm org-re-reveal youdao-dictionary yapfify ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs ranger rainbow-delimiters pytest pyim pyenv-mode py-isort popwin pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pangu-spacing pandoc-mode ox-pandoc ox-hugo ox-epub overseer orgit org-sticky-header org-projectile org-present org-pomodoro org-mime org-journal org-download org-cliplink org-bullets org-brain open-junk-file nameless move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum live-py-mode link-hint indent-guide importmagic hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md font-lock+ focus flycheck-package flx-ido find-by-pinyin-dired fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish devdocs define-word cython-mode column-enforce-mode cnfonts clean-aindent-mode chinese-conv centered-cursor-mode blacken auto-highlight-symbol auto-compile auctex-latexmk anaconda-mode aggressive-indent ace-pinyin ace-link ace-jump-helm-line))
+ '(pdf-view-midnight-colors '("#655370" . "#fbf8ef"))
  '(vc-annotate-background "#1D252C")
  '(vc-annotate-color-map
    (list
