@@ -2,46 +2,302 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("新编英语阅读手册 xbyyydsc"
- (filename . "~/Dropbox/org/Notes/新编英语阅读手册.org")
- (front-context-string . "** Skeleton\n*** ")
- (rear-context-string . "语阅读手册.pdf\n:END:\n")
- (position . 109))
-("剑桥英语在用 jqyyzy"
- (filename . "~/Dropbox/org/Notes/剑桥英语在用丛书_剑桥中级英语语法.org")
- (front-context-string . "** Notes for pag")
- (rear-context-string . "0.000572)\n:END:\n")
- (position . 12780))
-("GTD完全接管生活 gtdwqjgsh"
- (filename . "~/Dropbox/org/Notes/GTD完全接管生活.org")
- (front-context-string . "AFT: true\n#+HUGO")
- (rear-context-string . "S: @决定\n#+HUGO_DR")
- (position . 164))
-("archive"
+(("archive"
  (filename . "~/Dropbox/org/GTD/archive.org")
- (front-context-string . "**** ABORT [#A] ")
- (rear-context-string . ":01\n     :END:\n\n")
- (position . 58772))
-("ideas matter people temp"
- (filename . "~/Dropbox/org/GTD/ideas.org")
- (front-context-string . "* 背单词的时候可以用那些时间进")
- (rear-context-string . "04-29 周三 17:34]\n")
- (position . 9985))
-("2020年计划 2020njh"
+ (front-context-string . "** 2020-11 Novem")
+ (rear-context-string . "我和天地万物便通通奔向你。\n\n\n")
+ (position . 283587))
+("2021 学习计划 xxjh"
+ (filename . "~/Dropbox/org/Notes/2021年学习计划.org")
+ (front-context-string)
+ (rear-context-string . "TLE: 2021年学习计划\n\n")
+ (position . 21))
+("calendar"
+ (filename . "~/Dropbox/org/GTD/calendar.org")
+ (front-context-string . "English :ENGLISH")
+ (rear-context-string . "plan :DAILY:\n** ")
+ (position . 40))
+("friends"
+ (filename . "~/Dropbox/org/GTD/friends.org")
+ (front-context-string . "* 芦灏\n\n** 信息\n%%(o")
+ (rear-context-string . "TITLE: Friends\n\n")
+ (position . 19))
+("init"
+ (filename . "~/.spacemacs.d/init.el")
+ (front-context-string . ";; org\n     ;; s")
+ (rear-context-string . "le-cursors\n     ")
+ (position . 2264))
+("init-layter"
+ (filename . "~/.spacemacs.d/init.el")
+ (front-context-string . "     treemacs\n  ")
+ (rear-context-string . "syntax-checking\n")
+ (position . 2240))
+("2020年学习计划 xxjh"
  (filename . "~/Dropbox/org/Notes/2019-12-26T1715.org")
- (front-context-string . "年学习计划\n#+HUGO_BAS")
+ (front-context-string . "2020年学习计划\n#+HUGO")
  (rear-context-string)
- (position . 14))
-("普林斯顿微积分读本 plsdwjfdb"
- (filename . "~/Dropbox/org/Notes/普林斯顿微积分读本.org")
- (front-context-string . ":\n*** 3.1 极限：基本思")
- (rear-context-string . "ER_PAGE: 55\n:END")
- (position . 1668))
+ (position . 10))
+("task gtd"
+ (filename . "~/Dropbox/org/GTD/task.org")
+ (front-context-string . "* TODO 曾仕强教授的易经的")
+ (rear-context-string . " =>  0:00\n:END:\n")
+ (position . 12738))
 ("情绪恢复驿站 自卑 qxhfyz zb"
  (filename . "~/Dropbox/org/Notes/2020-01-29T0127.org")
  (front-context-string . "* 比我更痛苦的人\n** 阿伯拉")
  (rear-context-string . "eX_CLASS: book\n\n")
  (position . 584))
+("一份不太简短的Latex介绍 yfbtjddlatexjs"
+ (filename . "~/Dropbox/org/Notes/一份不太简短的Latex介绍.org")
+ (front-context-string . "\n:PROPERTIES:\n:N")
+ (rear-context-string . "\n***** 4.3.4 关系符")
+ (position . 5548))
+("英语思维 yysw"
+ (filename . "~/Dropbox/org/Notes/英语思维  解密英语语法的原理_14194104.org")
+ (front-context-string . "* 英语思维  解密英语语法的原")
+ (rear-context-string . "的要么完成态，要么完成进行态。\n")
+ (position . 782))
+("把时间当做朋友 bsjdzpy lxl"
+ (filename . "~/Dropbox/org/Notes/把时间当作朋友_运用心智获得解放-李笑来.org")
+ (front-context-string . "心智获得解放-李笑来\n:PROP")
+ (rear-context-string . "做朋友\n* 把时间当作朋友_运用")
+ (position . 30))
+("我要找的女人 wyzdnr"
+ (filename . "~/Dropbox/org/Notes/我要找的女人.org")
+ (front-context-string)
+ (rear-context-string . "* 发量要足\n* 性格\n** \n")
+ (position . 69))
+("girl"
+ (filename . "~/Dropbox/org/GTD/My_Gril.org")
+ (front-context-string . "** 生日\n%%(diary-r")
+ (rear-context-string . "要记下来的东西\n\n* 基本信息\n")
+ (position . 30))
+("个人信息 常用信息 快速查询 grxx cyxx kscx"
+ (filename . "~/Dropbox/org/Notes/2019-10-21T1556.org")
+ (front-context-string . "1\n#+HUGO_AUTO_SE")
+ (rear-context-string . "+DATE: 2019-10-2")
+ (position . 94))
+("阅读的逻辑 yddlj 唐迟"
+ (filename . "~/Dropbox/org/Notes/阅读的逻辑 适用于英语一、英语二 唐迟.org")
+ (front-context-string . "--相同或相反\n:PROPERT")
+ (rear-context-string . "7\n:END:\n*** 句间逻辑")
+ (position . 154))
+("反本能 如何对抗你的习以为常 fbnrhdkndxywc"
+ (filename . "~/Dropbox/org/Notes/反本能 如何对抗你的习以为常_卫蓝_天地_2017.10.org")
+ (front-context-string . "***** Notes for ")
+ (rear-context-string . "55643045)\n:END:\n")
+ (position . 518))
+("人生的智慧叔本华 rsdzhsbh"
+ (filename . "~/Dropbox/org/Notes/人生的智慧(德)叔本华清晰扫描版.org")
+ (front-context-string . ":PROPERTIES:\n:NO")
+ (rear-context-string . "otes for page 7\n")
+ (position . 592))
+("亲密关系 qmgx pdf"
+ (filename . "~/Dropbox/org/Notes/亲密关系.org")
+ (front-context-string)
+ (rear-context-string . "/亲密关系.pdf\n:END:\n")
+ (position . 74))
+("沉默的大多数  王小波  cmdddswxb"
+ (filename . "~/Dropbox/org/Notes/沉默的大多数-王小波.org")
+ (front-context-string)
+ (rear-context-string . "数-王小波.pdf\n:END:\n")
+ (position . 93))
+("沉默的大多数 cmddds"
+ (filename . "d:/Entertainment/Literature/沉默的大多数-王小波.pdf")
+ (position . 1)
+ (page . 1)
+ (slice)
+ (size . fit-width)
+ (origin 0.0 . 0.018031555221637866)
+ (handler . pdf-view-bookmark-jump-handler))
+("org-capture-last-stored"
+ (filename . "~/Dropbox/org/GTD/task.org")
+ (front-context-string . "* TODO GTD 正在计划中")
+ (rear-context-string . "ed 20:42]\n:END:\n")
+ (position . 18843))
+("carrar"
+ (filename . "~/Dropbox/org/GTD/career.org")
+ (front-context-string . "** 2020-10 Octob")
+ (rear-context-string . "=>  0:00\n:END:\n\n")
+ (position . 2606))
+("ideas matter people temp"
+ (filename . "~/Dropbox/org/GTD/ideas.org")
+ (front-context-string . "* 背单词的时候可以用那些时间进")
+ (rear-context-string . "04-29 周三 17:34]\n")
+ (position . 9985))
+("系统之美-决策者的系统思考-德内拉 xtzm jczdxtsk "
+ (filename . "~/Dropbox/org/Notes/系统之美-决策者的系统思考-德内拉.org")
+ (front-context-string . " 系统基础\n:PROPERTIE")
+ (rear-context-string . "德内拉.pdf\n:END:\n**")
+ (position . 114))
+("GTD完全接管生活 gtdwqjgsh"
+ (filename . "~/Dropbox/org/Notes/GTD完全接管生活.org")
+ (front-context-string . "AFT: true\n#+HUGO")
+ (rear-context-string . "S: @决定\n#+HUGO_DR")
+ (position . 164))
+("憨憨 hh"
+ (filename . "~/Dropbox/org/GTD/My_Gril_hh.org")
+ (front-context-string . "** 减少想憨憨的理由\n*** ")
+ (rear-context-string . " 2020-05-29 星期五\n")
+ (position . 3861))
+("love"
+ (filename . "~/Dropbox/org/GTD/My_Gril.org")
+ (front-context-string . "** 生日\n%%(diary-r")
+ (rear-context-string . "要记下来的东西\n\n* 基本信息\n")
+ (position . 30))
+("GTD_problem"
+ (filename . "~/Dropbox/org/GTD/GTD_problem.org")
+ (front-context-string . "     :LOGBOOK:\n ")
+ (rear-context-string . ":44] - ffffafaf\n")
+ (position . 479))
+("成事  cs"
+ (filename . "~/Dropbox/org/Notes/成事：冯唐品读曾国藩嘉言钞.org")
+ (front-context-string)
+ (rear-context-string . "国藩嘉言钞.pdf\n:END:\n")
+ (position . 104))
+("阅读理解 唐迟 ydlj tc"
+ (filename . "~/Dropbox/org/Notes/2020-02-06T1956.org")
+ (front-context-string)
+ (rear-context-string . "带入通读验证\n* 段落匹配\n**")
+ (position . 2968))
+("系统之美 决策者的艺术 xtzmjczdys"
+ (filename . "~/Dropbox/org/Notes/系统之美-决策者的系统思考-德内拉.org")
+ (front-context-string)
+ (rear-context-string . "_PAGE: 48\n:END:\n")
+ (position . 827))
+("厚黑学"
+ (filename . "~/Dropbox/org/Notes/厚黑学.org")
+ (front-context-string)
+ (rear-context-string . "/厚黑学.epub\n:END:\n")
+ (position . 76))
+("幽默感 ymg"
+ (filename . "~/Dropbox/org/Notes/幽默感.org")
+ (front-context-string . "** Notes for pag")
+ (rear-context-string . "(2 . 1.0)\n:END:\n")
+ (position . 5075))
+("普林斯顿微积分读本 plsdwjfdb"
+ (filename . "~/Dropbox/org/Notes/普林斯顿微积分读本.org")
+ (front-context-string . "**** 7.1.1 小数的情况")
+ (rear-context-string . "PAGE: 132\n:END:\n")
+ (position . 4627))
+("张宇高等数学基础 zygdsxjc"
+ (filename . "f:/01.高数【完】/2021考研数学基础30讲 Z宇.pdf")
+ (position . 1)
+ (page . 4)
+ (slice)
+ (size . 1.6376470588235295)
+ (origin 0.0 . 0.25689404934687954)
+ (handler . pdf-view-bookmark-jump-handler))
+("同济大学高等数学第七版上册 tjdxgdsxdqbsc"
+ (filename . "~/Dropbox/org/Notes/同济大学高等数学第七版上册.org")
+ (front-context-string . "同济大学高等数学第七版上册\n:P")
+ (rear-context-string)
+ (position . 3))
+("职业 zy"
+ (filename . "~/Dropbox/org/GTD/career.org")
+ (front-context-string)
+ (rear-context-string . "二 15:36] =>  0:0")
+ (position . 2597))
+("职业 y"
+ (filename . "~/Dropbox/org/GTD/career.org")
+ (front-context-string)
+ (rear-context-string . "二 15:36] =>  0:0")
+ (position . 2597))
+("50个决定你一生的做人法则 50gjdnysdzrfz"
+ (filename . "~/Dropbox/org/Notes/50个决定你一生的做人法则.org")
+ (front-context-string . "\n:NOTER_PAGE: (5")
+ (rear-context-string . "路虎”\n:PROPERTIES:")
+ (position . 2298))
+("何凯文 长难句解密 hkwcnjjm"
+ (filename . "~/Dropbox/org/Notes/2021何凯文长难句解密.org")
+ (front-context-string . "解密\n:PROPERTIES:\n")
+ (rear-context-string)
+ (position . 13))
+("赖世雄经典语法 lsxjdyf"
+ (filename . "~/Dropbox/org/Notes/语法：赖世雄经典英语语法.org")
+ (front-context-string . "***** 3．取代whose的")
+ (rear-context-string . "PAGE: 122\n:END:\n")
+ (position . 6736))
+("人生规划 rsgh"
+ (filename . "~/Dropbox/org/Notes/人生规划.org")
+ (front-context-string . "大三 22\n大三 23\n大四 2")
+ (rear-context-string . "划\n大二 结束的时候 正好21\n")
+ (position . 38))
+("人生规划"
+ (filename . "~/Dropbox/org/Notes/人生规划.org")
+ (front-context-string . "层开始\n*** 自己的经历也十分")
+ (rear-context-string . "** 后代绝不会太差，也不是从底")
+ (position . 437))
+("摊牌说的话 yxtpsdh"
+ (filename . "~/Dropbox/org/GTD/task.org")
+ (front-context-string . "有很多事情要做，世界还在等着我去")
+ (rear-context-string . "恋爱不是坐享其成的。\n2. 我还")
+ (position . 8730))
+("恋爱日记大纲"
+ (filename . "~/Dropbox/org/Notes/恋爱日记大纲.org")
+ (front-context-string . "统\n** 憨憨欠我的愿望\n1 个")
+ (rear-context-string . "LASS: book\n* 愿望系")
+ (position . 586))
+("英语学习心得 yyxxxd"
+ (filename . "~/Dropbox/org/Notes/英语学习心得.org")
+ (front-context-string)
+ (rear-context-string . "TITLE: 英语学习心得\n\n*")
+ (position . 19))
+("英语阅读技巧 yyydjq"
+ (filename . "~/Dropbox/org/Notes/2019-12-14T2314.org")
+ (front-context-string)
+ (rear-context-string . "eX_CLASS: book\n\n")
+ (position . 584))
+("希望和愿景 xwhyj"
+ (filename . "~/Dropbox/org/Notes/希望和愿景.org")
+ (front-context-string . ":希望和愿景\n\n* 住\n大房子\n")
+ (rear-context-string)
+ (position . 8))
+("2020年生活计划 shjh"
+ (filename . "~/Dropbox/org/Notes/2020年生活计划.org")
+ (front-context-string . "\n* 个人形象打造\n** 穿着打")
+ (rear-context-string . "TTER: :toc true\n")
+ (position . 215))
+("剑桥英语在用 jqyyzy"
+ (filename . "~/Dropbox/org/Notes/剑桥英语在用丛书_剑桥中级英语语法.org")
+ (front-context-string . "** Notes for pag")
+ (rear-context-string . "0.000572)\n:END:\n")
+ (position . 12780))
+("围城 wc"
+ (filename . "~/Dropbox/org/Notes/围城.org")
+ (front-context-string . "** Notes for pag")
+ (rear-context-string . "94947994)\n:END:\n")
+ (position . 774))
+("为什么精英都有超强专注力 wsmjydzcqzzl"
+ (filename . "~/Dropbox/org/Notes/为什么精英都有超强专注力.org")
+ (front-context-string . "为什么精英都有超强专注力\n:PR")
+ (rear-context-string)
+ (position . 3))
+("自控力 zkl"
+ (filename . "~/Dropbox/org/Notes/自控力经典套装三册by凯利-麦格尼格尔.org")
+ (front-context-string)
+ (rear-context-string . "三册by凯利-麦格尼格尔.pdf")
+ (position . 97))
+("旋元佑进阶文法 xyyjjwf"
+ (filename . "~/Dropbox/org/Notes/旋元佑进阶文法.org")
+ (front-context-string . "** 名词词组\n:PROPERT")
+ (rear-context-string . "0.742256)\n:END:\n")
+ (position . 1347))
+("断舍离-山下英子 dsl-sxyz "
+ (filename . "~/Dropbox/org/Notes/断舍离-山下英子.org")
+ (front-context-string . "断舍离-山下英子\n:PROPER")
+ (rear-context-string)
+ (position . 3))
+("围城.org"
+ (filename . "~/Dropbox/org/Notes/围城.org")
+ (front-context-string . "** Notes for pag")
+ (rear-context-string . "17293233)\n:END:\n")
+ (position . 186))
+("新编英语阅读手册 xbyyydsc"
+ (filename . "~/Dropbox/org/Notes/新编英语阅读手册.org")
+ (front-context-string . "** Skeleton\n*** ")
+ (rear-context-string . "语阅读手册.pdf\n:END:\n")
+ (position . 109))
 ("情绪日记 qxrj"
  (filename . "~/Dropbox/org/Notes/情绪日记.org")
  (front-context-string . "* 原则\n** 不要乱想，情绪无")
@@ -52,56 +308,16 @@
  (front-context-string)
  (rear-context-string . "/三级听力/三级听力原文.pdf")
  (position . 72))
-("个人信息 常用信息 快速查询 grxx cyxx kscx"
- (filename . "~/Dropbox/org/Notes/2019-10-21T1556.org")
- (front-context-string . "1\n#+HUGO_AUTO_SE")
- (rear-context-string . "+DATE: 2019-10-2")
- (position . 94))
-("task gtd"
- (filename . "~/Dropbox/org/GTD/task.org")
- (front-context-string)
- (rear-context-string . "、可爱、沙雕、舔、还有羞羞哒\n\n")
- (position . 6887))
-("calendar"
- (filename . "~/Dropbox/org/GTD/calendar.org")
- (front-context-string . "English :ENGLISH")
- (rear-context-string . "plan :DAILY:\n** ")
- (position . 40))
-("断舍离-山下英子 dsl-sxyz "
- (filename . "~/Dropbox/org/Notes/断舍离-山下英子.org")
- (front-context-string . "断舍离-山下英子\n:PROPER")
- (rear-context-string)
- (position . 3))
-("系统之美-决策者的系统思考-德内拉 xtzm jczdxtsk "
- (filename . "~/Dropbox/org/Notes/系统之美-决策者的系统思考-德内拉.org")
- (front-context-string . " 系统基础\n:PROPERTIE")
- (rear-context-string . "德内拉.pdf\n:END:\n**")
- (position . 114))
 ("商务与经济统计 swyjjtj 商务数据分析宝典 swsjffxbd"
  (filename . "~/Dropbox/org/Notes/商务与经济统计-原书第13版-商务数据分析宝典及手册.org")
  (front-context-string . "or page 19\n:PROP")
  (rear-context-string . ":END:\n** Notes f")
  (position . 151))
-("憨憨 hh"
- (filename . "~/Dropbox/org/GTD/My_Gril.org")
- (front-context-string . "** 施乐\n\n* 情绪爱好以及想")
- (rear-context-string . "-02-24 周三]\n* 闺蜜\n")
- (position . 2664))
-("系统之美 决策者的艺术 xtzmjczdys"
- (filename . "~/Dropbox/org/Notes/系统之美-决策者的系统思考-德内拉.org")
- (front-context-string)
- (rear-context-string . "_PAGE: 48\n:END:\n")
- (position . 827))
 ("非暴力沟通 fblgt"
  (filename . "~/Dropbox/org/Notes/非暴力沟通-马歇尔·卢森堡著.org")
  (front-context-string . "八章　倾听的力量\n:PROPER")
  (rear-context-string . "0726)\n:END:\n** 第")
  (position . 1541))
-("赖世雄经典语法 lsxjdyf"
- (filename . "~/Dropbox/org/Notes/语法：赖世雄经典英语语法.org")
- (front-context-string . "***** 3．取代whose的")
- (rear-context-string . "PAGE: 122\n:END:\n")
- (position . 6736))
 ("仪式感的事情 ysgdsq"
  (filename . "~/Dropbox/org/Notes/仪式感的事情.org")
  (front-context-string)
@@ -112,11 +328,6 @@
  (front-context-string)
  (rear-context-string . "习\n出痘痘停不下来，一个接着一个")
  (position . 182))
-("50个决定你一生的做人法则 50gjdnysdzrfz"
- (filename . "~/Dropbox/org/Notes/50个决定你一生的做人法则.org")
- (front-context-string . "\n:NOTER_PAGE: (5")
- (rear-context-string . "路虎”\n:PROPERTIES:")
- (position . 2298))
 ("区块链原理、设计 qklgk"
  (filename . "~/Dropbox/org/Notes/区块链原理、设计与应用.org")
  (front-context-string . "** 理　论　篇\n:PROPER")
@@ -127,36 +338,11 @@
  (front-context-string . "ASTMOD: t\n#+HUGO")
  (rear-context-string . "+HUGO_AUTO_SET_L")
  (position . 103))
-("人生的智慧叔本华 rsdzhsbh"
- (filename . "~/Dropbox/org/Notes/人生的智慧(德)叔本华清晰扫描版.org")
- (front-context-string . "tes for page 12\n")
- (rear-context-string . " 12\n:END:\n*** No")
- (position . 401))
-("英语思维 yysw"
- (filename . "~/Dropbox/org/Notes/英语思维  解密英语语法的原理_14194104.org")
- (front-context-string . "* 英语思维  解密英语语法的原")
- (rear-context-string . "的要么完成态，要么完成进行态。\n")
- (position . 782))
 ("批判性思维工具 ppxswgj"
  (filename . "~/Dropbox/org/Notes/批判性思维工具（美）理查德·保罗.org")
  (front-context-string . ":\n*** 理解你与大脑间的特殊")
  (rear-context-string . " . 0.00039)\n:END")
  (position . 2461))
-("自控力 zkl"
- (filename . "~/Dropbox/org/Notes/自控力经典套装三册by凯利-麦格尼格尔.org")
- (front-context-string)
- (rear-context-string . "三册by凯利-麦格尼格尔.pdf")
- (position . 97))
-("为什么精英都有超强专注力 wsmjydzcqzzl"
- (filename . "~/Dropbox/org/Notes/为什么精英都有超强专注力.org")
- (front-context-string . "为什么精英都有超强专注力\n:PR")
- (rear-context-string)
- (position . 3))
-("幽默感 ymg"
- (filename . "~/Dropbox/org/Notes/幽默感.org")
- (front-context-string . "\n:PROPERTIES:\n:N")
- (rear-context-string . "otes for page 10")
- (position . 260))
 ("恋爱厚黑学 lahhx"
  (filename . "~/Dropbox/org/Notes/恋爱厚黑学（扫描版）.org")
  (front-context-string)
@@ -172,14 +358,6 @@
  (front-context-string)
  (rear-context-string . "的职业是小说家-村上春树.pdf")
  (position . 106))
-("沉默的大多数 cmddds"
- (filename . "d:/Entertainment/Literature/沉默的大多数-王小波.pdf")
- (position . 1)
- (page . 1)
- (slice)
- (size . fit-width)
- (origin 0.0 . 0.018031555221637866)
- (handler . pdf-view-bookmark-jump-handler))
 ("商务与经济统计"
  (filename . "~/Dropbox/org/Notes/第五项修炼学习型组织的艺术与实践1珍藏版（美）彼得·圣吉著.org")
  (front-context-string . "考\n在很久以前，我在解决问题的时")
@@ -210,11 +388,6 @@
  (front-context-string . "由\n* 生理期\n** 简述\n**")
  (rear-context-string . "了自己了。\n** 减少想憨憨的理")
  (position . 2362))
-("把时间当做朋友 bsjdzpy lxl"
- (filename . "~/Dropbox/org/Notes/把时间当作朋友_运用心智获得解放-李笑来.org")
- (front-context-string . "心智获得解放-李笑来\n:PROP")
- (rear-context-string . "做朋友\n* 把时间当作朋友_运用")
- (position . 30))
 ("把时间当做朋友 lxl"
  (filename . "~/Dropbox/org/Notes/把时间当作朋友_运用心智获得解放-李笑来.org")
  (front-context-string . "心智获得解放-李笑来\n:PROP")
@@ -240,26 +413,11 @@
  (front-context-string)
  (rear-context-string . "天》/浪迹-话术惯例大全.pdf")
  (position . 100))
-("org-capture-last-stored"
- (filename . "~/Dropbox/org/GTD/task.org")
- (front-context-string . "* TODO 检查anki代理是")
- (rear-context-string . " =>  0:00\n:END:\n")
- (position . 6589))
 ("情绪日记"
  (filename . "~/Dropbox/org/Notes/情绪日记.org")
  (front-context-string . "\n* 原则\n** 不要乱想，情绪")
  (rear-context-string)
  (position . 15))
-("阅读理解 唐迟 ydlj tc"
- (filename . "~/Dropbox/org/Notes/2020-02-06T1956.org")
- (front-context-string)
- (rear-context-string . "带入通读验证\n* 段落匹配\n**")
- (position . 2968))
-("摊牌说的话 yxtpsdh"
- (filename . "~/Dropbox/org/GTD/task.org")
- (front-context-string . "有很多事情要做，世界还在等着我去")
- (rear-context-string . "恋爱不是坐享其成的。\n2. 我还")
- (position . 8730))
 ("憨憨 hh "
  (filename . "~/Dropbox/org/GTD/")
  (front-context-string . "\n** 乐乐\n\n* 情绪爱好以及")
@@ -270,21 +428,11 @@
  (front-context-string)
  (rear-context-string . "uce.\n** 虚拟\n\n* 真题")
  (position . 6536))
-("GTD_problem"
- (filename . "~/Dropbox/org/GTD/GTD_problem.org")
- (front-context-string . "     :LOGBOOK:\n ")
- (rear-context-string . ":44] - ffffafaf\n")
- (position . 479))
 ("优美句子集 ymjzj"
  (filename . "~/Dropbox/org/Notes/优美句子集.org")
  (front-context-string)
  (rear-context-string . "#+TITLE: 优美句子集\n\n")
  (position . 17))
-("恋爱日记大纲"
- (filename . "~/Dropbox/org/Notes/恋爱日记大纲.org")
- (front-context-string . "统\n** 憨憨欠我的愿望\n1 个")
- (rear-context-string . "LASS: book\n* 愿望系")
- (position . 586))
 ("病隙碎笔"
  (filename . "~/Dropbox/org/Notes/病隙碎笔-史铁生.org")
  (front-context-string . "生\n:PROPERTIES:\n:")
@@ -300,26 +448,11 @@
  (front-context-string)
  (rear-context-string . "#+TITLE: 优美句子集\n\n")
  (position . 17))
-("人生规划"
- (filename . "~/Dropbox/org/Notes/人生规划.org")
- (front-context-string . "层开始\n*** 自己的经历也十分")
- (rear-context-string . "** 后代绝不会太差，也不是从底")
- (position . 437))
 ("剧情话术大全.org"
  (filename . "~/Dropbox/org/Notes/剧情话术大全.org")
  (front-context-string . "要动，再动我不保证会发生什么。\n")
  (rear-context-string . "里说着不要身体却很诚实。\n3、不")
  (position . 56))
-("friends"
- (filename . "~/Dropbox/org/GTD/friends.org")
- (front-context-string . "* 芦灏\n\n** 信息\n%%(o")
- (rear-context-string . "TITLE: Friends\n\n")
- (position . 19))
-("围城.org"
- (filename . "~/Dropbox/org/Notes/围城.org")
- (front-context-string . "** Notes for pag")
- (rear-context-string . "17293233)\n:END:\n")
- (position . 186))
 ("《中国式的情与爱》武志红.org"
  (filename . "~/Dropbox/org/Notes/《中国式的情与爱》武志红.org")
  (front-context-string)
@@ -335,21 +468,11 @@
  (front-context-string)
  (rear-context-string . "thon版.pdf\n:END:\n")
  (position . 138))
-("init-layter"
- (filename . "~/.spacemacs.d/init.el")
- (front-context-string . "     treemacs\n  ")
- (rear-context-string . "syntax-checking\n")
- (position . 2240))
 ("init-search"
  (filename . "~/.emacs.d/init.el")
  (front-context-string . ";;; init.el --- ")
  (rear-context-string)
  (position . 1))
-("厚黑学"
- (filename . "~/Dropbox/org/Notes/厚黑学.org")
- (front-context-string)
- (rear-context-string . "/厚黑学.epub\n:END:\n")
- (position . 76))
 ("发音练习"
  (filename . "~/Dropbox/org/Notes/[Colin_Mortimer]_Elements_of_pronunciation__intens(z-lib.org).org")
  (front-context-string . "习\n#+HUGO_BASE_DI")

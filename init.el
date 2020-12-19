@@ -33,35 +33,36 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(rust
-     javascript
+   '(
+     ;; rust
+     ;; javascript
      autohotkey
      windows-scripts
      ;; rust
-     html
+     ;; html
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     auto-completion
+     ;; auto-completion
      ;; better-defaults
-     emacs-lisp
+     ;; emacs-lisp
      ;; lsp
-     git
+     ;; git
      helm
      ;; ivy
-     markdown
+     ;; markdown
      multiple-cursors
      ;; org
      ;; spell-checking
      ;; syntax-checking
-     treemacs
-     latex
+     ;; treemacs
+     ;; latex
      markdown
-     pandoc
+     ;; pandoc
      ;; ranger 浏览文件必备
-     ranger
+     ;; ranger
      pdf
      deft
      epub
@@ -74,16 +75,15 @@ This function should only modify configuration layer settings."
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-positionf 'bottom
-     (python :variab
-             python-test-runner 'pytest
-             python-save-before-test nil
-             python-backend 'anaconda)
+     ;; (python :variab
+     ;;         python-test-runner 'pytest
+     ;;         python-save-before-test nil
+     ;;         python-backend 'anaconda)
      (ess :variables
           ess-enable-smart-equals t)
      (chinese :variables
               ;; chinese-enable-fcitx t
               chinese-enable-youdao-dict t
-
               ;; chinese-enable-avy-pinyin nil
               )
      (org :variables
@@ -121,7 +121,7 @@ This function should only modify configuration layer settings."
                                       focus
                                       cnfonts
                                       ox-hugo
-                                      anki-editor
+                                      ;; anki-editor
                                       real-auto-save
                                       ;; jieba
                                       jsonrpc
@@ -562,9 +562,9 @@ before packages are loaded."
 
   ;; 在状态栏显示时间
 
-  (spacemacs/toggle-golden-ratio-on)
+  ;; (spacemacs/toggle-golden-ratio-on)
   (spacemacs/toggle-mode-line-off)
-  (setq focus-dimness 20)
+  (setq focus-dimness 30)
   (display-time-mode 1)
   ;;字体问题
   (cnfonts-enable)
@@ -649,7 +649,9 @@ before packages are loaded."
   (define-key evil-insert-state-map (kbd "C-d") 'org-time-stamp-inactive)
   (define-key evil-insert-state-map (kbd "C-c C-8") 'org-ctrl-c-star)
   (define-key evil-normal-state-map (kbd "C-1") 'org-noter)
+  (define-key evil-normal-state-map (kbd "|") 'org-set-tags-command)
   (define-key evil-insert-state-map (kbd "C-1") 'org-noter)
+  (global-set-key (kbd "M-b") 'spacemacs/helm-project-smart-do-search)
 
   ;; (define-key evil-insert-state-map (kbd "C-]") 'forward-char)
   ;;------------end----------------;;
@@ -916,6 +918,7 @@ before packages are loaded."
   (add-hook 'org-clock-in-hook 'spaceline-toggle-org-clock-on)
   (add-hook 'org-mode-hook 'spacemacs/toggle-mode-line-minor-modes-off)
   (add-hook 'org-mode-hook 'spacemacs/toggle-mode-line-off)
+  (add-hook 'org-agenda-mode-hook 'spacemacs/toggle-mode-line-off)
 
  ;; (smartparens-mode)
  ;; (org-indent-mode)
@@ -1203,7 +1206,7 @@ boundaries."
                    :order 7
                    )
 
-            (:name "语汐"
+            (:name "小朋友"
                    :tag "Love"
                    ;; :priority "A"
                    :order 7
@@ -1228,6 +1231,11 @@ boundaries."
                    ;; :priority "A"
                    :order 10
                    )
+            (:name "Life"
+                   :tag "Life"
+                   ;; :priority "A"
+                   :order 100
+                   )
 
             (:name "BOOK"
                     :tag "BOOK"
@@ -1251,6 +1259,7 @@ boundaries."
 
             (:name "Due Today"
                    :deadline today
+                   :scheduled today
                    :order 8)
 
             (:name "Due Soon"
@@ -1308,7 +1317,7 @@ boundaries."
     (add-to-list 'org-capture-templates
                  '("t" "Task" entry
                    (file "~/Dropbox/org/GTD/task.org")
-                   "* TODO %^{1.Actionable?\t2.Less then 2 min?} %^G \nDEADLINE: %t\n%?" :clock-in t :clock-resume t))
+                   "* TODO %^{1.Actionable?\t2.Less then 2 min?}\nDEADLINE: %t\n%?" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
                  '("i" "Immediately" entry
                    (file "~/Dropbox/org/GTD/task.org")
@@ -1346,10 +1355,38 @@ boundaries."
                    (file "~/Dropbox/org/GTD/ideas.org")
                    "* %^{Core idea} \n%U\n%?" :clock-in t :clock-resume t))
     ;; 日志
+    (add-to-list 'org-capture-templates '("j" "Journals"))
     (add-to-list 'org-capture-templates
-                 '("j" "Journals" entry
+                 '("jj" "Journals" entry
                    (file "~/Dropbox/org/GTD/task.org")
-                   "* TODO %^{What do you want to say?} :Journals: \nDEADLINE: %t\n%?" :clock-in t :clock-resume t))
+                   "* TODO %^{What do you want to say?} :Journals:大三第一学期: \nDEADLINE: %t\n%?" :clock-in t :clock-resume t))
+    (add-to-list 'org-capture-templates
+                 '("jl" "Love" entry
+                   (file "~/Dropbox/org/GTD/task.org")
+                   "* DONE %U :Journals:大三第一学期:Love \n CLOSED:%U DEADLINE: %t\n%?" :clock-in t :clock-resume t))
+    (add-to-list 'org-capture-templates
+                 '("jc" "Career" entry
+                   (file "~/Dropbox/org/GTD/task.org")
+                   "* DONE %U :Journals:大三第一学期:Career \n CLOSED:%U DEADLINE: %t\n%?" :clock-in t :clock-resume t))
+
+    (add-to-list 'org-capture-templates
+                 '("ji" "Life" entry
+                   (file "~/Dropbox/org/GTD/task.org")
+                   "* DONE %U :Journals:大三第一学期:Life \n CLOSED:%U DEADLINE: %t\n%?" :clock-in t :clock-resume t))
+
+    (add-to-list 'org-capture-templates
+                 '("jd" "Dream" entry
+                   (file "~/Dropbox/org/GTD/task.org")
+                   "* DONE %U :Journals:大三第一学期:Dream \n CLOSED:%U DEADLINE: %t\n%?" :clock-in t :clock-resume t))
+    (add-to-list 'org-capture-templates
+                 '("js" "Saying" entry
+                   (file "~/Dropbox/org/GTD/task.org")
+                   "* DONE %U :Journals:大三第一学期:Saying \n CLOSED:%U DEADLINE: %t\n%?" :clock-in t :clock-resume t))
+
+    ;; (add-to-list 'org-capture-templates
+    ;;              '("c" "career" entry (file+datetree "~/Dropbox/org/GTD/career.org")
+    ;;                "* %U - %^{heading}\n  %?" :clock-in t :clock-resume t))
+
     ;; (add-to-list 'org-capture-templates
     ;;              '("j" "Journal" entry (file+datetree "~/Dropbox/org/GTD/Journal.org")
     ;;                "* %U - %^{heading}\n  %?" :clock-in t :clock-resume t))
@@ -1373,16 +1410,25 @@ boundaries."
                  '("l" "Love language" entry
                    (file+olp+datetree "~/Dropbox/org/GTD/My_Gril.org" "聊天主题规划")
                    "* TODO %^{What do you want to say?} :CMNCT: \n%u\n%?" :clock-in t :clock-resume t))
-    (add-to-list 'org-capture-templates
-                 '("e" "The Diary of Emotion" entry
-                   (file+olp "~/Dropbox/org/Notes/情绪日记.org" "Temp")
-                   "** %^{What do you want to say?} \n%u\n%?" :unnarrowed t :clock-in t :clock-resume t))
+    ;; (add-to-list 'org-capture-templates
+    ;;              '("e" "The Diary of Emotion" entry
+    ;;                (file+olp "~/Dropbox/org/Notes/情绪日记.org" "Temp")
+    ;;                "** %^{What do you want to say?} \n%u\n%?" :unnarrowed t :clock-in t :clock-resume t))
+
     (add-to-list 'org-capture-templates
                  '("f" "Free Time" entry
                    (file "~/Dropbox/org/GTD/task.org")
                    "* TODO %^{1.Actionable?\t2.Less then 2 min?} :FREE:%^G \n%?" :clock-in t :clock-resume t))
 
+    (add-to-list 'org-capture-templates
+                 '("b" "BOOK" entry
+                   (file "~/Dropbox/org/GTD/book.org")
+                   "* TODO %^{1.Actionable?\t2.Less then 2 min?} :BOOK:%^G \n%?" :clock-in t :clock-resume t))
 
+    (add-to-list 'org-capture-templates
+                 '("m" "movie" entry
+                   (file "~/Dropbox/org/GTD/book.org")
+                   "* TODO %^{1.Actionable?\t2.Less then 2 min?} :MOVIE: \n%?" :clock-in t :clock-resume t))
 
     ;;----------------------------;;
     ;; (add-to-list 'org-capture-templates '("p" "Project"))
@@ -1452,7 +1498,7 @@ boundaries."
 
     (setq org-todo-keywords
           ;; '((sequence "TODO(t!)" "NEXT(n!)" "WAITTING(w)" "SOMEDAY(s)" "|" "DONE(d@/!)" "ABORT(a@/!)")
-            '((sequence "TODO(t!)" "NEXT(n!)" "WAITTING(w)" "SOMEDAY(s)" "|" "DONE(d/!)" "ABORT(a/!)")
+            '((sequence "TODO(t)" "NEXT(n)" "WAITTING(w)" "SOMEDAY(s)" "|" "DONE(d)" "ABORT(a)")
           ;; '((sequence "TODO(t)" "NEXT(n)" "WAITTING(w)" "SOMEDAY(s)" "|" "DONE(d)" "ABORT(a)")
             ))
     ;; 设置TODO完成状态改变抽屉
@@ -1479,6 +1525,9 @@ boundaries."
 
     ;; Delete unwanted files
     (setq org-agenda-exclude-agenda-files '("~/Dropbox/org/GTD/archive.org"
+                                            "~/Dropbox/org/GTD/My_Gril_hh.org"
+                                            "~/Dropbox/org/GTD/My_Gril_pnh.org"
+                                            "~/Dropbox/org/GTD/My_Gril_zjj.org"
                                             "~/Dropbox/org/GTD/suspend.org"
                                             ))
     (loop for i in org-agenda-exclude-agenda-files do
@@ -1781,8 +1830,8 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
                 "\\|^#\\+[[:alnum:]_]+:.*$" ;; org-mode metadata
                 "\\|^#\s#\\+?.*$" ;; org-mode metadata
                 "\\)"))
-  (global-set-key [f8] 'ironman-deft-search-for)
-  (global-set-key [C-f8] 'deft)
+  (global-set-key [C-f8] 'ironman-deft-search-for)
+  (global-set-key [f8] 'deft)
   ;; (setq deft-strip-title-regexp "")
   (defun ironman-deft-search-for(filter)
     (interactive "MFilter: ")
@@ -1826,6 +1875,7 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
       (add-to-list 'bookmark-alist latest)))
   (setq bookmark-sort-flag t)
   (evil-leader/set-key "ob" 'bookmark-set)
+  (global-set-key (kbd "M-x") 'helm-filtered-bookmarks)
   ;;------------end----------------;;
   ;;init-pdf
   (require 'pdf-tools-extension)
@@ -2067,7 +2117,7 @@ static char *gnus-pointer[] = {
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(objed-cursor-color "#D95468")
  '(org-agenda-files
-   '("~/Dropbox/org/GTD/My_Gril.org" "~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/GTD/friends.org" "~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/Notes/TODOs.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/Notes/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/GTD_problem.org" "c:/Users/xx299/Dropbox/org/GTD/Journal.org" "c:/Users/xx299/Dropbox/org/GTD/TODOs.org" "c:/Users/xx299/Dropbox/org/GTD/calendar.org" "c:/Users/xx299/Dropbox/org/GTD/ideas.org" "c:/Users/xx299/Dropbox/org/GTD/task.org"))
+   '("~/Dropbox/org/GTD/book.org" "~/Dropbox/org/GTD/calendar.org" "~/Dropbox/org/GTD/My_Gril.org" "~/Dropbox/org/GTD/GTD_problem.org" "~/Dropbox/org/GTD/Journal.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/GTD/friends.org" "~/Dropbox/org/GTD/ideas.org" "~/Dropbox/org/GTD/project.org" "~/Dropbox/org/GTD/task.org" "~/Dropbox/org/GTD/tools.org"))
  '(org-deadline-warning-days 0)
  '(package-selected-packages
    '(org-ql peg ov org-wild-notifier org-noter toml-mode racer flycheck-rust dap-mode bui tree-mode lsp-mode cargo org-ref key-chord helm-bibtex parsebib biblio biblio-core tern nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl add-node-modules-path emojify emoji-cheat-sheet-plus company-emoji powershell helm-gtags helm helm-core ggtags counsel-gtags rust-mode wgrep smex ivy-xref ivy-purpose ivy-hydra counsel-projectile counsel-css counsel swiper ivy pdf-tools tablist ox-gfm org-re-reveal youdao-dictionary yapfify ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs ranger rainbow-delimiters pytest pyim pyenv-mode py-isort popwin pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pangu-spacing pandoc-mode ox-pandoc ox-hugo ox-epub overseer orgit org-sticky-header org-projectile org-present org-pomodoro org-mime org-journal org-download org-cliplink org-bullets org-brain open-junk-file nameless move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum live-py-mode link-hint indent-guide importmagic hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md font-lock+ focus flycheck-package flx-ido find-by-pinyin-dired fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish devdocs define-word cython-mode column-enforce-mode cnfonts clean-aindent-mode chinese-conv centered-cursor-mode blacken auto-highlight-symbol auto-compile auctex-latexmk anaconda-mode aggressive-indent ace-pinyin ace-link ace-jump-helm-line))
