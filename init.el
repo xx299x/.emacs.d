@@ -652,11 +652,11 @@ before packages are loaded."
   (define-key evil-normal-state-map (kbd "|") 'org-set-tags-command)
   (define-key evil-insert-state-map (kbd "C-1") 'org-noter)
   (global-set-key (kbd "M-b") 'spacemacs/helm-project-smart-do-search)
-
   ;; (define-key evil-insert-state-map (kbd "C-]") 'forward-char)
+  (global-set-key (kbd "M-e") 'spacemacs/toggle-maximize-buffer)
   ;;------------end----------------;;
 
-
+  
 
 
 ;;;;;;;;;;;;;;
@@ -905,9 +905,71 @@ before packages are loaded."
       (indent-region line-beg (point) indent))
     str))
 
+  ;;clock init
 
+;;   (defun org-clock-get-clocked-time ()
+;;     "Get the clocked time for the current item in minutes.
+;; The time returned includes the time spent on this task in
+;; previous clocking intervals."
+;;     (let ((currently-clocked-time
+;; 	         (floor (org-time-convert-to-integer
+;; 		               (org-time-since org-clock-start-time))
+;; 		              60)))
+;;       (+ currently-clocked-time (or org-clock-total-time 0))))
+;;   (setq my-clock-time (org-duration-from-minutes (org-clock-get-clocked-time)))
+  (defun my-write-clock-in()
+    (let ((clock-string (concat
+                         (org-duration-from-minutes (org-clock-get-clocked-time))
+                         "&"
+                         org-clock-heading
+
+                         )))
+      (write-region clock-string nil "C:\\software\\autohotkey\\emacs\\status.txt")))
+  (defun my-write-clock-out()
+    (let ((clock-string (concat
+                         "00:00"
+                         "&"
+                         "当前无任务"
+
+                         )))
+      (write-region clock-string nil "C:\\software\\autohotkey\\emacs\\status.txt")))
+
+  (add-hook 'org-clock-in-hook 'spaceline-toggle-org-clock-on)
+  (add-hook 'org-clock-in-hook 'my-write-clock-in)
+  (add-hook 'org-clock-out-hook 'my-write-clock-out)
+(defun org-clock-update-mode-line (&optional refresh)
+  "Update mode line with clock information.
+When optional argument is non-nil, refresh cached heading."
+  (if org-clock-effort
+      (org-clock-notify-once-if-expired)
+    (setq org-clock-task-overrun nil))
+  (when refresh (setq org-clock-heading (org-clock--mode-line-heading)))
+  (setq org-mode-line-string
+	(propertize
+	 (let ((clock-string (org-clock-get-clock-string))
+	       (help-text "Org mode clock is running.\nmouse-1 shows a \
+menu\nmouse-2 will jump to task"))
+	   (if (and (> org-clock-string-limit 0)
+		    (> (length clock-string) org-clock-string-limit))
+	       (propertize
+		(substring clock-string 0 org-clock-string-limit)
+		'help-echo (concat help-text ": " org-clock-heading))
+	     (propertize clock-string 'help-echo help-text)))
+	 'local-map org-clock-mode-line-map
+	 'mouse-face 'mode-line-highlight))
+  (if (and org-clock-task-overrun org-clock-task-overrun-text)
+      (setq org-mode-line-string
+	    (concat (propertize
+		     org-clock-task-overrun-text
+		     'face 'org-mode-line-clock-overrun)
+		    org-mode-line-string)))
+  (force-mode-line-update)
+  (my-write-clock)
+  )
+;;--------------
   ;; Drag-and-drop to `dired`
   ;;init-autostartup
+
   ;; (add-hook 'org-mode-hook 'aggressive-indent-mode)
   (add-hook 'dired-mode-hook 'org-download-enable)
   ;; (add-hook 'org-mode-hook 'auto-fill-mode)
@@ -915,7 +977,6 @@ before packages are loaded."
   (add-hook 'org-mode-hook 'org-indent-mode)
   ;; (add-hook 'org-mode-hook 'org-num-mode)
   (add-hook 'org-mode-hook 'spacemacs/toggle-truncate-lines-off)
-  (add-hook 'org-clock-in-hook 'spaceline-toggle-org-clock-on)
   (add-hook 'org-mode-hook 'spacemacs/toggle-mode-line-minor-modes-off)
   (add-hook 'org-mode-hook 'spacemacs/toggle-mode-line-off)
   (add-hook 'org-agenda-mode-hook 'spacemacs/toggle-mode-line-off)
@@ -1200,6 +1261,12 @@ boundaries."
                    :order 5
                    )
 
+            (:name "COUNTDOWN"
+                   :tag "COUNTDOWN"
+                   ;; :priority "A"
+                   :order 4
+                   )
+
             (:name "Now"
                    :tag "Now"
                    ;; :priority "A"
@@ -1322,6 +1389,11 @@ boundaries."
                  '("i" "Immediately" entry
                    (file "~/Dropbox/org/GTD/task.org")
                    "* TODO %^{1.Actionable?\t2.Less then 2 min?}  :MUST: \nSCHEDULED: %t\n%?" :clock-in t :clock-resume t))
+    ;; (setq org-capture-templates nil)
+    (add-to-list 'org-capture-templates
+                 '("d" "Countdown" entry
+                   (file "~/Dropbox/org/GTD/task.org")
+                   "* TODO %a  :COUNTDOWN: \n\%\%%? (diary-remind '(diary-date %^{Month}\s%^{Day} 2021 t) -9999)Done this task:%a\n" :clock-in t :clock-resume t))
 
     ;; (add-to-list 'org-capture-templates
     ;;              '("tc" "Project" entry
@@ -1404,7 +1476,7 @@ boundaries."
     (add-to-list 'org-capture-templates
                  '("rp" "Repeat thing" entry
                    (file+olp "~/Dropbox/org/GTD/calendar.org" "Journal" "REPEAT")
-                   "* TODO %^{What do you want to repeat?} \nDEADLINE: %^t\n%?" :clock-in t :clock-resume t))
+                   "* TODO %^{What do you want to repeat?} \n\nDEADLINE: %^t\n%?" :clock-in t :clock-resume t))
 
     (add-to-list 'org-capture-templates
                  '("l" "Love language" entry
@@ -1528,10 +1600,9 @@ boundaries."
                                             "~/Dropbox/org/GTD/My_Gril_hh.org"
                                             "~/Dropbox/org/GTD/My_Gril_pnh.org"
                                             "~/Dropbox/org/GTD/My_Gril_zjj.org"
-                                            "~/Dropbox/org/GTD/suspend.org"
                                             ))
-    (loop for i in org-agenda-exclude-agenda-files do
-          (delete i org-agenda-files))
+    ;; (loop for i in org-agenda-exclude-agenda-files do
+    ;;       (delete i org-agenda-files))
 
 ;;;;;;;;;;;;;;
     ;; Org-Latex;;
@@ -1876,6 +1947,7 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
   (setq bookmark-sort-flag t)
   (evil-leader/set-key "ob" 'bookmark-set)
   (global-set-key (kbd "M-x") 'helm-filtered-bookmarks)
+  (global-set-key (kbd "M-r") 'evil-window-next)
   ;;------------end----------------;;
   ;;init-pdf
   (require 'pdf-tools-extension)
