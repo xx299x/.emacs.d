@@ -546,7 +546,36 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-
+(defun org-clock-update-mode-line (&optional refresh)
+    "Update mode line with clock information.
+  When optional argument is non-nil, refresh cached heading."
+    (if org-clock-effort
+        (org-clock-notify-once-if-expired)
+      (setq org-clock-task-overrun nil))
+    (when refresh (setq org-clock-heading (org-clock--mode-line-heading)))
+    (setq org-mode-line-string
+    (propertize
+    (let ((clock-string (org-clock-get-clock-string))
+          (help-text "Org mode clock is running.\nmouse-1 shows a \
+  menu\nmouse-2 will jump to task"))
+      (if (and (> org-clock-string-limit 0)
+          (> (length clock-string) org-clock-string-limit))
+          (propertize
+      (substring clock-string 0 org-clock-string-limit)
+      'help-echo (concat help-text ": " org-clock-heading))
+        (propertize clock-string 'help-echo help-text)))
+    'local-map org-clock-mode-line-map
+    'mouse-face 'mode-line-highlight))
+    (if (and org-clock-task-overrun org-clock-task-overrun-text)
+        (setq org-mode-line-string
+        (concat (propertize
+          org-clock-task-overrun-text
+          'face 'org-mode-line-clock-overrun)
+          org-mode-line-string)))
+      (my-write-clock-in)
+     
+    (force-mode-line-update))
+;; 这里添加好像没用，直接去源码里面添加了
 ;;;;;;;;;;;;;;
 ;;;  Theme ;;;
 ;;;;;;;;;;;;;;
@@ -627,7 +656,7 @@ before packages are loaded."
 
   (defun org-my-custom-timestamp()
     (interactive)
-    (insert (format-time-string "[%H:%M]")))
+    (insert (format-time-string "[%Y-%m-%d %H:%M]\n")))
   (add-hook 'org-mode-hook
             (lambda()
               (local-set-key "\C-c-" 'org-my-custom-timestamp)))
@@ -712,6 +741,13 @@ before packages are loaded."
     )
   ;; (my-ahk-switch-english)
   ;; (my-iem-on)
+  ;; roam-edit
+  (defun emacs-roamedit()
+    ;; (w32-shell-execute "runas" "C:\\users\\xx299\\dropbox\\application_project\\Automatic_working\\Emacs-Roam\\taskupload.py")
+    (shell-command "C:\\tools\\Anaconda3\\python.exe C:\\users\\xx299\\dropbox\\application_project\\Automatic_working\\Emacs-Roam\\taskupload.py")
+    ;; (async-shell-command "C:\\tools\\Anaconda3\\python.exe C:\\users\\xx299\\dropbox\\application_project\\Automatic_working\\Emacs-Roam\\taskupload.py")
+    )
+  ;; (add-hook 'org-capture-after-finalize-hook 'emacs-roamedit)
 
   ;; agenda 下调用比较缓慢,这里暂时关闭了
 
@@ -937,35 +973,46 @@ before packages are loaded."
   (add-hook 'org-clock-in-hook 'spaceline-toggle-org-clock-on)
   (add-hook 'org-clock-in-hook 'my-write-clock-in)
   (add-hook 'org-clock-out-hook 'my-write-clock-out)
-(defun org-clock-update-mode-line (&optional refresh)
-  "Update mode line with clock information.
-When optional argument is non-nil, refresh cached heading."
-  (if org-clock-effort
-      (org-clock-notify-once-if-expired)
-    (setq org-clock-task-overrun nil))
-  (when refresh (setq org-clock-heading (org-clock--mode-line-heading)))
-  (setq org-mode-line-string
-	(propertize
-	 (let ((clock-string (org-clock-get-clock-string))
-	       (help-text "Org mode clock is running.\nmouse-1 shows a \
-menu\nmouse-2 will jump to task"))
-	   (if (and (> org-clock-string-limit 0)
-		    (> (length clock-string) org-clock-string-limit))
-	       (propertize
-		(substring clock-string 0 org-clock-string-limit)
-		'help-echo (concat help-text ": " org-clock-heading))
-	     (propertize clock-string 'help-echo help-text)))
-	 'local-map org-clock-mode-line-map
-	 'mouse-face 'mode-line-highlight))
-  (if (and org-clock-task-overrun org-clock-task-overrun-text)
-      (setq org-mode-line-string
-	    (concat (propertize
-		     org-clock-task-overrun-text
-		     'face 'org-mode-line-clock-overrun)
-		    org-mode-line-string)))
-  (force-mode-line-update)
-  (my-write-clock)
-  )
+
+  (defun org-timer-update-mode-line ()
+    "Update the timer time in the mode line."
+    (if org-timer-pause-time
+        nil
+      (setq org-timer-mode-line-string
+	          (concat " <" (substring (org-timer-value-string) 0 -1) ">"))
+      (force-mode-line-update))
+    (my-write-clock-in)
+    )
+  (setq org-timer-value-string "00:00")
+
+  (defun org-clock-update-mode-line (&optional refresh)
+    "Update mode line with clock information.
+  When optional argument is non-nil, refresh cached heading."
+    (if org-clock-effort
+        (org-clock-notify-once-if-expired)
+      (setq org-clock-task-overrun nil))
+    (when refresh (setq org-clock-heading (org-clock--mode-line-heading)))
+    (setq org-mode-line-string
+    (propertize
+    (let ((clock-string (org-clock-get-clock-string))
+          (help-text "Org mode clock is running.\nmouse-1 shows a \
+  menu\nmouse-2 will jump to task"))
+      (if (and (> org-clock-string-limit 0)
+          (> (length clock-string) org-clock-string-limit))
+          (propertize
+      (substring clock-string 0 org-clock-string-limit)
+      'help-echo (concat help-text ": " org-clock-heading))
+        (propertize clock-string 'help-echo help-text)))
+    'local-map org-clock-mode-line-map
+    'mouse-face 'mode-line-highlight))
+    (if (and org-clock-task-overrun org-clock-task-overrun-text)
+        (setq org-mode-line-string
+        (concat (propertize
+          org-clock-task-overrun-text
+          'face 'org-mode-line-clock-overrun)
+          org-mode-line-string)))
+      (my-write-clock-in)
+    (force-mode-line-update))
 ;;--------------
   ;; Drag-and-drop to `dired`
   ;;init-autostartup
@@ -1324,10 +1371,18 @@ boundaries."
                    :tag "鸡汤"
                    :order 99)
 
+            (:name "Work"
+                   :tag "Work"
+                   :tag "work"
+                   :order 96)
+            (:name "Entertainment"
+                   :tag "entertainment"
+                   :order 95)
+
             (:name "Due Today"
                    :deadline today
                    :scheduled today
-                   :order 8)
+                   :order 2)
 
             (:name "Due Soon"
                     :deadline future
@@ -1384,16 +1439,21 @@ boundaries."
     (add-to-list 'org-capture-templates
                  '("t" "Task" entry
                    (file "~/Dropbox/org/GTD/task.org")
-                   "* TODO %^{1.Actionable?\t2.Less then 2 min?}\nDEADLINE: %t\n%?" :clock-in t :clock-resume t))
+                   "* TODO %^{1.Actionable?\t2.Less then 2 min?} :nil: \nDEADLINE: %t\n---\n%?---\n" :clock-in t :clock-resume t))
+    (add-to-list 'org-capture-templates
+                 '("w" "Work" entry
+                   (file "~/Dropbox/org/GTD/work.org")
+                   "* TODO %^{1.Actionable?\t2.Less then 2 min?} :Work: \nDEADLINE: %t\n---\n%?\n---\n" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
                  '("i" "Immediately" entry
                    (file "~/Dropbox/org/GTD/task.org")
-                   "* TODO %^{1.Actionable?\t2.Less then 2 min?}  :MUST: \nSCHEDULED: %t\n%?" :clock-in t :clock-resume t))
+                   ;; "* TODO %^{1.Actionable?\t2.Less then 2 min?}  :MUST: \nSCHEDULED: %t\n%?" :clock-in t :clock-resume t))
+                   "* TODO %^{1.Actionable?\t2.Less then 2 min?}  :MUST: \nSCHEDULED: %t\n---\n%?---\n" :clock-in t :clock-keep t))
     ;; (setq org-capture-templates nil)
     (add-to-list 'org-capture-templates
                  '("d" "Countdown" entry
                    (file "~/Dropbox/org/GTD/task.org")
-                   "* TODO %a  :COUNTDOWN: \n\%\%%? (diary-remind '(diary-date %^{Month}\s%^{Day} 2021 t) -9999)Done this task:%a\n" :clock-in t :clock-resume t))
+                   "* TODO %a  :COUNTDOWN: \n\%\%%? (diary-remind '(diary-date %^{Month}\s%^{Day} 2021 t) -9999)Done this task:%a\n--- nil ---" :clock-in t :clock-resume t))
 
     ;; (add-to-list 'org-capture-templates
     ;;              '("tc" "Project" entry
@@ -1431,15 +1491,15 @@ boundaries."
     (add-to-list 'org-capture-templates
                  '("jj" "Journals" entry
                    (file "~/Dropbox/org/GTD/task.org")
-                   "* TODO %^{What do you want to say?} :Journals:大三第一学期: \nDEADLINE: %t\n%?" :clock-in t :clock-resume t))
+                   "* TODO %^{What do you want to say?} :Journals:大三第二学期: \nDEADLINE: %t\n---\n%?\n---\n" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
                  '("jl" "Love" entry
                    (file "~/Dropbox/org/GTD/task.org")
-                   "* DONE %U :Journals:大三第一学期:Love \n CLOSED:%U DEADLINE: %t\n%?" :clock-in t :clock-resume t))
+                   "* DONE %U :Journals:大三第一学期:Love \n CLOSED:%U DEADLINE: %t\n---\n%?\n---\n" :clock-in t :clock-resume t))
     (add-to-list 'org-capture-templates
                  '("jc" "Career" entry
                    (file "~/Dropbox/org/GTD/task.org")
-                   "* DONE %U :Journals:大三第一学期:Career \n CLOSED:%U DEADLINE: %t\n%?" :clock-in t :clock-resume t))
+                   "* DONE %U :Journals:大三第一学期:Career \n CLOSED:%U DEADLINE: %t\n---\n%?\n---\n" :clock-in t :clock-resume t))
 
     (add-to-list 'org-capture-templates
                  '("ji" "Life" entry
@@ -1453,7 +1513,7 @@ boundaries."
     (add-to-list 'org-capture-templates
                  '("js" "Saying" entry
                    (file "~/Dropbox/org/GTD/task.org")
-                   "* DONE %U :Journals:大三第一学期:Saying \n CLOSED:%U DEADLINE: %t\n%?" :clock-in t :clock-resume t))
+                   "* DONE %U :Journals:大三第一学期:Saying \n CLOSED:%U DEADLINE: %t\n---\n%?\n---\n" :clock-in t :clock-resume t))
 
     ;; (add-to-list 'org-capture-templates
     ;;              '("c" "career" entry (file+datetree "~/Dropbox/org/GTD/career.org")
@@ -1472,7 +1532,7 @@ boundaries."
     (add-to-list 'org-capture-templates
                  '("re" "Repeat English" entry
                    (file+olp "~/Dropbox/org/GTD/calendar.org" "Term-Plan" "English" "单词重复")
-                   "* TODO %^{What do you want to repeat?} \nDEADLINE: %^t\n%?" :clock-in t :clock-resume t :unnarrowed t))
+                   "* TODO %^{What do you want to repeat?} :English:Word: \nDEADLINE: %^t\n%t\n---\n%?\n---\n" :clock-in t :clock-resume t :unnarrowed t))
     (add-to-list 'org-capture-templates
                  '("rp" "Repeat thing" entry
                    (file+olp "~/Dropbox/org/GTD/calendar.org" "Journal" "REPEAT")
@@ -1551,7 +1611,36 @@ boundaries."
             ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"xx299x\"")
             ("pu" tags "PROJECT")
             ("f" "Free Time" tags-todo "FREE")
+            ("w" "Office block agenda"
+             ((agenda "" ((org-agenda-span 1)
+                          (org-agenda-files '("~/org/circuspeanuts.org"))
+                          ))
+              ;; limits the agenda display to a single day
+              ;; (tags "review" ((org-agenda-files '("~/org/circuspeanuts.org"))))
+              ;; limits the tag search to the file circuspeanuts.org
+              (todo "WAITING"))
+             ((org-agenda-compact-blocks t))) ;; 
+            ;; ("w" "Work Tasks" tags-todo "Work")
+            ;; ("w" "Weekly Overview" todo ""
+            ;;  ((org-super-agenda-groups
+            ;;    '((:name "This Week's Tasks"
+            ;;             :todo "NEXT")
+            ;;      (:name "Delayed Tasks"
+            ;;             :todo "DELAYED")
+            ;;      (:name "In Progress"
+            ;;             :todo "STARTED")
+            ;;      (:discard (:anything))))))
+            ("r" "Daily Agenda Review"
+             ((agenda "" ((org-agenda-overriding-header "今日记录")
+                          (org-agenda-span 'day)
+                          (org-agenda-show-log 'clockcheck)
+                          (org-agenda-start-with-log-mode nil)
+                          (org-agenda-log-mode-items '(closed clock))
+                          (org-agenda-clockreport-mode t)
+                          )))
+             )
             ("W" "Weekly Review"
+
              ((stuck "") ;; review stuck projects as designated by org-stuck-projects
               (tags-todo "PROJECT") ;; review all projects (assuming you use todo keywords to designate projects)
               ))))
@@ -2047,13 +2136,13 @@ rulesepcolor= \\color{ red!20!green!20!blue!20}
 
   (setq request-log-level 'debug)
 
-  (add-to-list `yas-snippet-dirs
-               "~/.spacemacs.d/snippets" ;; personal snippets
-               ;; "/path/to/some/collection/"           ;; foo-mode and bar-mode snippet collection
-               ;; "/path/to/yasnippet/yasmate/snippets" ;; the yasmate collection
-               )
+  ;; (add-to-list `yas-snippet-dirs
+  ;;              "~/.spacemacs.d/snippets" ;; personal snippets
+  ;;              ;; "/path/to/some/collection/"           ;; foo-mode and bar-mode snippet collection
+  ;;              ;; "/path/to/yasnippet/yasmate/snippets" ;; the yasmate collection
+  ;;              )
 
-  (yas-global-mode 1) ;; or M-x yas-reload-all if you've started YASnippet already.
+  ;; (yas-global-mode 1) ;; or M-x yas-reload-all if you've started YASnippet already.
 
   ;; 编码问题
 
@@ -2188,8 +2277,7 @@ static char *gnus-pointer[] = {
  '(nrepl-message-colors
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(objed-cursor-color "#D95468")
- '(org-agenda-files
-   '("~/Dropbox/org/GTD/book.org" "~/Dropbox/org/GTD/calendar.org" "~/Dropbox/org/GTD/My_Gril.org" "~/Dropbox/org/GTD/GTD_problem.org" "~/Dropbox/org/GTD/Journal.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/GTD/friends.org" "~/Dropbox/org/GTD/ideas.org" "~/Dropbox/org/GTD/project.org" "~/Dropbox/org/GTD/task.org" "~/Dropbox/org/GTD/tools.org"))
+ '(org-agenda-files nil)
  '(org-deadline-warning-days 0)
  '(package-selected-packages
    '(org-ql peg ov org-wild-notifier org-noter toml-mode racer flycheck-rust dap-mode bui tree-mode lsp-mode cargo org-ref key-chord helm-bibtex parsebib biblio biblio-core tern nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl add-node-modules-path emojify emoji-cheat-sheet-plus company-emoji powershell helm-gtags helm helm-core ggtags counsel-gtags rust-mode wgrep smex ivy-xref ivy-purpose ivy-hydra counsel-projectile counsel-css counsel swiper ivy pdf-tools tablist ox-gfm org-re-reveal youdao-dictionary yapfify ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs ranger rainbow-delimiters pytest pyim pyenv-mode py-isort popwin pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pangu-spacing pandoc-mode ox-pandoc ox-hugo ox-epub overseer orgit org-sticky-header org-projectile org-present org-pomodoro org-mime org-journal org-download org-cliplink org-bullets org-brain open-junk-file nameless move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum live-py-mode link-hint indent-guide importmagic hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md font-lock+ focus flycheck-package flx-ido find-by-pinyin-dired fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish devdocs define-word cython-mode column-enforce-mode cnfonts clean-aindent-mode chinese-conv centered-cursor-mode blacken auto-highlight-symbol auto-compile auctex-latexmk anaconda-mode aggressive-indent ace-pinyin ace-link ace-jump-helm-line))
