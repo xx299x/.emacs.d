@@ -1612,8 +1612,10 @@ boundaries."
             ("pu" tags "PROJECT")
             ("f" "Free Time" tags-todo "FREE")
             ("w" "Office block agenda"
-             ((agenda "" ((org-agenda-span 1)
-                          (org-agenda-files '("~/org/circuspeanuts.org"))
+             ((agenda "" (
+                          (org-agenda-overriding-header "今日工作内容")
+                          (org-agenda-span 1)
+                          (org-agenda-files '("c:/Users/xx299/Dropbox/org/GTD/work.org"))
                           ))
               ;; limits the agenda display to a single day
               ;; (tags "review" ((org-agenda-files '("~/org/circuspeanuts.org"))))
@@ -1631,7 +1633,8 @@ boundaries."
             ;;             :todo "STARTED")
             ;;      (:discard (:anything))))))
             ("r" "Daily Agenda Review"
-             ((agenda "" ((org-agenda-overriding-header "今日记录")
+             ((agenda "" (
+                          (org-agenda-overriding-header "今日记录")
                           (org-agenda-span 'day)
                           (org-agenda-show-log 'clockcheck)
                           (org-agenda-start-with-log-mode nil)
