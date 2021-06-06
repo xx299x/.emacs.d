@@ -2,26 +2,31 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("task gtd"
- (filename . "~/Dropbox/org/GTD/task.org")
- (front-context-string . "* TODO 曾仕强教授的易经的")
- (rear-context-string . " =>  0:00\n:END:\n")
- (position . 12738))
+(("life"
+ (filename . "~/Dropbox/org/GTD/life.org")
+ (front-context-string . "#+TITLE: Life\n* ")
+ (rear-context-string)
+ (position . 1))
 ("learning"
  (filename . "~/Dropbox/org/GTD/learning.org")
  (front-context-string . "#+TITLE: Learn\n\n")
  (rear-context-string)
  (position . 1))
+("task gtd"
+ (filename . "~/Dropbox/org/GTD/task.org")
+ (front-context-string . "* TODO 曾仕强教授的易经的")
+ (rear-context-string . " =>  0:00\n:END:\n")
+ (position . 12738))
 ("archive"
  (filename . "~/Dropbox/org/GTD/archive.org")
  (front-context-string . "** 2020-11 Novem")
  (rear-context-string . "我和天地万物便通通奔向你。\n\n\n")
  (position . 283587))
 ("org-capture-last-stored"
- (filename . "~/Dropbox/org/GTD/task.org")
- (front-context-string . "* DONE [2021-06-")
- (rear-context-string . "un 10:41]\n:END:\n")
- (position . 28180))
+ (filename . "~/Dropbox/org/GTD/life.org")
+ (front-context-string . "** TODO jff :mov")
+ (rear-context-string . " =>  0:54\n:END:\n")
+ (position . 36100))
 ("org-refile-last-stored"
  (filename . "~/Dropbox/org/GTD/task.org")
  (front-context-string . "** TODO 穿搭 :FREE")

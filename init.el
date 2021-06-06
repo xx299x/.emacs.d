@@ -1436,146 +1436,45 @@ boundaries."
     ;;              '("ta" "A" entry
     ;;                (file "~/Dropbox/org/GTD/task.org")
     ;;                "* TODO [#A] %^{Project} %^G \nDEADLINE: %^t\n%?" :clock-in t :clock-resume t))
-    (add-to-list 'org-capture-templates
-                 '("t" "Task" entry
-                   (file "~/Dropbox/org/GTD/task.org")
-                   "* TODO %^{1.Actionable?\t2.Less then 2 min?} :nil: \nDEADLINE: %t\n---\n%?---\n" :clock-in t :clock-resume t))
-    (add-to-list 'org-capture-templates
-                 '("w" "Work" entry
-                   (file "~/Dropbox/org/GTD/work.org")
-                   "* TODO %^{1.Actionable?\t2.Less then 2 min?} :Work: \nDEADLINE: %t\n---\n%?\n---\n" :clock-in t :clock-resume t))
-    (add-to-list 'org-capture-templates
-                 '("i" "Immediately" entry
-                   (file "~/Dropbox/org/GTD/task.org")
-                   ;; "* TODO %^{1.Actionable?\t2.Less then 2 min?}  :MUST: \nSCHEDULED: %t\n%?" :clock-in t :clock-resume t))
-                   "* TODO %^{1.Actionable?\t2.Less then 2 min?}  :MUST: \nSCHEDULED: %t\n---\n%?---\n" :clock-in t :clock-keep t))
-    ;; (setq org-capture-templates nil)
-    (add-to-list 'org-capture-templates
-                 '("d" "Countdown" entry
-                   (file "~/Dropbox/org/GTD/task.org")
-                   "* TODO %a  :COUNTDOWN: \n\%\%%? (diary-remind '(diary-date %^{Month}\s%^{Day} 2021 t) -9999)Done this task:%a\n--- nil ---" :clock-in t :clock-resume t))
+    (setq org-capture-templates
+          '(
+            ("v" "Inbox" entry
+              (file "~/Dropbox/org/GTD/inbox.org")
+              "* TODO %^{1.Actionable?\t2.Less then 2 min?} :nil: \nDEADLINE: %t\n---\n%?---\n" :clock-in t :clock-resume t)
+            ("c" "learning" entry
+              (file "~/Dropbox/org/GTD/learning.org")
+              "* TODO %^{1.Actionable?\t2.Less then 2 min?} :learning: \nDEADLINE: %t\n---\n%?---\n" :clock-in t :clock-resume t)
+            ("w" "work" entry
+              (file "~/Dropbox/org/GTD/work.org")
+              "* TODO %^{1.Actionable?\t2.Less then 2 min?} :work: \nDEADLINE: %t\n---\n%?---\n" :clock-in t :clock-resume t)
+            ("l" "life" entry
+              (file "~/Dropbox/org/GTD/life.org")
+              "* TODO %^{1.Actionable?\t2.Less then 2 min?} :life: \nDEADLINE: %t\n---\n%?---\n" :clock-in t :clock-resume t)
+            ("d" "Countdown" entry
+              (file "~/Dropbox/org/GTD/inbox.org")
+              "* TODO %a  :countdown: \n\%\%%? (diary-remind '(diary-date %^{Month}\s%^{Day} 2021 t) -9999)Done this task:%a\n--- nil ---" :clock-in t :clock-resume t)
+            ("g" "GTD" entry
+              (file+headline "~/Dropbox/org/GTD/life.org" "GTD")
+              "* TODO %^{What do you have any question?} :GTD:---\n%?\n---\n" :clock-in t :clock-resume t)
 
-    ;; (add-to-list 'org-capture-templates
-    ;;              '("tc" "Project" entry
-    ;;                (file "~/Dropbox/org/GTD/task.org")
-    ;;                "* TODO [#C] %^{Project} %^G \nDEADLINE: %^t\n%?" :clock-in t :clock-resume t))
-    ;; (add-to-list 'org-capture-templates
-    ;;              '("ts" "C" entry
-    ;;                (file "~/Dropbox/org/GTD/suspend.org")
-    ;;                "* TODO [#B] %^{Project} %^G \nSCHEDULED: %^t\n%?" :clock-in t :clock-resume t))
+            ("m" "Movie" entry
+             (file+headline "~/Dropbox/org/GTD/life.org" "Movie")
+             "* TODO %^{What do you have any question?} :movie:\n---\n%?\n---\n" :clock-in t :clock-resume t)
 
-    ;; capture-init
-    ;; 有的时候，会有临时的小任务，比如说，将要出门，需要准备一些东西，
-    ;; 这个迷你项目得作用就来了，想到一条写一条
-    ;; (add-to-list 'org-capture-templates
-    ;;              '("tm" "Mini" item
-    ;;                (file+headline "~/Dropbox/org/GTD/task.org" "Mini_Project")
-    ;;                "%^{content}"))
-    ;; 想法类相关捕获模板
-    ;; (add-to-list 'org-capture-templates '("i" "Idea"))
-    ;; 大道理Principles
-    ;; (add-to-list 'org-capture-templates
-    ;;              '("p" "Temp Idea" entry
-    ;;                (file+headline "~/Dropbox/org/GTD/ideas.org" "Temp")
-    ;;                "* %^{core_idea}  \n" :clock-in t :clock-resume t))
-    ;; (add-to-list 'org-capture-templates
-    ;;              '("ip" "About people" entry
-    ;;                (file+headline "~/Dropbox/org/GTD/ideas.org" "People")
-    ;;                "* %^{core_idea}  \n" :clock-in t :clock-resume t))
-    (add-to-list 'org-capture-templates
-                 '("p" "Principle" entry
-                   (file "~/Dropbox/org/GTD/ideas.org")
-                   "* %^{Core idea} \n%U\n%?" :clock-in t :clock-resume t))
-    ;; 日志
-    (add-to-list 'org-capture-templates '("j" "Journals"))
-    (add-to-list 'org-capture-templates
-                 '("jj" "Journals" entry
-                   (file "~/Dropbox/org/GTD/task.org")
-                   "* TODO %^{What do you want to say?} :Journals:大三第二学期: \nDEADLINE: %t\n---\n%?\n---\n" :clock-in t :clock-resume t))
-    (add-to-list 'org-capture-templates
-                 '("jl" "Love" entry
-                   (file "~/Dropbox/org/GTD/task.org")
-                   "* DONE %U :Journals:大三第一学期:Love \n CLOSED:%U DEADLINE: %t\n---\n%?\n---\n" :clock-in t :clock-resume t))
-    (add-to-list 'org-capture-templates
-                 '("jc" "Career" entry
-                   (file "~/Dropbox/org/GTD/task.org")
-                   "* DONE %U :Journals:大三第一学期:Career \n CLOSED:%U DEADLINE: %t\n---\n%?\n---\n" :clock-in t :clock-resume t))
+            ("b" "Book" entry
+             (file+headline "~/Dropbox/org/GTD/life.org" "Book")
+             "* TODO %^{What do you have any question?} :book:\n\n---\n%?\n---\n" :clock-in t :clock-resume t)
+            ;; ---------- ;;
+            ("r" "Repeat")
+            ("re" "English" entry
+             (file+headline "~/Dropbox/org/GTD/learning.org" "重复")
+             "* TODO %^{What do you want to repeat?} :english:word: \nDEADLINE: %^t\n%t\n---\n%?\n---\n" :clock-in t :clock-resume t :unnarrowed t)
+            ("rp" "thought" entry
+             (file+headline "~/Dropbox/org/GTD/common.org" "Thought")
+             "* TODO %^{What do you want to repeat?} :thought: \nDEADLINE: %^t\n%t\n---\n%?\n---\n" :clock-in t :clock-resume t :unnarrowed t)
+            ;; ---------- ;;
 
-    (add-to-list 'org-capture-templates
-                 '("ji" "Life" entry
-                   (file "~/Dropbox/org/GTD/task.org")
-                   "* DONE %U :Journals:大三第一学期:Life \n CLOSED:%U DEADLINE: %t\n%?" :clock-in t :clock-resume t))
-
-    (add-to-list 'org-capture-templates
-                 '("jd" "Dream" entry
-                   (file "~/Dropbox/org/GTD/task.org")
-                   "* DONE %U :Journals:大三第一学期:Dream \n CLOSED:%U DEADLINE: %t\n%?" :clock-in t :clock-resume t))
-    (add-to-list 'org-capture-templates
-                 '("js" "Saying" entry
-                   (file "~/Dropbox/org/GTD/task.org")
-                   "* DONE %U :Journals:大三第一学期:Saying \n CLOSED:%U DEADLINE: %t\n---\n%?\n---\n" :clock-in t :clock-resume t))
-
-    ;; (add-to-list 'org-capture-templates
-    ;;              '("c" "career" entry (file+datetree "~/Dropbox/org/GTD/career.org")
-    ;;                "* %U - %^{heading}\n  %?" :clock-in t :clock-resume t))
-
-    ;; (add-to-list 'org-capture-templates
-    ;;              '("j" "Journal" entry (file+datetree "~/Dropbox/org/GTD/Journal.org")
-    ;;                "* %U - %^{heading}\n  %?" :clock-in t :clock-resume t))
-    ;; GTD 记录 https://orgmode.org/manual/Template-expansion.html
-    (add-to-list 'org-capture-templates
-                 '("g" "GTD" entry
-                   (file "c:/Users/xx299/Dropbox/org/GTD/GTD_problem.org")
-                   "* TODO %^{What do you have any question?} :GTD:\n%a\n%?" :clock-in t :clock-resume t))
-
-    (add-to-list 'org-capture-templates '("r" "Repeat"))
-    (add-to-list 'org-capture-templates
-                 '("re" "Repeat English" entry
-                   (file+olp "~/Dropbox/org/GTD/learning.org" "Term-Plan" "English" "单词重复")
-                   "* TODO %^{What do you want to repeat?} :English:Word: \nDEADLINE: %^t\n%t\n---\n%?\n---\n" :clock-in t :clock-resume t :unnarrowed t))
-    (add-to-list 'org-capture-templates
-                 '("rp" "Repeat thing" entry
-                   (file+olp "~/Dropbox/org/GTD/learning.org" "Journal" "REPEAT")
-                   "* TODO %^{What do you want to repeat?} \n\nDEADLINE: %^t\n%?" :clock-in t :clock-resume t))
-
-    (add-to-list 'org-capture-templates
-                 '("l" "Love language" entry
-                   (file+olp+datetree "~/Dropbox/org/GTD/My_Gril.org" "聊天主题规划")
-                   "* TODO %^{What do you want to say?} :CMNCT: \n%u\n%?" :clock-in t :clock-resume t))
-    ;; (add-to-list 'org-capture-templates
-    ;;              '("e" "The Diary of Emotion" entry
-    ;;                (file+olp "~/Dropbox/org/Notes/情绪日记.org" "Temp")
-    ;;                "** %^{What do you want to say?} \n%u\n%?" :unnarrowed t :clock-in t :clock-resume t))
-
-    (add-to-list 'org-capture-templates
-                 '("f" "Free Time" entry
-                   (file "~/Dropbox/org/GTD/task.org")
-                   "* TODO %^{1.Actionable?\t2.Less then 2 min?} :FREE:%^G \n%?" :clock-in t :clock-resume t))
-
-    (add-to-list 'org-capture-templates
-                 '("b" "BOOK" entry
-                   (file "~/Dropbox/org/GTD/book.org")
-                   "* TODO %^{1.Actionable?\t2.Less then 2 min?} :BOOK:%^G \n%?" :clock-in t :clock-resume t))
-
-    (add-to-list 'org-capture-templates
-                 '("m" "movie" entry
-                   (file "~/Dropbox/org/GTD/book.org")
-                   "* TODO %^{1.Actionable?\t2.Less then 2 min?} :MOVIE: \n%?" :clock-in t :clock-resume t))
-
-    ;;----------------------------;;
-    ;; (add-to-list 'org-capture-templates '("p" "Project"))
-    ;; (add-to-list 'org-capture-templates
-    ;;              '("pe" "English_System" item
-    ;;                (file+headline "~/Dropbox/org/GTD/task.org" "English_system")
-    ;;                "%^{content}"))
-    ;; (add-to-list 'org-capture-templates
-    ;;              '("pp" "TARGET" entry
-    ;;                (file+headline "~/Dropbox/org/GTD/project.org" "My goal")
-    ;;                "* TODO %^{Speak your mind}  \n" :clock-in t :clock-resume t))
-
-
-
-    ;;----------------------------;;
+              ))
 
 ;;; ORG-MODE:  * My Task
 ;;;              SCHEDULED: <%%(diary-last-day-of-month date)>
@@ -1607,47 +1506,86 @@ boundaries."
     ;init custom-commands
     (setq org-agenda-custom-commands
           '(
-            ("w" . "Task filter")
-            ("wa" "A" tags-todo "+PRIORITY=\"A\"")
-            ("wb" "B" tags-todo "-Weekly-Monthly-Daily+PRIORITY=\"B\"")
-            ;; ("wb" "B" tags-todo "+PRIORITY=\"B\"")
-            ("wc" "C" tags-todo "+PRIORITY=\"C\"")
-            ("we" "EMACS" tags-todo "EMACS")
-            ("wr" "Rest" tags-todo "Rest")
-            ("b" "BOOK" tags-todo "BOOK")
-            ("n" . "Not deadline Not Routine Today")
-            ("nd" "Not deadline and schedul" tags-todo "-BOOK-LOVE-Love-SCHEDULED={.+}-DEADLINE={.+}")
-            ("nr" "Not deadline and schedul" tags-todo "-BOOK-LOVE-Love-ROUTINE+SCHEDULED=\"<today>\"+DEADLINE=\"<today>\"")
-            ("l" tags-todo "Love+CMNCT")
-            ("p" . "Project")
-            ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"work\"")
-            ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"xx299x\"")
-            ("pu" tags "PROJECT")
-            ("f" "Free Time" tags-todo "FREE")
-            ("w" "Office block agenda"
+            ;; ---------------------------;;
+            ("c" . "day items")
+            ("cl" "Life"
              ((agenda "" (
-                          (org-agenda-overriding-header "今日工作内容")
+                          (org-agenda-overriding-header "Life")
                           (org-agenda-span 1)
-                          (org-agenda-files '("c:/Users/xx299/Dropbox/org/GTD/work.org"))
-                          ))
-              ;; limits the agenda display to a single day
-              ;; (tags "review" ((org-agenda-files '("~/org/circuspeanuts.org"))))
-              ;; limits the tag search to the file circuspeanuts.org
-              ;; (todo "WAITING")
+                          (org-agenda-files '(
+                                              "~/Dropbox/org/GTD/life.org"
+                                              "~/Dropbox/org/GTD/common.org"
+                                              ))
+                          ))))
+            ("cw" "Work"
+              ((agenda "" (
+                          (org-agenda-overriding-header "Work")
+                          (org-agenda-span 1)
+                          (org-agenda-files '(
+                                              "~/Dropbox/org/GTD/work.org"
+                                              "~/Dropbox/org/GTD/common.org"
+                                              ))
+                          )
+                      )
               )
-             ((org-agenda-compact-blocks t))) ;; 
-            ;; ("w" "Work Tasks" tags-todo "Work")
-            ;; ("w" "Weekly Overview" todo ""
-            ;;  ((org-super-agenda-groups
-            ;;    '((:name "This Week's Tasks"
-            ;;             :todo "NEXT")
-            ;;      (:name "Delayed Tasks"
-            ;;             :todo "DELAYED")
-            ;;      (:name "In Progress"
-            ;;             :todo "STARTED")
-            ;;      (:discard (:anything))))))
+              )
+            ("cc" "learning"
+              ((agenda "" (
+                          (org-agenda-overriding-header "learning")
+                          (org-agenda-span 1)
+                          (org-agenda-files '(
+                                              "~/Dropbox/org/GTD/learning.org"
+                                              "~/Dropbox/org/GTD/common.org"
+                                              ))
+                          ))))
+            ;; ---------------------------;;
+            ;; ---------------------------;;
+            ("t" . "todo")
+            ("tt" "all todo"
+             ((todo "" (
+                          (org-agenda-overriding-header "All can be done")
+                          (org-agenda-span 1)
+                          (org-agenda-files '(
+                                              "~/Dropbox/org/GTD/My_Gril.org"
+                                              "~/Dropbox/org/GTD/life.org"
+                                              "~/Dropbox/org/GTD/learning.org" 
+                                              "~/Dropbox/org/GTD/work.org"
+                                              "~/Dropbox/org/GTD/common.org"
+                                              ))
+                          ))))
+            ("tc" "learning"
+             ((todo "" (
+                             (org-agenda-overriding-header "Life TODO")
+                             (org-agenda-span 1)
+                             (org-agenda-files '(
+                                                 "~/Dropbox/org/GTD/learning.org" 
+                                                 ))
+                             ))))
+            ("tw" "work"
+             ((todo "" (
+                             (org-agenda-overriding-header "Work TODO")
+                             (org-agenda-span 1)
+                             (org-agenda-files '(
+                                                 "~/Dropbox/org/GTD/work.org"
+                                                 ))
+                             ))))
+            ("tl" "life"
+             ((todo "" (
+                             (org-agenda-overriding-header "Life TODO")
+                             (org-agenda-span 1)
+                             (org-agenda-files '(
+                                                 "~/Dropbox/org/GTD/My_Gril.org"
+                                                 "~/Dropbox/org/GTD/life.org"
+                                                 ))
+                             ))))
+            ("ta" "Any"
+             ((todo "" (
+                             (org-agenda-overriding-header "Any")
+                             (org-agenda-span 1)
+                             ))))
+            ;; ---------------------------;;
             ("r" "Daily Agenda Review"
-             ((agenda "" (
+              ((agenda "" (
                           (org-agenda-overriding-header "今日记录")
                           (org-agenda-span 'day)
                           (org-agenda-show-log 'clockcheck)
@@ -1655,12 +1593,9 @@ boundaries."
                           (org-agenda-log-mode-items '(closed clock))
                           (org-agenda-clockreport-mode t)
                           )))
-             )
-            ("W" "Weekly Review"
+              )
 
-             ((stuck "") ;; review stuck projects as designated by org-stuck-projects
-              (tags-todo "PROJECT") ;; review all projects (assuming you use todo keywords to designate projects)
-              ))))
+          ))
     ;; 这里是一个journal的功能, 与上面的日志冲突. 不能呈树状展示,导致消息不集中. 这样浏览起来会及其麻烦,故不使用
     ;; (defun org-journal-find-location ()
     ;;   ;; Open today's journal, but specify a non-nil prefix argument in order to
@@ -2285,7 +2220,7 @@ static char *gnus-pointer[] = {
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(objed-cursor-color "#D95468")
  '(org-agenda-files
-   '("~/Dropbox/org/GTD/My_Gril.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/GTD/archive.org" "~/Dropbox/org/GTD/book.org" "~/Dropbox/org/GTD/career.org" "~/Dropbox/org/GTD/friends.org" "~/Dropbox/org/GTD/habit.org" "~/Dropbox/org/GTD/ideas.org" "~/Dropbox/org/GTD/learning.org" "~/Dropbox/org/GTD/life.org" "~/Dropbox/org/GTD/project.org" "~/Dropbox/org/GTD/task.org" "~/Dropbox/org/GTD/tools.org" "~/Dropbox/org/GTD/work.org"))
+   '("~/Dropbox/org/GTD/My_Gril.org" "~/Dropbox/org/GTD/inbox.org" "~/Dropbox/org/GTD/common.org" "~/Dropbox/org/GTD/archive.org" "~/Dropbox/org/GTD/learning.org" "~/Dropbox/org/GTD/life.org" "~/Dropbox/org/GTD/work.org"))
  '(org-deadline-warning-days 0)
  '(package-selected-packages
    '(org-ql peg ov org-wild-notifier org-noter toml-mode racer flycheck-rust dap-mode bui tree-mode lsp-mode cargo org-ref key-chord helm-bibtex parsebib biblio biblio-core tern nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl add-node-modules-path emojify emoji-cheat-sheet-plus company-emoji powershell helm-gtags helm helm-core ggtags counsel-gtags rust-mode wgrep smex ivy-xref ivy-purpose ivy-hydra counsel-projectile counsel-css counsel swiper ivy pdf-tools tablist ox-gfm org-re-reveal youdao-dictionary yapfify ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs ranger rainbow-delimiters pytest pyim pyenv-mode py-isort popwin pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pangu-spacing pandoc-mode ox-pandoc ox-hugo ox-epub overseer orgit org-sticky-header org-projectile org-present org-pomodoro org-mime org-journal org-download org-cliplink org-bullets org-brain open-junk-file nameless move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum live-py-mode link-hint indent-guide importmagic hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md font-lock+ focus flycheck-package flx-ido find-by-pinyin-dired fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish devdocs define-word cython-mode column-enforce-mode cnfonts clean-aindent-mode chinese-conv centered-cursor-mode blacken auto-highlight-symbol auto-compile auctex-latexmk anaconda-mode aggressive-indent ace-pinyin ace-link ace-jump-helm-line))
