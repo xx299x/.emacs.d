@@ -2,11 +2,41 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("org-capture-last-stored"
- (filename . "~/Dropbox/org/GTD/work.org")
- (front-context-string . "* TODO 你好 :Work:")
- (rear-context-string . "\n:END:\n---\n\n---\n")
- (position . 3827))
+(("task gtd"
+ (filename . "~/Dropbox/org/GTD/task.org")
+ (front-context-string . "* TODO 曾仕强教授的易经的")
+ (rear-context-string . " =>  0:00\n:END:\n")
+ (position . 12738))
+("learning"
+ (filename . "~/Dropbox/org/GTD/learning.org")
+ (front-context-string . "#+TITLE: Learn\n\n")
+ (rear-context-string)
+ (position . 1))
+("archive"
+ (filename . "~/Dropbox/org/GTD/archive.org")
+ (front-context-string . "** 2020-11 Novem")
+ (rear-context-string . "我和天地万物便通通奔向你。\n\n\n")
+ (position . 283587))
+("org-capture-last-stored"
+ (filename . "~/Dropbox/org/GTD/task.org")
+ (front-context-string . "* DONE [2021-06-")
+ (rear-context-string . "un 10:41]\n:END:\n")
+ (position . 28180))
+("org-refile-last-stored"
+ (filename . "~/Dropbox/org/GTD/task.org")
+ (front-context-string . "** TODO 穿搭 :FREE")
+ (rear-context-string . "TLE:任务\n\n* Other\n")
+ (position . 21))
+("calendar"
+ (filename . "~/Dropbox/org/GTD/learning.org")
+ (front-context-string . "English :ENGLISH")
+ (rear-context-string . "plan :DAILY:\n** ")
+ (position . 40))
+("carrar"
+ (filename . "~/Dropbox/org/GTD/career.org")
+ (front-context-string . "** 2020-10 Octob")
+ (rear-context-string . "=>  0:00\n:END:\n\n")
+ (position . 2606))
 ("批判性思维工具 ppxswgj"
  (filename . "~/Dropbox/org/Notes/批判性思维工具（美）理查德·保罗.org")
  (front-context-string . ":\n*** 理解你与大脑间的特殊")
@@ -22,16 +52,6 @@
  (front-context-string . "* 比我更痛苦的人\n** 阿伯拉")
  (rear-context-string . "eX_CLASS: book\n\n")
  (position . 584))
-("task gtd"
- (filename . "~/Dropbox/org/GTD/task.org")
- (front-context-string . "* TODO 曾仕强教授的易经的")
- (rear-context-string . " =>  0:00\n:END:\n")
- (position . 12738))
-("archive"
- (filename . "~/Dropbox/org/GTD/archive.org")
- (front-context-string . "** 2020-11 Novem")
- (rear-context-string . "我和天地万物便通通奔向你。\n\n\n")
- (position . 283587))
 ("个人信息 常用信息 快速查询 grxx cyxx kscx"
  (filename . "~/Dropbox/org/Notes/2019-10-21T1556.org")
  (front-context-string . "1\n#+HUGO_AUTO_SE")
@@ -102,11 +122,6 @@
  (front-context-string . "绕口令1/1 :WANT:\n:P")
  (rear-context-string . "\n:END:\n\n** TODO ")
  (position . 116620))
-("calendar"
- (filename . "~/Dropbox/org/GTD/calendar.org")
- (front-context-string . "English :ENGLISH")
- (rear-context-string . "plan :DAILY:\n** ")
- (position . 40))
 ("个人形象设计 男士形象 grxxsj nsxx"
  (filename . "~/Dropbox/org/Notes/2020-01-31T2114.org")
  (front-context-string . "ASTMOD: t\n#+HUGO")
@@ -185,16 +200,6 @@
  (size . fit-width)
  (origin 0.0 . 0.018031555221637866)
  (handler . pdf-view-bookmark-jump-handler))
-("carrar"
- (filename . "~/Dropbox/org/GTD/career.org")
- (front-context-string . "** 2020-10 Octob")
- (rear-context-string . "=>  0:00\n:END:\n\n")
- (position . 2606))
-("ideas matter people temp"
- (filename . "~/Dropbox/org/GTD/ideas.org")
- (front-context-string . "* 背单词的时候可以用那些时间进")
- (rear-context-string . "04-29 周三 17:34]\n")
- (position . 9985))
 ("系统之美-决策者的系统思考-德内拉 xtzm jczdxtsk "
  (filename . "~/Dropbox/org/Notes/系统之美-决策者的系统思考-德内拉.org")
  (front-context-string . " 系统基础\n:PROPERTIE")
@@ -423,11 +428,6 @@
  (front-context-string . "心智获得解放-李笑来\n:PROP")
  (rear-context-string . "做朋友\n* 把时间当作朋友_运用")
  (position . 30))
-("org-refile-last-stored"
- (filename . "~/Dropbox/org/GTD/task.org")
- (front-context-string . "** TODO [#C] 调试e")
- (rear-context-string . " Emacs China]]\n\n")
- (position . 330))
 ("情绪恢复驿站"
  (filename . "~/Dropbox/org/Notes/2020-01-29T0127.org")
  (front-context-string . "* 比我更痛苦的人\n** 阿伯拉")

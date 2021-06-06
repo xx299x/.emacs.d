@@ -1531,11 +1531,11 @@ boundaries."
     (add-to-list 'org-capture-templates '("r" "Repeat"))
     (add-to-list 'org-capture-templates
                  '("re" "Repeat English" entry
-                   (file+olp "~/Dropbox/org/GTD/calendar.org" "Term-Plan" "English" "单词重复")
+                   (file+olp "~/Dropbox/org/GTD/learning.org" "Term-Plan" "English" "单词重复")
                    "* TODO %^{What do you want to repeat?} :English:Word: \nDEADLINE: %^t\n%t\n---\n%?\n---\n" :clock-in t :clock-resume t :unnarrowed t))
     (add-to-list 'org-capture-templates
                  '("rp" "Repeat thing" entry
-                   (file+olp "~/Dropbox/org/GTD/calendar.org" "Journal" "REPEAT")
+                   (file+olp "~/Dropbox/org/GTD/learning.org" "Journal" "REPEAT")
                    "* TODO %^{What do you want to repeat?} \n\nDEADLINE: %^t\n%?" :clock-in t :clock-resume t))
 
     (add-to-list 'org-capture-templates
@@ -1591,6 +1591,19 @@ boundaries."
               (calendar-last-day-of-month month year)))
         (= day last-day-of-month)))
 
+    (setq org-agenda-files
+          (append (file-expand-wildcards "~/Dropbox/org/GTD/*.org")
+                  ))
+
+    ;; Delete unwanted files
+    (setq org-agenda-exclude-agenda-files '(
+                                            ;; "~/Dropbox/org/GTD/work.org"
+                                            ;; "~/Dropbox/org/GTD/life.org"
+                                            "~/Dropbox/org/GTD/archive.org"
+                                            "~/Dropbox/org/GTD/My_Gril_hh.org"
+                                            "~/Dropbox/org/GTD/My_Gril_pnh.org"
+                                            "~/Dropbox/org/GTD/My_Gril_zjj.org"
+                                            ))
     ;init custom-commands
     (setq org-agenda-custom-commands
           '(
@@ -1620,7 +1633,8 @@ boundaries."
               ;; limits the agenda display to a single day
               ;; (tags "review" ((org-agenda-files '("~/org/circuspeanuts.org"))))
               ;; limits the tag search to the file circuspeanuts.org
-              (todo "WAITING"))
+              ;; (todo "WAITING")
+              )
              ((org-agenda-compact-blocks t))) ;; 
             ;; ("w" "Work Tasks" tags-todo "Work")
             ;; ("w" "Weekly Overview" todo ""
@@ -1683,16 +1697,6 @@ boundaries."
     ;;       (message "Ooops ... (%s) does not exist." afile))))
     ;; (add-hook 'org-archive-hook 'org-archive-save-buffer)
 
-    (setq org-agenda-files
-          (append (file-expand-wildcards "~/Dropbox/org/GTD/*.org")
-                  ))
-
-    ;; Delete unwanted files
-    (setq org-agenda-exclude-agenda-files '("~/Dropbox/org/GTD/archive.org"
-                                            "~/Dropbox/org/GTD/My_Gril_hh.org"
-                                            "~/Dropbox/org/GTD/My_Gril_pnh.org"
-                                            "~/Dropbox/org/GTD/My_Gril_zjj.org"
-                                            ))
     ;; (loop for i in org-agenda-exclude-agenda-files do
     ;;       (delete i org-agenda-files))
 
@@ -2280,7 +2284,8 @@ static char *gnus-pointer[] = {
  '(nrepl-message-colors
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(objed-cursor-color "#D95468")
- '(org-agenda-files nil)
+ '(org-agenda-files
+   '("~/Dropbox/org/GTD/My_Gril.org" "~/Dropbox/org/GTD/TODOs.org" "~/Dropbox/org/GTD/archive.org" "~/Dropbox/org/GTD/book.org" "~/Dropbox/org/GTD/career.org" "~/Dropbox/org/GTD/friends.org" "~/Dropbox/org/GTD/habit.org" "~/Dropbox/org/GTD/ideas.org" "~/Dropbox/org/GTD/learning.org" "~/Dropbox/org/GTD/life.org" "~/Dropbox/org/GTD/project.org" "~/Dropbox/org/GTD/task.org" "~/Dropbox/org/GTD/tools.org" "~/Dropbox/org/GTD/work.org"))
  '(org-deadline-warning-days 0)
  '(package-selected-packages
    '(org-ql peg ov org-wild-notifier org-noter toml-mode racer flycheck-rust dap-mode bui tree-mode lsp-mode cargo org-ref key-chord helm-bibtex parsebib biblio biblio-core tern nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl add-node-modules-path emojify emoji-cheat-sheet-plus company-emoji powershell helm-gtags helm helm-core ggtags counsel-gtags rust-mode wgrep smex ivy-xref ivy-purpose ivy-hydra counsel-projectile counsel-css counsel swiper ivy pdf-tools tablist ox-gfm org-re-reveal youdao-dictionary yapfify ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs ranger rainbow-delimiters pytest pyim pyenv-mode py-isort popwin pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pangu-spacing pandoc-mode ox-pandoc ox-hugo ox-epub overseer orgit org-sticky-header org-projectile org-present org-pomodoro org-mime org-journal org-download org-cliplink org-bullets org-brain open-junk-file nameless move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum live-py-mode link-hint indent-guide importmagic hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md font-lock+ focus flycheck-package flx-ido find-by-pinyin-dired fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish devdocs define-word cython-mode column-enforce-mode cnfonts clean-aindent-mode chinese-conv centered-cursor-mode blacken auto-highlight-symbol auto-compile auctex-latexmk anaconda-mode aggressive-indent ace-pinyin ace-link ace-jump-helm-line))
