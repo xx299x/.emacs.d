@@ -1438,24 +1438,27 @@ boundaries."
     ;;                "* TODO [#A] %^{Project} %^G \nDEADLINE: %^t\n%?" :clock-in t :clock-resume t))
     (setq org-capture-templates
           '(
+            ("i" "Inbox" entry
+             (file "~/Dropbox/org/GTD/inbox.org")
+             "* TODO %^{1.Actionable?\t2.Less then 2 min?} :nil: \nDEADLINE: %t\n---\n%?\n---\n" :clock-in t :clock-resume t)
             ("v" "Inbox" entry
               (file "~/Dropbox/org/GTD/inbox.org")
-              "* TODO %^{1.Actionable?\t2.Less then 2 min?} :nil: \nDEADLINE: %t\n---\n%?---\n" :clock-in t :clock-resume t)
+              "* TODO %^{1.Actionable?\t2.Less then 2 min?} :nil: \nDEADLINE: %t\n---\n%?\n---\n" :clock-in t :clock-resume t)
             ("c" "learning" entry
               (file "~/Dropbox/org/GTD/learning.org")
-              "* TODO %^{1.Actionable?\t2.Less then 2 min?} :learning: \nDEADLINE: %t\n---\n%?---\n" :clock-in t :clock-resume t)
+              "* TODO %^{1.Actionable?\t2.Less then 2 min?} :learning: \nDEADLINE: %t\n---\n%?\n---\n" :clock-in t :clock-resume t)
             ("w" "work" entry
               (file "~/Dropbox/org/GTD/work.org")
-              "* TODO %^{1.Actionable?\t2.Less then 2 min?} :work: \nDEADLINE: %t\n---\n%?---\n" :clock-in t :clock-resume t)
+              "* TODO %^{1.Actionable?\t2.Less then 2 min?} :work: \nDEADLINE: %t\n---\n%?\n---\n" :clock-in t :clock-resume t)
             ("l" "life" entry
               (file "~/Dropbox/org/GTD/life.org")
-              "* TODO %^{1.Actionable?\t2.Less then 2 min?} :life: \nDEADLINE: %t\n---\n%?---\n" :clock-in t :clock-resume t)
+              "* TODO %^{1.Actionable?\t2.Less then 2 min?} :life: \nDEADLINE: %t\n---\n%?\n---\n" :clock-in t :clock-resume t)
             ("d" "Countdown" entry
               (file "~/Dropbox/org/GTD/inbox.org")
               "* TODO %a  :countdown: \n\%\%%? (diary-remind '(diary-date %^{Month}\s%^{Day} 2021 t) -9999)Done this task:%a\n--- nil ---" :clock-in t :clock-resume t)
             ("g" "GTD" entry
               (file+headline "~/Dropbox/org/GTD/life.org" "GTD")
-              "* TODO %^{What do you have any question?} :GTD:---\n%?\n---\n" :clock-in t :clock-resume t)
+              "* TODO %^{What do you have any question?} :GTD:\n---\n%?\n---\n" :clock-in t :clock-resume t)
 
             ("m" "Movie" entry
              (file+headline "~/Dropbox/org/GTD/life.org" "Movie")
@@ -1463,7 +1466,7 @@ boundaries."
 
             ("b" "Book" entry
              (file+headline "~/Dropbox/org/GTD/life.org" "Book")
-             "* TODO %^{What do you have any question?} :book:\n\n---\n%?\n---\n" :clock-in t :clock-resume t)
+             "* TODO %^{What do you have any question?} :book:\n---\n%?\n---\n" :clock-in t :clock-resume t)
             ;; ---------- ;;
             ("r" "Repeat")
             ("re" "English" entry
@@ -1508,15 +1511,30 @@ boundaries."
           '(
             ;; ---------------------------;;
             ("c" . "day items")
-            ("cl" "Life"
+
+            ("ca" "all"
              ((agenda "" (
-                          (org-agenda-overriding-header "Life")
+                          (org-agenda-overriding-header "All achievable task")
                           (org-agenda-span 1)
                           (org-agenda-files '(
+                                              "~/Dropbox/org/GTD/learning.org"
+                                              "~/Dropbox/org/GTD/work.org"
                                               "~/Dropbox/org/GTD/life.org"
                                               "~/Dropbox/org/GTD/common.org"
                                               ))
                           ))))
+
+
+            ("cc" "learning"
+             ((agenda "" (
+                          (org-agenda-overriding-header "learning")
+                          (org-agenda-span 1)
+                          (org-agenda-files '(
+                                              "~/Dropbox/org/GTD/learning.org"
+                                              "~/Dropbox/org/GTD/common.org"
+                                              ))
+                          ))))
+
             ("cw" "Work"
               ((agenda "" (
                           (org-agenda-overriding-header "Work")
@@ -1529,12 +1547,23 @@ boundaries."
                       )
               )
               )
-            ("cc" "learning"
-              ((agenda "" (
-                          (org-agenda-overriding-header "learning")
+
+            ("cl" "Life"
+             ((agenda "" (
+                          (org-agenda-overriding-header "Life")
                           (org-agenda-span 1)
                           (org-agenda-files '(
-                                              "~/Dropbox/org/GTD/learning.org"
+                                              "~/Dropbox/org/GTD/life.org"
+                                              "~/Dropbox/org/GTD/common.org"
+                                              ))
+                          ))))
+
+            ("ci" "Inbox"
+             ((agenda "" (
+                          (org-agenda-overriding-header "Inbox")
+                          (org-agenda-span 1)
+                          (org-agenda-files '(
+                                              "~/Dropbox/org/GTD/inbox.org"
                                               "~/Dropbox/org/GTD/common.org"
                                               ))
                           ))))
@@ -1578,6 +1607,14 @@ boundaries."
                                                  "~/Dropbox/org/GTD/life.org"
                                                  ))
                              ))))
+            ("ti" "Inbox"
+             ((todo "" (
+                        (org-agenda-overriding-header "Inbox TODO")
+                        (org-agenda-span 1)
+                        (org-agenda-files '(
+                                            "~/Dropbox/org/GTD/inbox.org"
+                                            ))
+                        ))))
             ("ta" "Any"
              ((todo "" (
                              (org-agenda-overriding-header "Any")
@@ -2220,7 +2257,7 @@ static char *gnus-pointer[] = {
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(objed-cursor-color "#D95468")
  '(org-agenda-files
-   '("~/Dropbox/org/GTD/My_Gril.org" "~/Dropbox/org/GTD/inbox.org" "~/Dropbox/org/GTD/common.org" "~/Dropbox/org/GTD/archive.org" "~/Dropbox/org/GTD/learning.org" "~/Dropbox/org/GTD/life.org" "~/Dropbox/org/GTD/work.org"))
+   '("~/Dropbox/org/GTD/common.org" "~/Dropbox/org/GTD/My_Gril.org" "~/Dropbox/org/GTD/inbox.org" "~/Dropbox/org/GTD/archive.org" "~/Dropbox/org/GTD/learning.org" "~/Dropbox/org/GTD/life.org" "~/Dropbox/org/GTD/work.org"))
  '(org-deadline-warning-days 0)
  '(package-selected-packages
    '(org-ql peg ov org-wild-notifier org-noter toml-mode racer flycheck-rust dap-mode bui tree-mode lsp-mode cargo org-ref key-chord helm-bibtex parsebib biblio biblio-core tern nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl add-node-modules-path emojify emoji-cheat-sheet-plus company-emoji powershell helm-gtags helm helm-core ggtags counsel-gtags rust-mode wgrep smex ivy-xref ivy-purpose ivy-hydra counsel-projectile counsel-css counsel swiper ivy pdf-tools tablist ox-gfm org-re-reveal youdao-dictionary yapfify ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs ranger rainbow-delimiters pytest pyim pyenv-mode py-isort popwin pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pangu-spacing pandoc-mode ox-pandoc ox-hugo ox-epub overseer orgit org-sticky-header org-projectile org-present org-pomodoro org-mime org-journal org-download org-cliplink org-bullets org-brain open-junk-file nameless move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum live-py-mode link-hint indent-guide importmagic hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md font-lock+ focus flycheck-package flx-ido find-by-pinyin-dired fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish devdocs define-word cython-mode column-enforce-mode cnfonts clean-aindent-mode chinese-conv centered-cursor-mode blacken auto-highlight-symbol auto-compile auctex-latexmk anaconda-mode aggressive-indent ace-pinyin ace-link ace-jump-helm-line))

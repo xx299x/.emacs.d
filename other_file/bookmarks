@@ -2,31 +2,46 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("life"
+(("archive"
+ (filename . "~/Dropbox/org/GTD/archive.org")
+ (front-context-string . "** 2020-11 Novem")
+ (rear-context-string . "我和天地万物便通通奔向你。\n\n\n")
+ (position . 283587))
+("情绪恢复驿站 自卑 qxhfyz zb"
+ (filename . "~/Dropbox/org/Notes/2020-01-29T0127.org")
+ (front-context-string . "* 比我更痛苦的人\n** 阿伯拉")
+ (rear-context-string . "eX_CLASS: book\n\n")
+ (position . 584))
+("政治思想必修4 生活与哲学"
+ (filename . "~/Dropbox/org/Notes/高中-政治思想必修4-生活与哲学.org")
+ (front-context-string . "** 人类将知识概括为三类：自然")
+ (rear-context-string . "生活与哲学.pdf\n:END:\n")
+ (position . 105))
+("life"
  (filename . "~/Dropbox/org/GTD/life.org")
  (front-context-string . "#+TITLE: Life\n* ")
  (rear-context-string)
  (position . 1))
+("inbox"
+ (filename . "~/Dropbox/org/GTD/inbox.org")
+ (front-context-string . "内耗很严重 :journal:\n")
+ (rear-context-string . "--\n---\n\n** TODO ")
+ (position . 3281))
+("common"
+ (filename . "~/Dropbox/org/GTD/common.org")
+ (front-context-string . "* 每日鸡汤 :鸡汤:\n** D")
+ (rear-context-string . "+title:  common\n")
+ (position . 18))
+("org-capture-last-stored"
+ (filename . "~/Dropbox/org/GTD/work.org")
+ (front-context-string . "* TODO fff  :wor")
+ (rear-context-string . "\n:END:\n---\n\n---\n")
+ (position . 8238))
 ("learning"
  (filename . "~/Dropbox/org/GTD/learning.org")
  (front-context-string . "#+TITLE: Learn\n\n")
  (rear-context-string)
  (position . 1))
-("task gtd"
- (filename . "~/Dropbox/org/GTD/task.org")
- (front-context-string . "* TODO 曾仕强教授的易经的")
- (rear-context-string . " =>  0:00\n:END:\n")
- (position . 12738))
-("archive"
- (filename . "~/Dropbox/org/GTD/archive.org")
- (front-context-string . "** 2020-11 Novem")
- (rear-context-string . "我和天地万物便通通奔向你。\n\n\n")
- (position . 283587))
-("org-capture-last-stored"
- (filename . "~/Dropbox/org/GTD/life.org")
- (front-context-string . "** TODO jff :mov")
- (rear-context-string . " =>  0:54\n:END:\n")
- (position . 36100))
 ("org-refile-last-stored"
  (filename . "~/Dropbox/org/GTD/task.org")
  (front-context-string . "** TODO 穿搭 :FREE")
@@ -52,11 +67,6 @@
  (front-context-string)
  (rear-context-string . "TLE: 2021年学习计划\n\n")
  (position . 21))
-("情绪恢复驿站 自卑 qxhfyz zb"
- (filename . "~/Dropbox/org/Notes/2020-01-29T0127.org")
- (front-context-string . "* 比我更痛苦的人\n** 阿伯拉")
- (rear-context-string . "eX_CLASS: book\n\n")
- (position . 584))
 ("个人信息 常用信息 快速查询 grxx cyxx kscx"
  (filename . "~/Dropbox/org/Notes/2019-10-21T1556.org")
  (front-context-string . "1\n#+HUGO_AUTO_SE")
@@ -137,11 +147,6 @@
  (front-context-string)
  (rear-context-string . "天》/浪迹-话术惯例大全.pdf")
  (position . 100))
-("政治思想必修4 生活与哲学"
- (filename . "~/Dropbox/org/Notes/高中-政治思想必修4-生活与哲学.org")
- (front-context-string . "** 人类将知识概括为三类：自然")
- (rear-context-string . "生活与哲学.pdf\n:END:\n")
- (position . 105))
 ("系统之美 决策者的艺术 xtzmjczdys"
  (filename . "~/Dropbox/org/Notes/系统之美-决策者的系统思考-德内拉.org")
  (front-context-string)
